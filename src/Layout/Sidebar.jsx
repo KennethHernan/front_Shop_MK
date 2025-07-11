@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 //import { useAuth } from "../context/AuthContext";
-import ImagenLogo from "../assets/car-blue.svg";
+import ImagenLogo from "../assets/LOGO TEXTO.svg";
 import Profile from "../assets/Profile.svg";
 import Seach from "../assets/Seach.svg";
 import Shop from "../assets/Shop.svg";
@@ -26,7 +26,7 @@ function CustomLink({ to, label, ...props }) {
   );
 }
 
-function Sidebar ({ navbar, onAbrirCarrito })  {
+function Sidebar({ navbar, onAbrirCarrito, cantidadCart }) {
   const navigate = useNavigate();
   const [active, setActive] = useState(false);
 
@@ -59,7 +59,12 @@ function Sidebar ({ navbar, onAbrirCarrito })  {
 
             <CustomLink to="" label="LO NUEVO" onMouseEnter={() => modal(4)} />
           </div>
-
+          <img
+            src={ImagenLogo}
+            className={`w-[45px] transition-opacity duration-300 ${
+              navbar ? "opacity-0" : "opacity-100"
+            }`}
+          />
           <div className="flex justify-end">
             <button onClick={Home} className="w-1/6 hover:w-1/5">
               <img src={Seach} />
@@ -67,8 +72,16 @@ function Sidebar ({ navbar, onAbrirCarrito })  {
             <button onClick={Home} className="w-1/6 mx-5 hover:w-1/5">
               <img src={Profile} />
             </button>
-            <button onClick={onAbrirCarrito} className="w-1/6 hover:w-1/5">
+            <button
+              onClick={onAbrirCarrito}
+              className="w-1/6 hover:w-1/5 relative"
+            >
               <img src={Shop} />
+              {cantidadCart.length > 0 && (
+                <div className="bg-black text-[#fff] rounded-[100px] text-[10px] w-[15px] h-[15px] absolute right-0 -mt-[10px]">
+                  {cantidadCart.length}
+                </div>
+              )}
             </button>
           </div>
         </div>

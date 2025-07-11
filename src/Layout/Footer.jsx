@@ -1,4 +1,4 @@
-import icon_logo from "../assets/icon_logo.png";
+import icon_logo from "../assets/LogoMK.svg";
 import icon_tiktok from "../assets/icon_tiktok.svg";
 import icon_wsp from "../assets/icon_wsp.svg";
 import icon_ig from "../assets/icon_ig.svg";

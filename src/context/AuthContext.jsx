@@ -1,6 +1,7 @@
-import { useEffect } from "react";
-import { useRef } from "react";
 import { createContext, useContext, useState } from "react";
+import { 
+  getAllProduct
+} from "../Services/auth";
 
 const AuthContext = createContext();
 
@@ -12,11 +13,23 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
+  const [productAll, setProductsAll] = useState([]);
 
+  //Metodo Listar DNI RENIEC
+  const listarProducto = async () => {
+    try {
+      const data = await getAllProduct();
+      setProductsAll(data);
+    } catch (error) {
+      console.error("Error al cargar DNI's", error);
+    }
+  };
 
   return (
     <AuthContext.Provider
       value={{
+        listarProducto,
+        productAll
       }}
     >
       {children}

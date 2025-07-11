@@ -74,7 +74,7 @@ const AddCart = ({ isOpenCart, onCerrarCart }) => {
                   className="w-[25px] hover:scale-110"
                 />
               </button>
-              <p className=" font-semibold text-[21px]">Nombre de Producto X</p>
+              <p className=" font-light text-[21px]">Nombre de Producto X</p>
               <section className="flex font-light text-[15px] my-2">
                 <p>S/.</p>
                 <p>100.00</p>
