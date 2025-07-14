@@ -23,9 +23,14 @@ function HomePage() {
   const [MostrarBotonIzquierdo, setMostrarBotonIzquierdo] = useState(false);
   const ulRef = useRef(null);
   const [carrito, setCarrito] = useState(false);
+  const [productoModal, setProductoModal] = useState([]);
+
+  const cartIconRef = useRef(null);
+  const imgRef = useRef(null);
 
   useEffect(() => {
     listarProducto();
+    ActualizarCarrito();
   }, []);
 
   useEffect(() => {
@@ -69,37 +74,14 @@ function HomePage() {
     ulRef.current.scrollBy({ left: -600, behavior: "smooth" });
   };
 
-  const añadirAlCarrito = (producto) => {
-    // Obtener el carrito actual o iniciar uno nuevo
-    const carritoExistente = Cookies.get("cart");
-    let carrito = carritoExistente ? JSON.parse(carritoExistente) : [];
-
-    // Agregar el nuevo producto (puedes validar si ya existe por ID)
-    carrito.push(producto);
-
-    // Guardar en cookies
-    Cookies.set("cart", JSON.stringify(carrito), { expires: 14 });
-    setAñadirCart(true);
-    setTimeout(() => {
-      setAñadirCart(false);
-    }, 2000);
-  };
-
-  const eliminarDelCarrito = (idProducto) => {
-    const carritoExistente = Cookies.get("cart");
-    let carrito = carritoExistente ? JSON.parse(carritoExistente) : [];
-
-    carrito = carrito.filter((p) => p.id !== idProducto);
-    Cookies.set("cart", JSON.stringify(carrito), { expires: 14 });
-  };
-
   const abrirCarrito = () => {
     setIsOpen(true);
   };
   const closeCarrito = () => {
     setIsOpen(false);
   };
-  const abrirModalCart = () => {
+  const abrirModalCart = (product) => {
+    setProductoModal(product);
     setIsOpenCart(true);
   };
   const closeModalCart = () => {
@@ -135,13 +117,107 @@ function HomePage() {
     };
   }, []);
 
-  useEffect(() => {
+  const ActualizarCarrito = () => {
     const carritoGuardado = Cookies.get("cart");
     if (carritoGuardado) {
       const productosCarrito = JSON.parse(carritoGuardado);
       setCarrito(productosCarrito);
     }
-  }, []);
+  };
+
+  const Aumentar = (idProducto) => {
+    let carrito = JSON.parse(Cookies.get("cart") || "[]");
+
+    carrito = carrito.map((p) =>
+      p._id === idProducto ? { ...p, cantidad: p.cantidad + 1 } : p
+    );
+
+    carrito = carrito.map((p) => {
+      if (p._id === idProducto) {
+        // Evitar que sobrepase el stock
+        if (p.cantidad < p.stock) {
+          return { ...p, cantidad: p.cantidad + 1 };
+        } else {
+          console.warn("❌ No puedes añadir más, stock máximo alcanzado");
+          return p;
+        }
+      }
+      return p;
+    });
+
+    Cookies.set("cart", JSON.stringify(carrito), { expires: 14 });
+    ActualizarCarrito();
+  };
+
+  const Disminuir = (idProducto) => {
+    let carrito = JSON.parse(Cookies.get("cart") || "[]");
+
+    carrito = carrito
+      .map((p) =>
+        p._id === idProducto ? { ...p, cantidad: p.cantidad - 1 } : p
+      )
+      .filter((p) => p.cantidad > 0);
+
+    Cookies.set("cart", JSON.stringify(carrito), { expires: 14 });
+    ActualizarCarrito();
+  };
+
+  const añadirAlCarrito = (producto) => {
+    let carrito = JSON.parse(Cookies.get("cart") || "[]");
+
+    const productoExistente = carrito.find((p) => p._id === producto._id);
+
+    if (productoExistente) {
+      productoExistente.cantidad += 1;
+    } else {
+      producto.cantidad = 1;
+      carrito.push(producto);
+    }
+
+    Cookies.set("cart", JSON.stringify(carrito), { expires: 14 });
+    ActualizarCarrito();
+  };
+  const eliminarDelCarrito = (idProducto) => {
+    const carritoExistente = Cookies.get("cart");
+    let carrito = carritoExistente ? JSON.parse(carritoExistente) : [];
+
+    carrito = carrito.filter((p) => p.id !== idProducto);
+    Cookies.set("cart", JSON.stringify(carrito), { expires: 14 });
+  };
+
+  const animarCarrito = (imgRef) => {
+    const carrito = cartIconRef.current;
+    const img = imgRef.current;
+    console.log(cartIconRef.current);
+
+    if (!carrito || !img) return;
+
+    const imgRect = img.getBoundingClientRect();
+    const cartRect = carrito.getBoundingClientRect();
+
+    console.log("📸 Imagen:", imgRect);
+    console.log("🛒 Carrito:", cartRect);
+    const clone = img.cloneNode();
+    clone.style.position = "fixed";
+    clone.style.top = `${imgRect.top}px`;
+    clone.style.left = `${imgRect.left}px`;
+    clone.style.width = `${imgRect.width}px`;
+    clone.style.height = `${imgRect.height}px`;
+    clone.style.transition = "all 0.8s ease-in-out";
+    clone.style.zIndex = 9999;
+    clone.style.borderRadius  = "1000px";
+
+    document.body.appendChild(clone);
+
+    requestAnimationFrame(() => {
+      clone.style.transform = `translate(${cartRect.left - imgRect.left}px, ${
+        cartRect.top - imgRect.top
+      }px) scale(0.1)`;
+      clone.style.opacity = "0";
+    });
+
+    setTimeout(() => document.body.removeChild(clone), 900);
+  };
 
   return (
     <div>
@@ -149,14 +225,24 @@ function HomePage() {
         isOpen={isOpen}
         onCerrarCarrito={closeCarrito}
         cart={carrito}
+        onAumentar={(id) => Aumentar(id)}
+        onDisminuir={(id) => Disminuir(id)}
       />
-      <AddCart isOpenCart={isOpenCart} onCerrarCart={closeModalCart} />
+      <AddCart
+        isOpenCart={isOpenCart}
+        onCerrarCart={closeModalCart}
+        onProducto={productoModal}
+        onAgregar={(p) => añadirAlCarrito(p)}
+        onAnimarCarrito={(i) => animarCarrito(i)}
+        imgRef={imgRef}
+      />
       <div className="bg-transparent sticky top-0 z-40">
         <Navbar navbar={navbar} />
         <Sidebar
           navbar={navbar}
           onAbrirCarrito={abrirCarrito}
           cantidadCart={carrito}
+          cartIconRef={cartIconRef}
         />
       </div>
 
@@ -211,7 +297,7 @@ function HomePage() {
                     )}
                     <div className="absolute bottom-1 right-1">
                       <button
-                        onClick={() => añadirAlCarrito(product)}
+                        onClick={() => abrirModalCart(product)}
                         className="shadow-md hidden group-hover:flex group/sub relative h-[30px] bg-[#ffffff] p-2 m-2 rounded-[200px] text-[#000] font-normal text-[10px]"
                       >
                         {añadirCart ? (

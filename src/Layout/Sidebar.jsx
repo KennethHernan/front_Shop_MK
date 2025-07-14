@@ -26,7 +26,7 @@ function CustomLink({ to, label, ...props }) {
   );
 }
 
-function Sidebar({ navbar, onAbrirCarrito, cantidadCart }) {
+function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
   const navigate = useNavigate();
   const [active, setActive] = useState(false);
 
@@ -76,9 +76,12 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart }) {
               onClick={onAbrirCarrito}
               className="w-1/6 hover:w-1/5 relative"
             >
-              <img src={Shop} />
+              <img src={Shop} 
+                  ref={cartIconRef} />
               {cantidadCart.length > 0 && (
-                <div className="bg-black text-[#fff] rounded-[100px] text-[10px] w-[15px] h-[15px] absolute right-0 -mt-[10px]">
+                <div
+                  className="bg-black text-[#fff] rounded-[100px] text-[10px] w-[15px] h-[15px] absolute right-0 -mt-[10px]"
+                >
                   {cantidadCart.length}
                 </div>
               )}
