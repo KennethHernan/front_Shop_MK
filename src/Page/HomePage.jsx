@@ -14,7 +14,8 @@ import { useAuth } from "../context/AuthContext";
 import Cookies from "js-cookie";
 
 function HomePage() {
-  const { listarProducto, productAll } = useAuth();
+  const { listarProducto, productAll, listarCategoria, categoryAll } =
+    useAuth();
   const [navbar, setNavbar] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenCart, setIsOpenCart] = useState(false);
@@ -30,6 +31,7 @@ function HomePage() {
 
   useEffect(() => {
     listarProducto();
+    listarCategoria();
     ActualizarCarrito();
   }, []);
 
@@ -194,10 +196,8 @@ function HomePage() {
 
     const imgRect = img.getBoundingClientRect();
     const cartRect = carrito.getBoundingClientRect();
-
-    console.log("📸 Imagen:", imgRect);
-    console.log("🛒 Carrito:", cartRect);
     const clone = img.cloneNode();
+
     clone.style.position = "fixed";
     clone.style.top = `${imgRect.top}px`;
     clone.style.left = `${imgRect.left}px`;
@@ -205,7 +205,7 @@ function HomePage() {
     clone.style.height = `${imgRect.height}px`;
     clone.style.transition = "all 0.8s ease-in-out";
     clone.style.zIndex = 9999;
-    clone.style.borderRadius  = "1000px";
+    clone.style.borderRadius = "1000px";
 
     document.body.appendChild(clone);
 
@@ -274,104 +274,81 @@ function HomePage() {
               display: "flex",
             }}
           >
-            {productAll.length > 0 ? (
-              productAll.map((product, index) => (
-                <li
-                  className="hover:-mt-[3px] w-[300px] min-w-[300px]"
-                  key={index}
-                >
-                  <div className="bg-[#a1a1a1] h-[70vh] group relative group/foto">
-                    {/* Juego de imagenes - Max 2 img */}
-                    <img
-                      src={product.img}
-                      className="absolute top-0 h-full w-full object-cover group-hover/foto:hidden"
-                    />
-                    <img
-                      src={product.img}
-                      className="absolute hidden top-0 h-full w-full object-cover group-hover/foto:block"
-                    />
-                    {product.stock <= 0 && (
-                      <button className="bg-[#000000] absolute bottom-1 px-3 py-2 m-2 rounded-[5px] text-[#fff] text-[14px] disabled">
-                        Agotado
-                      </button>
-                    )}
-                    <div className="absolute bottom-1 right-1">
-                      <button
-                        onClick={() => abrirModalCart(product)}
-                        className="shadow-md hidden group-hover:flex group/sub relative h-[30px] bg-[#ffffff] p-2 m-2 rounded-[200px] text-[#000] font-normal text-[10px]"
-                      >
-                        {añadirCart ? (
-                          <>
-                            <img src={Check} className="w-[13px] h-[13px]" />
-                            <p className="ml-2 hidden group-hover/sub:block">
-                              AÑADIDO
-                            </p>
-                          </>
-                        ) : (
-                          <>
-                            <img src={Add} className="w-[13px] h-[13px]" />
-                            <p className="ml-2 hidden group-hover/sub:block">
-                              AÑADIR
-                            </p>
-                          </>
-                        )}
-                      </button>
+            {productAll.length > 0
+              ? productAll.map((product, index) => (
+                  <li
+                    className="hover:-mt-[3px] w-[300px] min-w-[300px]"
+                    key={index}
+                  >
+                    <div className="bg-[#a1a1a1] h-[70vh] group relative group/foto">
+                      {/* Juego de imagenes - Max 2 img */}
+                      <img
+                        src={product.img}
+                        className="absolute top-0 h-full w-full object-cover group-hover/foto:hidden"
+                      />
+                      <img
+                        src={product.img}
+                        className="absolute hidden top-0 h-full w-full object-cover group-hover/foto:block"
+                      />
+                      {product.stock <= 0 && (
+                        <button className="bg-[#000000] absolute bottom-1 px-3 py-2 m-2 rounded-[5px] text-[#fff] text-[14px] disabled">
+                          Agotado
+                        </button>
+                      )}
+                      <div className="absolute bottom-1 right-1">
+                        <button
+                          onClick={() => abrirModalCart(product)}
+                          className="shadow-md hidden group-hover:flex group/sub relative h-[30px] bg-[#ffffff] p-2 m-2 rounded-[200px] text-[#000] font-normal text-[10px]"
+                        >
+                          {añadirCart ? (
+                            <>
+                              <img src={Check} className="w-[13px] h-[13px]" />
+                              <p className="ml-2 hidden group-hover/sub:block">
+                                AÑADIDO
+                              </p>
+                            </>
+                          ) : (
+                            <>
+                              <img src={Add} className="w-[13px] h-[13px]" />
+                              <p className="ml-2 hidden group-hover/sub:block">
+                                AÑADIR
+                              </p>
+                            </>
+                          )}
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                  <p className="pt-1">{product.nombre}</p>
-                  <div className="flex gap-3">
-                    {product.oferta <= 1 ? (
-                      <p>S/{product.precio}</p>
-                    ) : (
-                      <>
-                        <p className="line-through text-[#ababab]">
-                          S/{product.precio}
-                        </p>
-                        <p>
-                          S/
-                          {product.precio -
-                            (product.oferta / 100) * product.precio}
-                        </p>
-                      </>
-                    )}
-                  </div>
-                </li>
-              ))
-            ) : (
-              <li className="hover:-mt-[3px] w-[300px]">
-                <div className="bg-[#a1a1a1] h-[70vh] group relative group/foto">
-                  {/* Juego de imagenes - Max 2 img */}
-                  <img
-                    src={img_1}
-                    className="absolute top-0 h-full w-full object-cover group-hover/foto:hidden"
-                  />
-                  <img
-                    src={img_2}
-                    className="absolute hidden top-0 h-full w-full object-cover group-hover/foto:block"
-                  />
-                  <button className="bg-[#000000] absolute bottom-1 px-3 py-2 m-2 rounded-[5px] text-[#fff] text-[14px] disabled">
-                    Agotado
-                  </button>
-                  <div className="absolute bottom-1 right-1">
-                    <button
-                      onClick={abrirModalCart}
-                      className="shadow-md hidden group-hover:flex group/sub relative h-[30px] bg-[#ffffff] p-2 m-2 rounded-[200px] text-[#000] font-normal text-[10px]"
-                    >
-                      <img src={Add} className="w-[13px] h-[13px]" />
-                      <p className="ml-2 hidden group-hover/sub:block">
-                        AÑADIR
-                      </p>
-                    </button>
-                  </div>
-                </div>
-                <p className="pt-1">Lorem ipsum dolor, sit </p>
-                <div className="flex gap-3">
-                  <p className="line-through">S/.500</p>
-                  {/* Descuento - Tachar texto: line-through */}
-                  <p>S/.400</p>
-                </div>
-              </li>
-            )}
+                    <p className="pt-1">{product.nombre}</p>
+                    <div className="flex gap-3">
+                      {product.oferta <= 1 ? (
+                        <p>S/{product.precio}</p>
+                      ) : (
+                        <>
+                          <p className="line-through text-[#ababab]">
+                            S/{product.precio}
+                          </p>
+                          <p>
+                            S/
+                            {product.precio -
+                              (product.oferta / 100) * product.precio}
+                          </p>
+                        </>
+                      )}
+                    </div>
+                  </li>
+                ))
+              : Array.from({ length: 5 }).map((_, i) => (
+                  <li
+                    className="hover:-mt-[3px] w-[300px] min-w-[300px] animate-pulse"
+                    key={i}
+                  >
+                    <div className="bg-[#e7e7e7] h-[70vh] group relative group/foto"></div>
+                    <p className="pt-1 bg-[#e7e7e7] rounded-[10px] w-[160px] h-[23px] my-[2px]"></p>
+                    <div className="flex gap-3">
+                      <p className="bg-[#e7e7e7] rounded-[10px] w-[60px] h-[23px]"></p>
+                    </div>
+                  </li>
+                ))}
           </ul>
           {MostrarBotonDerecho && (
             <button
@@ -383,47 +360,39 @@ function HomePage() {
           )}
         </section>
 
+        {/* Frase */}
         <p className="py-[10vh] text-[40px] font-light mx-10 text-center">
           Cada pieza fue creada para recordarte que eres única, valiosa y capaz
           de conquistar el mundo. No solo uses joyas, exprésate con ellas.
         </p>
 
-        <section className="w-full z-0 ">
+        {/* Lista de Categorias */}
+        <section className="w-full z-0">
           <ul className="h-[90vh] flex gap-1 mx-10 justify-center font-light text-[16px] select-none">
-            {productAll.length > 0 ? (
-              productAll.map((product, index) => (
-                <li className="w-[45vh] hover:-mt-[3px]" key={index}>
-                  <div className="bg-[#a1a1a1] h-[80vh] relative overflow-hidden">
-                    <img
-                      src={product.img}
-                      className="absolute right-0 h-full w-full object-cover hover:scale-105"
-                    />
-                  </div>
-                  <button
-                    className="flex gap-3"
-                    onClick={() => handleCategoria(product)}
-                  >
-                    <p className="pt-1">{product.categoria}</p>
-                    <img src={arrow_derecha} alt="" />
-                  </button>
-                </li>
-              ))
-            ) : (
-              <li className="w-[45vh] hover:-mt-[3px]">
-                <div
-                  className="bg-[#a1a1a1] h-[80vh] relative"
-                  style={{
-                    backgroundImage: `url(${img_1})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                ></div>
-                <button className="flex gap-3">
-                  <p className="pt-1">Categoria 0</p>
-                  <img src={arrow_derecha} alt="" />
-                </button>
-              </li>
-            )}
+            {categoryAll.length > 0
+              ? categoryAll.map((category, index) => (
+                  <li className="w-[45vh] hover:-mt-[3px]" key={index}>
+                    <div className="h-[80vh] bg-white relative overflow-hidden flex justify-center items-center">
+                      <img
+                        src={category.img}
+                        className="object-cover hover:scale-105"
+                      />
+                    </div>
+                    <button
+                      className="flex gap-3"
+                      onClick={() => handleCategoria(category)}
+                    >
+                      <p className="pt-1">{category.nombre}</p>
+                      <img src={arrow_derecha} alt="" />
+                    </button>
+                  </li>
+                ))
+              : Array.from({ length: 3 }).map((_, i) => (
+                  <li className="w-[45vh] hover:-mt-[3px] animate-pulse">
+                    <div className="bg-[#e7e7e7] h-[80vh] relative"></div>
+                    <p className="pt-1 bg-[#e7e7e7] rounded-[10px] w-[160px] h-[23px] mt-[3px]"></p>
+                  </li>
+                ))}
           </ul>
         </section>
 
@@ -453,158 +422,111 @@ function HomePage() {
         </section>
 
         {/* Seccion de producto 2 */}
-        <section className="w-full">
-          <ul className="h-[75vh] grid grid-cols-5 gap-1 mx-10 justify-between font-light text-[16px] select-none">
-            <li className="hover:-mt-[3px]">
-              <div className="bg-[#a1a1a1] h-[70vh] group relative group/foto">
-                {/* Juego de imagenes - Max 2 img */}
-                <img
-                  src={img_1}
-                  className="absolute top-0 h-full w-full object-cover group-hover/foto:hidden"
-                />
-                <img
-                  src={img_2}
-                  className="absolute hidden top-0 h-full w-full object-cover group-hover/foto:block"
-                />
-                <button className="bg-[#000000] absolute bottom-1 px-3 py-2 m-2 rounded-[5px] text-[#fff] text-[14px] disabled">
-                  Agotado
-                </button>
-                <div className="absolute bottom-1 right-1">
-                  <button className="shadow-md hidden group-hover:flex group/sub relative h-[30px] bg-[#ffffff] p-2 m-2 rounded-[200px] text-[#000] font-normal text-[10px]">
-                    <img src={Add} className="w-[13px] h-[13px]" />
-                    <p className="ml-2 hidden group-hover/sub:block">AÑADIR</p>
-                  </button>
-                </div>
-              </div>
-
-              <p className="pt-1">Lorem ipsum dolor, sit </p>
-              <div className="flex gap-3">
-                <p className="line-through">S/.500</p>
-                {/* Descuento - Tachar texto: line-through */}
-                <p>S/.400</p>
-              </div>
-            </li>
-
-            <li className="hover:-mt-[3px]">
-              <div className="bg-[#a1a1a1] h-[70vh] group relative group/foto">
-                {/* Juego de imagenes - Max 2 img */}
-                <img
-                  src={img_1}
-                  className="absolute top-0 h-full w-full object-cover group-hover/foto:hidden"
-                />
-                <img
-                  src={img_2}
-                  className="absolute hidden top-0 h-full w-full object-cover group-hover/foto:block"
-                />
-                <button className="bg-[#000000] absolute bottom-1 px-3 py-2 m-2 rounded-[5px] text-[#fff] text-[14px] disabled">
-                  Agotado
-                </button>
-                <div className="absolute bottom-1 right-1">
-                  <button className="shadow-md hidden group-hover:flex group/sub relative h-[30px] bg-[#ffffff] p-2 m-2 rounded-[200px] text-[#000] font-normal text-[10px]">
-                    <img src={Add} className="w-[13px] h-[13px]" />
-                    <p className="ml-2 hidden group-hover/sub:block">AÑADIR</p>
-                  </button>
-                </div>
-              </div>
-
-              <p className="pt-1">Lorem ipsum dolor, sit </p>
-              <div className="flex gap-3">
-                <p className="line-through">S/.500</p>
-                {/* Descuento - Tachar texto: line-through */}
-                <p>S/.400</p>
-              </div>
-            </li>
-
-            <li className="hover:-mt-[3px]">
-              <div className="bg-[#a1a1a1] h-[70vh] group relative group/foto">
-                {/* Juego de imagenes - Max 2 img */}
-                <img
-                  src={img_1}
-                  className="absolute top-0 h-full w-full object-cover group-hover/foto:hidden"
-                />
-                <img
-                  src={img_2}
-                  className="absolute hidden top-0 h-full w-full object-cover group-hover/foto:block"
-                />
-                <button className="bg-[#000000] absolute bottom-1 px-3 py-2 m-2 rounded-[5px] text-[#fff] text-[14px] disabled">
-                  Agotado
-                </button>
-                <div className="absolute bottom-1 right-1">
-                  <button className="shadow-md hidden group-hover:flex group/sub relative h-[30px] bg-[#ffffff] p-2 m-2 rounded-[200px] text-[#000] font-normal text-[10px]">
-                    <img src={Add} className="w-[13px] h-[13px]" />
-                    <p className="ml-2 hidden group-hover/sub:block">AÑADIR</p>
-                  </button>
-                </div>
-              </div>
-
-              <p className="pt-1">Lorem ipsum dolor, sit </p>
-              <div className="flex gap-3">
-                <p className="line-through">S/.500</p>
-                {/* Descuento - Tachar texto: line-through */}
-                <p>S/.400</p>
-              </div>
-            </li>
-
-            <li className="hover:-mt-[3px]">
-              <div className="bg-[#a1a1a1] h-[70vh] group relative group/foto">
-                {/* Juego de imagenes - Max 2 img */}
-                <img
-                  src={img_1}
-                  className="absolute top-0 h-full w-full object-cover group-hover/foto:hidden"
-                />
-                <img
-                  src={img_2}
-                  className="absolute hidden top-0 h-full w-full object-cover group-hover/foto:block"
-                />
-                <button className="bg-[#000000] absolute bottom-1 px-3 py-2 m-2 rounded-[5px] text-[#fff] text-[14px] disabled">
-                  Agotado
-                </button>
-                <div className="absolute bottom-1 right-1">
-                  <button className="shadow-md hidden group-hover:flex group/sub relative h-[30px] bg-[#ffffff] p-2 m-2 rounded-[200px] text-[#000] font-normal text-[10px]">
-                    <img src={Add} className="w-[13px] h-[13px]" />
-                    <p className="ml-2 hidden group-hover/sub:block">AÑADIR</p>
-                  </button>
-                </div>
-              </div>
-
-              <p className="pt-1">Lorem ipsum dolor, sit </p>
-              <div className="flex gap-3">
-                <p className="line-through">S/.500</p>
-                {/* Descuento - Tachar texto: line-through */}
-                <p>S/.400</p>
-              </div>
-            </li>
-
-            <li className="hover:-mt-[3px]">
-              <div className="bg-[#a1a1a1] h-[70vh] group relative group/foto">
-                {/* Juego de imagenes - Max 2 img */}
-                <img
-                  src={img_1}
-                  className="absolute top-0 h-full w-full object-cover group-hover/foto:hidden"
-                />
-                <img
-                  src={img_2}
-                  className="absolute hidden top-0 h-full w-full object-cover group-hover/foto:block"
-                />
-                <button className="bg-[#000000] absolute bottom-1 px-3 py-2 m-2 rounded-[5px] text-[#fff] text-[14px] disabled">
-                  Agotado
-                </button>
-                <div className="absolute bottom-1 right-1">
-                  <button className="shadow-md hidden group-hover:flex group/sub relative h-[30px] bg-[#ffffff] p-2 m-2 rounded-[200px] text-[#000] font-normal text-[10px]">
-                    <img src={Add} className="w-[13px] h-[13px]" />
-                    <p className="ml-2 hidden group-hover/sub:block">AÑADIR</p>
-                  </button>
-                </div>
-              </div>
-
-              <p className="pt-1">Lorem ipsum dolor, sit </p>
-              <div className="flex gap-3">
-                <p className="line-through">S/.500</p>
-                {/* Descuento - Tachar texto: line-through */}
-                <p>S/.400</p>
-              </div>
-            </li>
+        <section
+          className="relative flex items-center overflow-hidden p-1 group/button"
+          style={{ width: "100%" }}
+        >
+          {MostrarBotonIzquierdo && (
+            <button
+              className="bg-[#ffffff] z-20 absolute left-[20px] w-[45px] h-[45px] rounded-[50px] justify-center items-center shadow-md hover:scale-105 transition-all duration-300 hidden group-hover/button:flex"
+              onClick={scrollIzquierda}
+            >
+              <img src={ArrowLeft} className="w-[6px] rotate-180" />
+            </button>
+          )}
+          <ul
+            ref={ulRef}
+            className="flex justify-start font-light text-[16px] select-none space-x-1 overflow-x-auto no-scrollbar"
+            style={{
+              maxWidth: "100%",
+              width: "100%",
+              display: "flex",
+            }}
+          >
+            {productAll.length > 0
+              ? productAll.map((product, index) => (
+                  <li
+                    className="hover:-mt-[3px] w-[300px] min-w-[300px]"
+                    key={index}
+                  >
+                    <div className="bg-[#a1a1a1] h-[70vh] group relative group/foto">
+                      {/* Juego de imagenes - Max 2 img */}
+                      <img
+                        src={product.img}
+                        className="absolute top-0 h-full w-full object-cover group-hover/foto:hidden"
+                      />
+                      <img
+                        src={product.img}
+                        className="absolute hidden top-0 h-full w-full object-cover group-hover/foto:block"
+                      />
+                      {product.stock <= 0 && (
+                        <button className="bg-[#000000] absolute bottom-1 px-3 py-2 m-2 rounded-[5px] text-[#fff] text-[14px] disabled">
+                          Agotado
+                        </button>
+                      )}
+                      <div className="absolute bottom-1 right-1">
+                        <button
+                          onClick={() => abrirModalCart(product)}
+                          className="shadow-md hidden group-hover:flex group/sub relative h-[30px] bg-[#ffffff] p-2 m-2 rounded-[200px] text-[#000] font-normal text-[10px]"
+                        >
+                          {añadirCart ? (
+                            <>
+                              <img src={Check} className="w-[13px] h-[13px]" />
+                              <p className="ml-2 hidden group-hover/sub:block">
+                                AÑADIDO
+                              </p>
+                            </>
+                          ) : (
+                            <>
+                              <img src={Add} className="w-[13px] h-[13px]" />
+                              <p className="ml-2 hidden group-hover/sub:block">
+                                AÑADIR
+                              </p>
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                    <p className="pt-1">{product.nombre}</p>
+                    <div className="flex gap-3">
+                      {product.oferta <= 1 ? (
+                        <p>S/{product.precio}</p>
+                      ) : (
+                        <>
+                          <p className="line-through text-[#ababab]">
+                            S/{product.precio}
+                          </p>
+                          <p>
+                            S/
+                            {product.precio -
+                              (product.oferta / 100) * product.precio}
+                          </p>
+                        </>
+                      )}
+                    </div>
+                  </li>
+                ))
+              : Array.from({ length: 5 }).map((_, i) => (
+                  <li
+                    className="hover:-mt-[3px] w-[300px] min-w-[300px] animate-pulse"
+                    key={i}
+                  >
+                    <div className="bg-[#e7e7e7] h-[70vh] group relative group/foto"></div>
+                    <p className="pt-1 bg-[#e7e7e7] rounded-[10px] w-[160px] h-[23px] my-[2px]"></p>
+                    <div className="flex gap-3">
+                      <p className="bg-[#e7e7e7] rounded-[10px] w-[60px] h-[23px]"></p>
+                    </div>
+                  </li>
+                ))}
           </ul>
+          {MostrarBotonDerecho && (
+            <button
+              className="bg-[#ffffff] z-20 absolute  right-[20px] w-[45px] h-[45px] rounded-[50px] justify-center items-center shadow-md hover:scale-105 transition-all duration-300 hidden group-hover/button:flex"
+              onClick={scrollDerecha}
+            >
+              <img src={ArrowLeft} className="w-[6px]" />
+            </button>
+          )}
         </section>
 
         {/* Portada 3 */}

@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import { 
-  getAllProduct
+  getAllProduct,
+  getAllCategory
 } from "../Services/auth";
 
 const AuthContext = createContext();
@@ -14,12 +15,22 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [productAll, setProductsAll] = useState([]);
+  const [categoryAll, setCategoryAll] = useState([]);
 
-  //Metodo Listar DNI RENIEC
+  // Listar Prodcutos
   const listarProducto = async () => {
     try {
       const data = await getAllProduct();
       setProductsAll(data);
+    } catch (error) {
+      console.error("Error al cargar DNI's", error);
+    }
+  };
+  // Listar Categoria
+  const listarCategoria = async () => {
+    try {
+      const data = await getAllCategory();
+      setCategoryAll(data);
     } catch (error) {
       console.error("Error al cargar DNI's", error);
     }
@@ -29,7 +40,9 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         listarProducto,
-        productAll
+        listarCategoria,
+        productAll,
+        categoryAll,
       }}
     >
       {children}
