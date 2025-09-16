@@ -236,19 +236,22 @@ function HomePage() {
         onAnimarCarrito={(i) => animarCarrito(i)}
         imgRef={imgRef}
       />
-      <div className="bg-transparent sticky top-0 z-40">
-        <Navbar navbar={navbar} />
-        <Sidebar
-          navbar={navbar}
-          onAbrirCarrito={abrirCarrito}
-          cantidadCart={carrito}
-          cartIconRef={cartIconRef}
-        />
-      </div>
 
       {/* Body */}
-      <div className="w-[100wh] -mt-[80px]">
-        <div className="w-full h-[500px] bg-[#dcdcdc] flex justify-center items-center">
+      <div className="w-[100wh]">
+        <div className="bg-transparent">
+          <Navbar navbar={navbar} />
+        </div>
+
+        <div className="sticky top-0 left-0 w-full z-40">
+          <Sidebar
+            navbar={navbar}
+            onAbrirCarrito={abrirCarrito}
+            cantidadCart={carrito}
+            cartIconRef={cartIconRef}
+          />
+        </div>
+        <div className="w-full h-[500px] -mt-[80px] bg-[#c5c5c5] flex justify-center items-center">
           <img src="" alt="" srcset="" />
           <p>Imagen fondo</p>
         </div>
@@ -280,7 +283,7 @@ function HomePage() {
                     className="hover:-mt-[3px] w-[300px] min-w-[300px]"
                     key={index}
                   >
-                    <div className="bg-[#a1a1a1] h-[70vh] group relative group/foto">
+                    <div className="bg-[#a1a1a1] h-[50vh] group relative group/foto">
                       {/* Juego de imagenes - Max 2 img */}
                       <img
                         src={product.img}
@@ -530,25 +533,32 @@ function HomePage() {
         </section>
 
         {/* Portada 3 */}
-        <div className="bg-[#D9D9D9] w-[100wh] h-[100vh] my-20 flex overflow-hidden">
+        <div className="bg-[#F2D0BD] w-[100wh] h-[100vh] my-20 flex overflow-hidden">
           <section className="w-auto font-light p-32 flex flex-col justify-between">
-            <p className="text-[50px]">
-              Cada joya tiene una historia… ¿ya elegiste la tuya?
-            </p>
             <div>
-              <button className="bg-black px-5 py-2 my-5 text-white hover:bg-[#2d2d2d]">
+              <p className="text-[50px] italic mb-10">
+                Cada joya tiene una historia… ¿ya elegiste la tuya?
+              </p>
+              <a
+                href="#"
+                className="bg-black px-10 py-4 my-5 rounded-md font-normal text-white text-md transition-all duration-500 hover:bg-white hover:text-black"
+              >
                 Visitanos
-              </button>
+              </a>
+            </div>
+            <div>
               <p className="text-[28px]">
-                Descubre lo nuevo en nuestra tienda, nos encontramos en [Colocar
-                Dirección]
+                Descubre lo nuevo en nuestra tienda virtual, nos encontramos en{" "}
+                <a href="#" className="font-medium hover:underline">
+                  @mayikh.pe
+                </a>
               </p>
             </div>
           </section>
           <div
-            className="w-[690px] flex flex-col justify-center items-center bg-[#C3BBA7] text-white font-light"
+            className="bg-[#fff] border-t-2 border-b-2 w-[690px] flex flex-col justify-center items-center font-light"
             style={{
-              backgroundImage: `url(${img_1})`,
+              backgroundImage: `url(${""})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
