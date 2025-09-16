@@ -3,8 +3,11 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 //import { useAuth } from "../context/AuthContext";
 import ImagenLogo from "../assets/LOGO TEXTO.svg";
 import Profile from "../assets/Profile.svg";
+import Profile2 from "../assets/person_white.svg";
 import Seach from "../assets/Seach.svg";
+import Seach2 from "../assets/seach_white.svg";
 import Shop from "../assets/Shop.svg";
+import Shop2 from "../assets/shop_white.svg";
 import { useState } from "react";
 
 import React from "react";
@@ -18,8 +21,8 @@ function CustomLink({ to, label, ...props }) {
     <Link to={to}>
       <p
         {...props}
-        className={`font-light text-xs hover:font-normal text-[#fff] ${
-          isActive ? "font-normal" : ""
+        className={`text-xs font-normal hover:font-medium${
+          isActive ? "font-semibold" : ""
         }`}
       >
         {label}
@@ -32,12 +35,6 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
   const navigate = useNavigate();
   const [active, setActive] = useState(false);
 
-  const modal = () => {
-    // setActive(true);
-    // setTimeout(() => {
-    //   setActive(false);
-    // }, 1000);
-  };
   const Home = () => {
     console.log("Click");
     navigate("/");
@@ -49,19 +46,19 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
         <div
           onMouseEnter={() => setActive(false)}
           className={`h-[80px] flex justify-between items-center px-10 transition-colors duration-300 ${
-            navbar ? "bg-[#ffffff00]" : "bg-[#ffffff]"
+            navbar ? "bg-[#ffffff00] text-[#fff]" : "bg-[#ffffff]"
           }`}
           s
         >
-          <section className="flex">
+          <section className="flex gap-4">
             <div
               className={`h-auto group relative px-3 py-2 rounded-md flex transition-all duration-1000 
-            ${navbar ? "hover:bg-[#cfcfcf]" : "hover:bg-[#eeeeee]"}`}
+            ${navbar ? "hover:bg-[#ffffff36]" : "hover:bg-[#eeeeee]"}`}
             >
               <CustomLink to="/" label="HOME" onMouseEnter={() => modal()} />
 
               <div className="absolute top-9 text-xs left-0 opacity-0 scale-95 translate-x-[-50px] pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:translate-x-0 group-hover:pointer-events-auto transition-all duration-500 ease-out">
-                <div className="w-full h-[200px] p-5 rounded-md  mt-2 bg-[#ffffff] ">
+                <div className="w-[50vh] h-[200px] p-5 rounded-md  mt-2 bg-[#ffffff] ">
                   HOME
                 </div>
               </div>
@@ -69,7 +66,7 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
 
             <div
               className={`h-auto group relative px-3 py-2 rounded-md flex transition-all duration-1000 
-            ${navbar ? "hover:bg-[#cfcfcf]" : "hover:bg-[#eeeeee]"}`}
+            ${navbar ? "hover:bg-[#ffffff36]" : "hover:bg-[#eeeeee]"}`}
             >
               <CustomLink to="" label="JOYERIA" onMouseEnter={() => modal()} />
               <div className="absolute top-9 text-xs left-0 opacity-0 scale-95 translate-x-[-50px] pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:translate-x-0 group-hover:pointer-events-auto transition-all duration-500 ease-out">
@@ -81,7 +78,7 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
 
             <div
               className={`h-auto group relative px-3 py-2 rounded-md flex transition-all duration-1000 
-            ${navbar ? "hover:bg-[#cfcfcf]" : "hover:bg-[#eeeeee]"}`}
+            ${navbar ? "hover:bg-[#ffffff36]" : "hover:bg-[#eeeeee]"}`}
             >
               <CustomLink to="" label="SOBRE MK" onMouseEnter={() => modal()} />
 
@@ -94,7 +91,7 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
 
             <div
               className={`h-auto group relative px-3 py-2 rounded-md flex transition-all duration-1000 
-            ${navbar ? "hover:bg-[#cfcfcf]" : "hover:bg-[#eeeeee]"}`}
+            ${navbar ? "hover:bg-[#ffffff36]" : "hover:bg-[#eeeeee]"}`}
             >
               <CustomLink to="" label="LO NUEVO" onMouseEnter={() => modal()} />
               <div className="absolute top-9 text-xs left-0 opacity-0 scale-95 translate-x-[-50px] pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:translate-x-0 group-hover:pointer-events-auto transition-all duration-500 ease-out">
@@ -112,16 +109,20 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
           />
           <div className="flex justify-end">
             <button onClick={Home} className="w-1/6 hover:w-1/5">
-              <img src={Seach} />
+              {navbar ? <img src={Seach2} /> : <img src={Seach} />}
             </button>
             <button onClick={Home} className="w-1/6 mx-5 hover:w-1/5">
-              <img src={Profile} />
+              {navbar ? <img src={Profile2} /> : <img src={Profile} />}
             </button>
             <button
               onClick={onAbrirCarrito}
               className="w-1/6 hover:w-1/5 relative"
             >
-              <img src={Shop} ref={cartIconRef} />
+              {navbar ? (
+                <img src={Shop2} ref={cartIconRef} />
+              ) : (
+                <img src={Shop} ref={cartIconRef} />
+              )}
               {cantidadCart.length > 0 && (
                 <div className="bg-black text-[#fff] rounded-[100px] text-[10px] w-[15px] h-[15px] absolute right-0 -mt-[10px]">
                   {cantidadCart.length}

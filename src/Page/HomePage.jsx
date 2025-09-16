@@ -12,7 +12,10 @@ import ArrowLeft from "../assets/ArrowLeft.svg";
 import { useEffect, useState, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
 import Cookies from "js-cookie";
-
+import Fondo from "../assets/fondo1.jpg";
+import Fondo2 from "../assets/fondo2.jpg";
+import { motion, useScroll } from "framer-motion";
+import PruebaMotion from "../Components/pruebaMOTION";
 function HomePage() {
   const { listarProducto, productAll, listarCategoria, categoryAll } =
     useAuth();
@@ -28,6 +31,9 @@ function HomePage() {
 
   const cartIconRef = useRef(null);
   const imgRef = useRef(null);
+
+  const { scrollY } = useScroll();
+  const { scrollYProgress } = useScroll();
 
   useEffect(() => {
     listarProducto();
@@ -251,10 +257,12 @@ function HomePage() {
             cartIconRef={cartIconRef}
           />
         </div>
-        <div className="w-full h-[500px] -mt-[80px] bg-[#c5c5c5] flex justify-center items-center">
-          <img src="" alt="" srcset="" />
-          <p>Imagen fondo</p>
+        <div className="w-full h-[80vh] overflow-hidden -mt-[80px] bg-[#c5c5c5] flex justify-center items-center">
+          <img src={Fondo} alt="" srcset="" />
         </div>
+
+        <PruebaMotion />
+
         <p className="py-10 text-[40px] font-light ml-10">NOVEDADES</p>
         <section
           className="relative flex items-center overflow-hidden p-1 group/button"
@@ -280,10 +288,10 @@ function HomePage() {
             {productAll.length > 0
               ? productAll.map((product, index) => (
                   <li
-                    className="hover:-mt-[3px] w-[300px] min-w-[300px]"
+                    className="hover:-mt-[3px] w-[350px] min-w-[350px]"
                     key={index}
                   >
-                    <div className="bg-[#a1a1a1] h-[50vh] group relative group/foto">
+                    <div className="bg-[#a1a1a1] h-[70vh] group relative group/foto">
                       {/* Juego de imagenes - Max 2 img */}
                       <img
                         src={product.img}
@@ -364,9 +372,9 @@ function HomePage() {
         </section>
 
         {/* Frase */}
-        <p className="py-[10vh] text-[40px] font-light mx-10 text-center">
-          Cada pieza fue creada para recordarte que eres única, valiosa y capaz
-          de conquistar el mundo. No solo uses joyas, exprésate con ellas.
+        <p className="py-[10vh] text-[40px] font-light mx-10 text-center italic">
+          "Cada pieza fue creada para recordarte que eres única, valiosa y capaz
+          de conquistar el mundo. No solo uses joyas, exprésate con ellas"
         </p>
 
         {/* Lista de Categorias */}
