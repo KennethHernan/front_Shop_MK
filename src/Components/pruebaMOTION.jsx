@@ -1,25 +1,20 @@
-import React from "react"
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import React from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 // En tu componente principal:
-function PruebaMotion() {
-
-     const ref = useRef(null);
+function PruebaMotion({ label }) {
+  const ref = useRef(null);
   const { scrollYProgress } = useScroll();
-  
-  // Mientras más scroll, más se mueve hacia la derecha
-  const x = useTransform(scrollYProgress, [0, 1], [0, 3000]); // 0px a 300px
+
+  const x = useTransform(scrollYProgress, [0, 1], [0, 1000]);
 
   return (
-  <div className="h-screen flex items-center bg-gray-100" ref={ref}  style={{ x }}>
-      <motion.h1
-        style={{ x }}
-        className="text-6xl font-bold text-blue-600"
-      >
-        TEXTO QUE SE MUEVE →
+    <p className="py-10 text-[35px] font-light ml-10">
+      <motion.h1 style={{ x }} className="">
+        {label}
       </motion.h1>
-    </div>
+    </p>
   );
 }
 export default PruebaMotion;

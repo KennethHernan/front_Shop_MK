@@ -5,19 +5,15 @@
 
 body {
   font-family: 'Roboto', sans-serif;
-}
-.hide-scrollbar {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* IE and Edge */
+  overflow: auto;
 }
 
-.hide-scrollbar::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
-}
-.no-scrollbar::-webkit-scrollbar {
+/* Para Chrome, Safari y navegadores basados en WebKit */
+::-webkit-scrollbar {
   display: none;
 }
-.no-scrollbar {
-  -ms-overflow-style: none;  /* IE y Edge */
-  scrollbar-width: none;     /* Firefox */
+
+/* Para Firefox */
+html {
+  scrollbar-width: none;
 }

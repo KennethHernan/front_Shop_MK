@@ -1,7 +1,8 @@
+import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-
 //import { useAuth } from "../context/AuthContext";
 import ImagenLogo from "../assets/LOGO TEXTO.svg";
+import ImagenLogo2 from "../assets/icon_marca_white.svg";
 import Profile from "../assets/Profile.svg";
 import Profile2 from "../assets/person_white.svg";
 import Seach from "../assets/Seach.svg";
@@ -9,10 +10,14 @@ import Seach2 from "../assets/seach_white.svg";
 import Shop from "../assets/Shop.svg";
 import Shop2 from "../assets/shop_white.svg";
 import { useState } from "react";
-
-import React from "react";
+import { time } from "framer-motion";
+import Footer from "../Layout/Footer";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { nav } from "framer-motion/client";
 
 function CustomLink({ to, label, ...props }) {
+  AOS.init();
   const location = useLocation();
   const isHovered = location.pathname === to;
   const isActive = location.pathname === to;
@@ -21,9 +26,10 @@ function CustomLink({ to, label, ...props }) {
     <Link to={to}>
       <p
         {...props}
-        className={`text-xs font-normal hover:font-medium${
-          isActive ? "font-semibold" : ""
-        }`}
+        className={`text-xs font-medium hover:font-black 
+          ${isActive && "font-semibold"}
+          ${isHovered && "font-semibold"}
+        `}
       >
         {label}
       </p>
@@ -33,7 +39,19 @@ function CustomLink({ to, label, ...props }) {
 
 function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
   const navigate = useNavigate();
+  const [isHover, setIsHovered] = useState(false);
   const [active, setActive] = useState(false);
+
+  const InactiveNavbar = () => {
+    if (!active) {
+      setIsHovered(false);
+    } else {
+      setTimeout(() => {
+        setActive(false);
+      }, 500);
+      setIsHovered(false);
+    }
+  };
 
   const Home = () => {
     console.log("Click");
@@ -42,101 +60,435 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
 
   return (
     <>
-      <div>
+      <div className="font-sans select-none">
         <div
-          onMouseEnter={() => setActive(false)}
-          className={`h-[80px] flex justify-between items-center px-10 transition-colors duration-300 ${
-            navbar ? "bg-[#ffffff00] text-[#fff]" : "bg-[#ffffff]"
-          }`}
-          s
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => InactiveNavbar(true)}
+          className={`h-[80px] flex justify-between relative items-center px-10 transition-colors duration-300
+            ${navbar ? "bg-[#ffffff00] text-[#fff]" : "bg-[#ffffff] text-black"}
+            ${isHover ? "bg-white text-black" : ""} 
+            ${active ? "bg-white text-black" : ""} 
+          `}
         >
           <section className="flex gap-4">
+            {/* Header - HOME */}
             <div
-              className={`h-auto group relative px-3 py-2 rounded-md flex transition-all duration-1000 
-            ${navbar ? "hover:bg-[#ffffff36]" : "hover:bg-[#eeeeee]"}`}
+              className="h-auto group px-3 py-2 rounded-md flex transition-all duration-1000 overflow-hidden"
+              onMouseEnter={() => (setIsHovered(true), setActive(true))}
             >
-              <CustomLink to="/" label="HOME" onMouseEnter={() => modal()} />
-
-              <div className="absolute top-9 text-xs left-0 opacity-0 scale-95 translate-x-[-50px] pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:translate-x-0 group-hover:pointer-events-auto transition-all duration-500 ease-out">
-                <div className="w-[50vh] h-[200px] p-5 rounded-md  mt-2 bg-[#ffffff] ">
-                  HOME
-                </div>
-              </div>
+              <CustomLink
+                to="/"
+                label="HOME"
+                onMouseEnter={() => (setIsHovered(true), setActive(true))}
+              />
             </div>
 
+            {/* Header - JOYERIA */}
             <div
-              className={`h-auto group relative px-3 py-2 rounded-md flex transition-all duration-1000 
-            ${navbar ? "hover:bg-[#ffffff36]" : "hover:bg-[#eeeeee]"}`}
+              className="h-auto group px-3 py-2 rounded-md flex transition-all duration-1000 overflow-hidden"
+              onMouseEnter={() => (setIsHovered(true), setActive(true))}
             >
-              <CustomLink to="" label="JOYERIA" onMouseEnter={() => modal()} />
-              <div className="absolute top-9 text-xs left-0 opacity-0 scale-95 translate-x-[-50px] pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:translate-x-0 group-hover:pointer-events-auto transition-all duration-500 ease-out">
-                <div className="w-[50vh] h-[200px] p-5 rounded-md  mt-2 bg-[#ffffff] ">
-                  JOYERIA
+              <CustomLink
+                to=""
+                label="JOYERIA"
+                onMouseEnter={() => {
+                  setIsHovered(true);
+                  setActive(true);
+                }}
+              />
+              <section className="absolute w-screen flex flex-row gap-0 h-0 group-hover:h-[350px] overflow-hidden left-[0px] top-full transition-all duration-500 bg-gradient-to-br from-gray-50 to-white shadow-2xl z-50">
+                <div className="container text-xs mx-auto px-8 py-6 flex gap-8 h-full">
+                  {/* Columna 1: ANILLOS */}
+                  <div className="flex-1 rounded-lg p-0">
+                    <div className="flex items-center mb-4 pb-3 border-b border-gray-200 text-gray-400">
+                      <p>ANILLOS</p>
+                    </div>
+
+                    <div className="space-y-5">
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Anillos de Compromiso
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Anillos de Matrimonio
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Anillos de Oro
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Anillos de Plata
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Columna 2: COLLARES */}
+                  <div className="flex-1 rounded-lg p-0">
+                    <div className="flex items-center mb-4 pb-3 border-b border-gray-200 text-gray-400">
+                      <p>COLLARES</p>
+                    </div>
+
+                    <div className="space-y-5">
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Collares de Oro
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Collares de Plata
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Cadenas
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Dijes
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Columna 3: PULSERAS */}
+                  <div className="flex-1 rounded-lg p-0">
+                    <div className="flex items-center mb-4 pb-3 border-b border-gray-200 text-gray-400">
+                      <p>PULSERAS</p>
+                    </div>
+
+                    <div className="space-y-5">
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Pulseras de Oro
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Pulseras de Plata
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Brazaletes
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Pulseras con Dijes
+                      </a>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </section>
             </div>
 
+            {/* Header - SOBRE MK */}
             <div
-              className={`h-auto group relative px-3 py-2 rounded-md flex transition-all duration-1000 
-            ${navbar ? "hover:bg-[#ffffff36]" : "hover:bg-[#eeeeee]"}`}
+              className="h-auto group px-3 py-2 rounded-md flex transition-all duration-1000"
+              onMouseEnter={() => (setIsHovered(true), setActive(true))}
             >
-              <CustomLink to="" label="SOBRE MK" onMouseEnter={() => modal()} />
+              <CustomLink
+                to=""
+                label="SOBRE MK"
+                onMouseEnter={() => (setIsHovered(true), setActive(true))}
+              />
+              <section className="absolute w-screen flex flex-row gap-0 h-0 group-hover:h-[350px] overflow-hidden left-[0px] top-full transition-all duration-500 bg-gradient-to-br from-gray-50 to-white shadow-2xl z-50">
+                <div className="container text-xs mx-auto px-8 py-6 flex gap-8 h-full">
+                  {/* Columna 1: CONOCENOS */}
+                  <div className="flex-1 rounded-lg p-0">
+                    <div className="flex items-center mb-4 pb-3 border-b border-gray-200 text-gray-400">
+                      <p>CONOCENOS</p>
+                    </div>
 
-              <div className="absolute top-9 text-xs left-0 opacity-0 scale-95 translate-x-[-50px] pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:translate-x-0 group-hover:pointer-events-auto transition-all duration-500 ease-out">
-                <div className="w-[50vh] h-[200px] p-5 rounded-md  mt-2 bg-[#ffffff] ">
-                  SOBRE MK
+                    <div className="space-y-5">
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Nosotros
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Columna 2: ATENCIÓN AL CLIENTE */}
+                  <div className="flex-1 rounded-lg p-0">
+                    <div className="flex items-center mb-4 pb-3 border-b border-gray-200 text-gray-400">
+                      <p>ATENCIÓN AL CLIENTE</p>
+                    </div>
+
+                    <div className="space-y-5">
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Política de privacidad
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Columna 3: REDES SOCIALES */}
+                  <div className="flex-1 rounded-lg p-0">
+                    <div className="flex items-center mb-4 pb-3 border-b border-gray-200 text-gray-400">
+                      <p>REDES SOCIALES</p>
+                    </div>
+
+                    <div className="space-y-5">
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Facebook
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Instagram
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        WhatsApp
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Tiktok
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Columna 4: LIBRO DE RECLAMACIONES */}
+                  <div className="flex-1 rounded-lg p-0">
+                    <div className="flex items-center mb-4 pb-3 border-b border-gray-200 text-gray-400">
+                      <p>LIBRO DE RECLAMACIONES</p>
+                    </div>
+
+                    <div className="space-y-5">
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Libro de reclamaciones
+                      </a>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </section>
             </div>
 
+            {/* Header - LO NUEVO */}
             <div
-              className={`h-auto group relative px-3 py-2 rounded-md flex transition-all duration-1000 
-            ${navbar ? "hover:bg-[#ffffff36]" : "hover:bg-[#eeeeee]"}`}
+              className="h-auto group px-3 py-2 rounded-md flex transition-all duration-1000"
+              onMouseEnter={() => (setIsHovered(true), setActive(true))}
             >
-              <CustomLink to="" label="LO NUEVO" onMouseEnter={() => modal()} />
-              <div className="absolute top-9 text-xs left-0 opacity-0 scale-95 translate-x-[-50px] pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:translate-x-0 group-hover:pointer-events-auto transition-all duration-500 ease-out">
-                <div className="w-[50vh] h-[200px] p-5 rounded-md  mt-2 bg-[#ffffff] ">
-                  LO NUEVO
+              <CustomLink
+                to=""
+                label="LO NUEVO"
+                onMouseEnter={() => (setIsHovered(true), setActive(true))}
+              />
+              <section className="absolute text-xs w-screen flex flex-row gap-0 h-0 group-hover:h-[350px] overflow-hidden left-[0px] top-full transition-all duration-500 bg-gradient-to-br from-gray-50 to-white shadow-2xl z-50">
+                <div className="container mx-auto px-8 py-6 flex gap-8 h-full">
+                  {/* Columna 1: COLECCIONES 2025 */}
+                  <div className="flex-1 rounded-lg p-0">
+                    <div className="flex items-center mb-4 pb-3 border-b border-gray-200 text-gray-400">
+                      <p>COLECCIONES 2025</p>
+                    </div>
+
+                    <div className="space-y-5">
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Primavera-Verano 2025
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Colección San Valentín
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Edición Día de la Madre
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Línea Elegancia
+                      </a>
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Colección Minimalista
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Columna 2: TENDENCIAS */}
+                  <div className="flex-1 rounded-lg p-0">
+                    <div className="flex items-center mb-4 pb-3 border-b border-gray-200 text-gray-400">
+                      <p>TENDENCIAS</p>
+                    </div>
+
+                    <div className="space-y-5">
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Joyas Vintage Revival
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Estilo Boho Chic
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Diseños Geométricos
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Acabados Mate
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Columna 3: INNOVACIONES */}
+                  <div className="flex-1 rounded-lg p-0">
+                    <div className="flex items-center mb-4 pb-3 border-b border-gray-200 text-gray-400">
+                      <p>INNOVACIONES</p>
+                    </div>
+
+                    <div className="space-y-5">
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Nuevos Materiales
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Piedras Sintéticas
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Acabados Especiales
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Diseño Sostenible
+                      </a>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </section>
             </div>
           </section>
-          <img
-            src={ImagenLogo}
-            className={`w-[45px] transition-opacity duration-300 ${
-              navbar ? "opacity-0" : "opacity-100"
-            }`}
-          />
+          {navbar && (
+            <img
+              src={ImagenLogo2}
+              className="w-[45px] transition-opacity absolute top-7 left-[50%] duration-300"
+            />
+          )}
           <div className="flex justify-end">
             <button onClick={Home} className="w-1/6 hover:w-1/5">
-              {navbar ? <img src={Seach2} /> : <img src={Seach} />}
+              <img
+                src={navbar && !isHover && !active ? Seach2 : Seach}
+                alt="Boton Buscar"
+              />
             </button>
             <button onClick={Home} className="w-1/6 mx-5 hover:w-1/5">
-              {navbar ? <img src={Profile2} /> : <img src={Profile} />}
+              <img
+                src={navbar && !isHover && !active ? Profile2 : Profile}
+                alt="Boton Perfil"
+              />
             </button>
             <button
               onClick={onAbrirCarrito}
               className="w-1/6 hover:w-1/5 relative"
             >
-              {navbar ? (
-                <img src={Shop2} ref={cartIconRef} />
-              ) : (
-                <img src={Shop} ref={cartIconRef} />
-              )}
+              <img
+                src={navbar && !isHover && !active ? Shop2 : Shop}
+                alt="Boton carrito"
+                ref={cartIconRef}
+              />
               {cantidadCart.length > 0 && (
-                <div className="bg-black text-[#fff] rounded-[100px] text-[10px] w-[15px] h-[15px] absolute right-0 -mt-[10px]">
+                <div
+                  className={`
+                    rounded-[100px] text-[10px] w-[15px] h-[15px] absolute right-0 -mt-[10px]
+                  ${
+                    navbar && !isHover  && !active
+                      ? "bg-[#fff] text-black"
+                      : "bg-[#000000] text-white"
+                  } 
+                  `}
+                >
                   {cantidadCart.length}
                 </div>
               )}
             </button>
           </div>
         </div>
-        {active == true ? (
-          <div
-            className="full bg-black h-[200px] m-10"
-            onMouseEnter={() => modal()}
-          ></div>
-        ) : null}
       </div>
     </>
   );

@@ -1,4 +1,4 @@
-import Close from "../assets/close-blak.svg";
+import Close from "../assets/close_new.svg";
 import img_2 from "../assets/img_2.png";
 import img_1 from "../assets/img_1.png";
 import Check from "../assets/check-white.svg";
@@ -40,7 +40,7 @@ const AddCart = ({ isOpenCart, onCerrarCart, onProducto, onAgregar, onAnimarCarr
       {/* Carrito */}
       {isOpenCart && (
         <div
-          className="fixed flex justify-center items-center top-0 left-0 w-screen h-screen bg-[#0000004f] z-50"
+          className="fixed flex justify-center items-center top-0 left-0 w-screen h-screen bg-[#000000b2] z-50"
           onClick={onCerrarCart}
         >
           {/* Contenido carrito */}
@@ -75,8 +75,8 @@ const AddCart = ({ isOpenCart, onCerrarCart, onProducto, onAgregar, onAnimarCarr
                   className="w-[25px] hover:scale-110"
                 />
               </button>
-              <p className=" font-light text-[23px]">{onProducto.nombre}</p>
-              <section className="flex font-light text-[21px] my-2 text-[#a1a1a1]">
+              <p className="font-black text-[30px]">{onProducto.nombre}</p>
+              <section className="flex font-sans text-[20px] mb-2 text-[#a1a1a1]">
                 <p>S/.</p>
                 <p>{onProducto.precio}</p>
               </section>
@@ -102,23 +102,23 @@ const AddCart = ({ isOpenCart, onCerrarCart, onProducto, onAgregar, onAnimarCarr
                 </>
               )}
               <button
-                className="w-full mt-5 py-3 px-10 bg-black text-white text-[15px] hover:bg-[#2d2d2d] flex items-center justify-center"
+                className="w-full mt-5 py-3 px-10 bg-black text-white text-xs hover:bg-[#2d2d2d] flex items-center justify-center transition-all duration-300"
                 onClick={() => (onAgregar(onProducto), Agregar(), onAnimarCarrito(imgRef))}
               >
                 {!añadirCart ? (
                   <>
-                    <img src={Add} className="w-[16px] mr-3" />
+                    <img src={Add} className="w-[14px] mr-3" />
                     Agregar al carrito
                   </>
                 ) : (
                   <>
-                    <img src={Check} className="w-[16px] mr-3" />
+                    <img src={Check} className="w-[14px] mr-3" />
                     Añadido
                   </>
                 )}
               </button>
 
-              <button className="w-full mt-3 py-3 px-10 bg-black text-white text-[15px] hover:bg-[#2d2d2d]">
+              <button className="w-full mt-3 py-3 px-10 bg-black text-white text-xs hover:bg-[#2d2d2d] transition-all duration-300">
                 Ir a comprar
               </button>
             </div>

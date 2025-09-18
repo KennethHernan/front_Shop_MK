@@ -16,7 +16,11 @@ import Fondo from "../assets/fondo1.jpg";
 import Fondo2 from "../assets/fondo2.jpg";
 import { motion, useScroll } from "framer-motion";
 import PruebaMotion from "../Components/pruebaMOTION";
+import AOS from "aos";
+import "aos/dist/aos.css";
+
 function HomePage() {
+  AOS.init();
   const { listarProducto, productAll, listarCategoria, categoryAll } =
     useAuth();
   const [navbar, setNavbar] = useState(true);
@@ -25,7 +29,11 @@ function HomePage() {
   const [añadirCart, setAñadirCart] = useState(false); // false
   const [MostrarBotonDerecho, setMostrarBotonDerecho] = useState(false);
   const [MostrarBotonIzquierdo, setMostrarBotonIzquierdo] = useState(false);
+  const [MostrarBotonDerecho2, setMostrarBotonDerecho2] = useState(false);
+  const [MostrarBotonIzquierdo2, setMostrarBotonIzquierdo2] = useState(false);
   const ulRef = useRef(null);
+  const ulRef2 = useRef(null);
+
   const [carrito, setCarrito] = useState(false);
   const [productoModal, setProductoModal] = useState([]);
 
@@ -74,6 +82,39 @@ function HomePage() {
     };
   }, [productAll]);
 
+  useEffect(() => {
+    const ul2 = ulRef2.current;
+    if (!ul2) return;
+
+    const checkOverflow = () => {
+      const hasOverflow = ul2.scrollWidth > ul2.clientWidth + 1;
+      setMostrarBotonDerecho2(hasOverflow);
+      setMostrarBotonIzquierdo2(false);
+    };
+
+    const handleScroll = () => {
+      const scrollLeft = ul2.scrollLeft;
+      const scrollRight = ul2.scrollLeft + ul2.clientWidth;
+      const scrollWidth = ul2.scrollWidth;
+
+      const alInicio = scrollLeft <= 5;
+      const alFinal = scrollRight >= scrollWidth - 5;
+
+      setMostrarBotonIzquierdo2(!alInicio);
+      setMostrarBotonDerecho2(!alFinal);
+    };
+
+    // Revisar al montar
+    checkOverflow();
+    ul2.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", checkOverflow);
+
+    return () => {
+      ul2.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", checkOverflow);
+    };
+  }, [productAll]);
+
   const scrollDerecha = () => {
     ulRef.current.scrollBy({ left: 600, behavior: "smooth" });
   };
@@ -81,7 +122,13 @@ function HomePage() {
   const scrollIzquierda = () => {
     ulRef.current.scrollBy({ left: -600, behavior: "smooth" });
   };
+  const scrollDerecha2 = () => {
+    ulRef2.current.scrollBy({ left: 600, behavior: "smooth" });
+  };
 
+  const scrollIzquierda2 = () => {
+    ulRef2.current.scrollBy({ left: -600, behavior: "smooth" });
+  };
   const abrirCarrito = () => {
     setIsOpen(true);
   };
@@ -196,7 +243,6 @@ function HomePage() {
   const animarCarrito = (imgRef) => {
     const carrito = cartIconRef.current;
     const img = imgRef.current;
-    console.log(cartIconRef.current);
 
     if (!carrito || !img) return;
 
@@ -226,7 +272,7 @@ function HomePage() {
   };
 
   return (
-    <div>
+    <div className="font-sans">
       <Cart
         isOpen={isOpen}
         onCerrarCarrito={closeCarrito}
@@ -257,16 +303,20 @@ function HomePage() {
             cartIconRef={cartIconRef}
           />
         </div>
-        <div className="w-full h-[80vh] overflow-hidden -mt-[80px] bg-[#c5c5c5] flex justify-center items-center">
-          <img src={Fondo} alt="" srcset="" />
+        <div className="w-full h-[60vh] overflow-hidden -mt-[80px] bg-[#c5c5c5] flex justify-center items-center">
+          <img src={Fondo} alt="Fondo" />
         </div>
 
-        <PruebaMotion />
+        <p className="py-10 text-[35px] font-light ml-10 font-sans"
+          data-aos="fade-right"
+          data-aos-duration="3000">NOVEDADES</p>
 
-        <p className="py-10 text-[40px] font-light ml-10">NOVEDADES</p>
+        {/* Lista de Productos */}
         <section
-          className="relative flex items-center overflow-hidden p-1 group/button"
+          className="relative flex items-center p-1 group/button"
           style={{ width: "100%" }}
+          data-aos="fade-up"
+          data-aos-duration="3000"
         >
           {MostrarBotonIzquierdo && (
             <button
@@ -278,7 +328,7 @@ function HomePage() {
           )}
           <ul
             ref={ulRef}
-            className="flex justify-start font-light text-[16px] select-none space-x-1 overflow-x-auto no-scrollbar"
+            className="flex justify-start font-light select-none space-x-1 overflow-x-auto no-scrollbar"
             style={{
               maxWidth: "100%",
               width: "100%",
@@ -288,18 +338,18 @@ function HomePage() {
             {productAll.length > 0
               ? productAll.map((product, index) => (
                   <li
-                    className="hover:-mt-[3px] w-[350px] min-w-[350px]"
+                    className="hover:mt-[10px] w-[300px] min-w-[350px] text-md transition-all duration-700"
                     key={index}
                   >
                     <div className="bg-[#a1a1a1] h-[70vh] group relative group/foto">
                       {/* Juego de imagenes - Max 2 img */}
                       <img
                         src={product.img}
-                        className="absolute top-0 h-full w-full object-cover group-hover/foto:hidden"
+                        className="absolute top-0 opacity-100 w-full h-full object-cover transition-all duration-700"
                       />
                       <img
-                        src={product.img}
-                        className="absolute hidden top-0 h-full w-full object-cover group-hover/foto:block"
+                        src={Fondo}
+                        className="absolute top-0 opacity-0 w-full h-full object-cover group-hover/foto:opacity-100 transition-all duration-700"
                       />
                       {product.stock <= 0 && (
                         <button className="bg-[#000000] absolute bottom-1 px-3 py-2 m-2 rounded-[5px] text-[#fff] text-[14px] disabled">
@@ -309,19 +359,19 @@ function HomePage() {
                       <div className="absolute bottom-1 right-1">
                         <button
                           onClick={() => abrirModalCart(product)}
-                          className="shadow-md hidden group-hover:flex group/sub relative h-[30px] bg-[#ffffff] p-2 m-2 rounded-[200px] text-[#000] font-normal text-[10px]"
+                          className="shadow-md hidden group-hover:flex group/sub relative h-[30px] overflow-hidden items-center bg-[#ffffff] p-2 m-2 rounded-[200px] text-[#000] font-normal text-[10px]"
                         >
                           {añadirCart ? (
                             <>
                               <img src={Check} className="w-[13px] h-[13px]" />
-                              <p className="ml-2 hidden group-hover/sub:block">
+                              <p className="ml-2 hidden w-0 group-hover/sub:w-5 transition-all duration-700">
                                 AÑADIDO
                               </p>
                             </>
                           ) : (
                             <>
                               <img src={Add} className="w-[13px] h-[13px]" />
-                              <p className="ml-2 hidden group-hover/sub:block">
+                              <p className="w-0 text-white group-hover/sub:w-10 group-hover/sub:ml-2 group-hover/sub:text-black transition-all duration-700">
                                 AÑADIR
                               </p>
                             </>
@@ -332,16 +382,18 @@ function HomePage() {
                     <p className="pt-1">{product.nombre}</p>
                     <div className="flex gap-3">
                       {product.oferta <= 1 ? (
-                        <p>S/{product.precio}</p>
+                        <p>S/{product.precio.toFixed(2)}</p>
                       ) : (
                         <>
-                          <p className="line-through text-[#ababab]">
-                            S/{product.precio}
-                          </p>
                           <p>
                             S/
-                            {product.precio -
-                              (product.oferta / 100) * product.precio}
+                            {(
+                              product.precio -
+                              (product.oferta / 100) * product.precio
+                            ).toFixed(2)}
+                          </p>
+                          <p className="line-through text-[#ababab]">
+                            S/{product.precio.toFixed(2)}
                           </p>
                         </>
                       )}
@@ -372,13 +424,21 @@ function HomePage() {
         </section>
 
         {/* Frase */}
-        <p className="py-[10vh] text-[40px] font-light mx-10 text-center italic">
+        <p
+          className="py-[10vh] text-[40px] font-light mx-10 text-center italic"
+          data-aos="fade-left"
+          data-aos-duration="3000"
+        >
           "Cada pieza fue creada para recordarte que eres única, valiosa y capaz
           de conquistar el mundo. No solo uses joyas, exprésate con ellas"
         </p>
 
         {/* Lista de Categorias */}
-        <section className="w-full z-0">
+        <section
+          className="w-full z-0"
+          data-aos="fade-up"
+          data-aos-duration="3000"
+        >
           <ul className="h-[90vh] flex gap-1 mx-10 justify-center font-light text-[16px] select-none">
             {categoryAll.length > 0
               ? categoryAll.map((category, index) => (
@@ -399,7 +459,10 @@ function HomePage() {
                   </li>
                 ))
               : Array.from({ length: 3 }).map((_, i) => (
-                  <li className="w-[45vh] hover:-mt-[3px] animate-pulse">
+                  <li
+                    className="w-[45vh] hover:-mt-[3px] animate-pulse"
+                    key={i}
+                  >
                     <div className="bg-[#e7e7e7] h-[80vh] relative"></div>
                     <p className="pt-1 bg-[#e7e7e7] rounded-[10px] w-[160px] h-[23px] mt-[3px]"></p>
                   </li>
@@ -411,43 +474,47 @@ function HomePage() {
         <div
           className="bg-[#bebebe] h-[100vh] mt-10"
           style={{
-            backgroundImage: `url(${img_1})`,
+            backgroundImage: `url(${Fondo2})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
+          data-aos="fade-up"
+          data-aos-duration="3000"
         ></div>
         {/* Baner 3 mensajes */}
-        <section className="px-10 py-[10vh] flex justify-between text-[18px] font-light mx-10 text-center">
-          <div>
-            <p className=" font-medium">Subtitulo</p>
-            <p>Describe tus productos la calidad etc.</p>
+        <section className="px-10 py-[10vh] flex justify-between font-light mx-10 text-center">
+          <div data-aos="fade-up" data-aos-duration="2000">
+            <p className=" font-medium">Calidad que brilla</p>
+            <p>Acero inoxidable duradero y con estilo.</p>
           </div>
-          <div>
-            <p className=" font-medium">Subtitulo 2</p>
-            <p>Describe tus productos la calidad etc.</p>
+          <div data-aos="fade-up" data-aos-duration="2500">
+            <p className=" font-medium">Diseño que inspira</p>
+            <p>Moderno, elegante y para todo momento.</p>
           </div>
-          <div>
-            <p className=" font-medium">Subtitulo 3</p>
-            <p>Describe tus productos la calidad etc.</p>
+          <div data-aos="fade-up" data-aos-duration="3000">
+            <p className=" font-medium">Hecho para durar</p>
+            <p>Resistente al agua y hipoalergénico.</p>
           </div>
         </section>
 
         {/* Seccion de producto 2 */}
         <section
           className="relative flex items-center overflow-hidden p-1 group/button"
+          data-aos="fade-up"
+          data-aos-duration="3000"
           style={{ width: "100%" }}
         >
-          {MostrarBotonIzquierdo && (
+          {MostrarBotonIzquierdo2 && (
             <button
               className="bg-[#ffffff] z-20 absolute left-[20px] w-[45px] h-[45px] rounded-[50px] justify-center items-center shadow-md hover:scale-105 transition-all duration-300 hidden group-hover/button:flex"
-              onClick={scrollIzquierda}
+              onClick={scrollIzquierda2}
             >
               <img src={ArrowLeft} className="w-[6px] rotate-180" />
             </button>
           )}
           <ul
-            ref={ulRef}
-            className="flex justify-start font-light text-[16px] select-none space-x-1 overflow-x-auto no-scrollbar"
+            ref={ulRef2}
+            className="flex justify-start font-light text-[16px] select-none space-x-1 overflow-x-auto no-scrollbar ml-10"
             style={{
               maxWidth: "100%",
               width: "100%",
@@ -457,40 +524,40 @@ function HomePage() {
             {productAll.length > 0
               ? productAll.map((product, index) => (
                   <li
-                    className="hover:-mt-[3px] w-[300px] min-w-[300px]"
+                    className="hover:mt-[10px] w-[300px] min-w-[350px] text-md transition-all duration-700"
                     key={index}
                   >
-                    <div className="bg-[#a1a1a1] h-[70vh] group relative group/foto">
+                    <div className="bg-[#ffffff] h-[70vh] group relative group/foto">
                       {/* Juego de imagenes - Max 2 img */}
                       <img
                         src={product.img}
-                        className="absolute top-0 h-full w-full object-cover group-hover/foto:hidden"
+                        className="absolute top-0 opacity-100 w-full h-full object-cover transition-all duration-700"
                       />
                       <img
-                        src={product.img}
-                        className="absolute hidden top-0 h-full w-full object-cover group-hover/foto:block"
+                        src={Fondo}
+                        className="absolute top-0 opacity-0 w-full h-full object-cover group-hover/foto:opacity-100 transition-all duration-700"
                       />
                       {product.stock <= 0 && (
-                        <button className="bg-[#000000] absolute bottom-1 px-3 py-2 m-2 rounded-[5px] text-[#fff] text-[14px] disabled">
+                        <button className="bg-[#000000] absolute bottom-1 px-3 py-2 m-2 rounded-[5px] text-[#fff] text-xs disabled">
                           Agotado
                         </button>
                       )}
                       <div className="absolute bottom-1 right-1">
                         <button
                           onClick={() => abrirModalCart(product)}
-                          className="shadow-md hidden group-hover:flex group/sub relative h-[30px] bg-[#ffffff] p-2 m-2 rounded-[200px] text-[#000] font-normal text-[10px]"
+                          className="shadow-md hidden group-hover:flex group/sub relative h-[30px] overflow-hidden items-center bg-[#ffffff] p-2 m-2 rounded-[200px] text-[#000] font-normal text-[10px]"
                         >
                           {añadirCart ? (
                             <>
                               <img src={Check} className="w-[13px] h-[13px]" />
-                              <p className="ml-2 hidden group-hover/sub:block">
+                              <p className="ml-2 hidden w-0 group-hover/sub:w-5 transition-all duration-700">
                                 AÑADIDO
                               </p>
                             </>
                           ) : (
                             <>
                               <img src={Add} className="w-[13px] h-[13px]" />
-                              <p className="ml-2 hidden group-hover/sub:block">
+                              <p className="w-0 text-white group-hover/sub:w-10 group-hover/sub:ml-2 group-hover/sub:text-black transition-all duration-700">
                                 AÑADIR
                               </p>
                             </>
@@ -501,16 +568,18 @@ function HomePage() {
                     <p className="pt-1">{product.nombre}</p>
                     <div className="flex gap-3">
                       {product.oferta <= 1 ? (
-                        <p>S/{product.precio}</p>
+                        <p>S/{product.precio.toFixed(2)}</p>
                       ) : (
                         <>
-                          <p className="line-through text-[#ababab]">
-                            S/{product.precio}
-                          </p>
                           <p>
                             S/
-                            {product.precio -
-                              (product.oferta / 100) * product.precio}
+                            {(
+                              product.precio -
+                              (product.oferta / 100) * product.precio
+                            ).toFixed(2)}
+                          </p>
+                          <p className="line-through text-[#ababab]">
+                            S/{product.precio.toFixed(2)}
                           </p>
                         </>
                       )}
@@ -530,10 +599,10 @@ function HomePage() {
                   </li>
                 ))}
           </ul>
-          {MostrarBotonDerecho && (
+          {MostrarBotonDerecho2 && (
             <button
               className="bg-[#ffffff] z-20 absolute  right-[20px] w-[45px] h-[45px] rounded-[50px] justify-center items-center shadow-md hover:scale-105 transition-all duration-300 hidden group-hover/button:flex"
-              onClick={scrollDerecha}
+              onClick={scrollDerecha2}
             >
               <img src={ArrowLeft} className="w-[6px]" />
             </button>
@@ -541,21 +610,29 @@ function HomePage() {
         </section>
 
         {/* Portada 3 */}
-        <div className="bg-[#F2D0BD] w-[100wh] h-[100vh] my-20 flex overflow-hidden">
+        <div
+          className="bg-[#F2D0BD] w-[100wh] h-[100vh] my-20 flex overflow-hidden"
+          data-aos="fade-up"
+          data-aos-duration="3000"
+        >
           <section className="w-auto font-light p-32 flex flex-col justify-between">
-            <div>
+            <div data-aos="fade-right" data-aos-duration="3000">
               <p className="text-[50px] italic mb-10">
                 Cada joya tiene una historia… ¿ya elegiste la tuya?
               </p>
               <a
                 href="#"
-                className="bg-black px-10 py-4 my-5 rounded-md font-normal text-white text-md transition-all duration-500 hover:bg-white hover:text-black"
+                className="bg-black px-8 py-3 my-5 rounded-sm font-normal text-white text-md transition-all duration-500 hover:bg-white hover:text-black"
               >
                 Visitanos
               </a>
             </div>
             <div>
-              <p className="text-[28px]">
+              <p
+                className="text-[28px]"
+                data-aos="fade-up"
+                data-aos-duration="3000"
+              >
                 Descubre lo nuevo en nuestra tienda virtual, nos encontramos en{" "}
                 <a href="#" className="font-medium hover:underline">
                   @mayikh.pe
