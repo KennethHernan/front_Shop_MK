@@ -22,7 +22,6 @@ import Close from "../assets/close_new.svg"
 function CustomLink({ to, label, ...props }) {
   AOS.init();
   const location = useLocation();
-  const isHovered = location.pathname === to;
   const isActive = location.pathname === to;
 
   return (
@@ -31,7 +30,6 @@ function CustomLink({ to, label, ...props }) {
         {...props}
         className={`text-[11px] md:text-xs font-medium hover:font-black 
           ${isActive && "font-semibold"}
-          ${isHovered && "font-semibold"}
         `}
       >
         {label}
@@ -40,21 +38,23 @@ function CustomLink({ to, label, ...props }) {
   );
 }
 
-function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
+function Header_Movile({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
   const navigate = useNavigate();
-  const [isHover, setIsHovered] = useState(false);
   const [active, setActive] = useState(false);
+  const [isHover, setIsHover] = useState(false);
 
-  const InactiveNavbar = () => {
-    if (!active) {
-      setIsHovered(false);
-    } else {
-      setTimeout(() => {
-        setActive(false);
-      }, 500);
-      setIsHovered(false);
-    }
-  };
+   const InactiveNavbar = () => {
+     if (!isHover) {
+       setActive(true);
+       setIsHover(true)
+     }
+     if (isHover) {
+         setActive(false);
+       setTimeout(() => {
+         setIsHover(false);
+       }, 500);
+     }
+   };
 
   const Home = () => {
     console.log("Click");
@@ -65,25 +65,173 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
     <>
       <div className="font-sans select-none">
         <div
-          onMouseEnter={() => setIsHovered(true)}
+          onMouseEnter={() => setActive(true)}
           onMouseLeave={() => InactiveNavbar(true)}
           className={`h-[60px] flex justify-between relative items-center px-5 md:px-10 transition-colors duration-300
             ${navbar ? "bg-[#ffffff00] text-[#fff]" : "bg-[#ffffff] text-black"}
-            ${isHover ? "md:bg-white md:text-black" : ""} 
             ${active ? "bg-white text-black" : ""}
+            ${isHover ? "bg-white text-black" : ""}
           `}
         >
           <section className="flex gap-4">
+            {/* Header - MENU ANDROID */}
+            <div
+              className="h-auto group px-3 py-2 rounded-md flex transition-all duration-1000 overflow-hidden"
+              onClick={() => InactiveNavbar()}
+            >
+              <div className="flex gap-2 items-center">
+                {isHover ? (
+                <img 
+                 src={isHover && active ? Close : Menu2} 
+                alt="Icono Menu"
+                className={` transition-all duration-300
+                  ${active ? "rotate-90" : " rotate-0"}
+                  `}
+                /> ): (
+                  <img 
+                 src={navbar && !isHover && !active ? Menu : Menu2} 
+                alt="Icono Menu"
+                className={` transition-all duration-300
+                  ${active ? "rotate-90" : " rotate-0"}
+                  `}
+                /> 
+                )}
+
+                <CustomLink
+                  to="/"
+                  label="MENU"
+                  onMouseEnter={() => (setActive(true))}
+                />
+              </div>
+
+              <section className={`
+                absolute w-full flex flex-col gap-0 overflow-hidden left-[0px] top-full transition-all duration-500 bg-gradient-to-br from-gray-50 to-white shadow-2xl z-50
+                ${active ? "h-[350px]" : "h-0"}
+                `}>
+                <div className="container text-xs mx-auto px-8 py-6 flex gap-8 h-full">
+                  {/* Columna 1: ANILLOS */}
+                  <div className="flex-1 rounded-lg p-0">
+                    <div className="flex items-center mb-4 pb-3 border-b border-gray-200 text-gray-400">
+                      <p>ANILLOS</p>
+                    </div>
+
+                    <div className="space-y-5">
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Anillos de Compromiso
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Anillos de Matrimonio
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Anillos de Oro
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Anillos de Plata
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Columna 2: COLLARES */}
+                  <div className="flex-1 rounded-lg p-0">
+                    <div className="flex items-center mb-4 pb-3 border-b border-gray-200 text-gray-400">
+                      <p>COLLARES</p>
+                    </div>
+
+                    <div className="space-y-5">
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Collares de Oro
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Collares de Plata
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Cadenas
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Dijes
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Columna 3: PULSERAS */}
+                  <div className="flex-1 rounded-lg p-0">
+                    <div className="flex items-center mb-4 pb-3 border-b border-gray-200 text-gray-400">
+                      <p>PULSERAS</p>
+                    </div>
+
+                    <div className="space-y-5">
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Pulseras de Oro
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Pulseras de Plata
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Brazaletes
+                      </a>
+
+                      <a
+                        href="#"
+                        className="block hover:font-medium transition-all duration-300"
+                      >
+                        Pulseras con Dijes
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
             {/* Header - JOYERIA */}
             <div
               className="hidden md:flex h-auto group px-3 py-2 rounded-md transition-all duration-1000 overflow-hidden"
-              onMouseEnter={() => (setIsHovered(true), setActive(true))}
+              onMouseEnter={() => (setActive(true))}
             >
               <CustomLink
                 to=""
                 label="JOYERIA"
                 onMouseEnter={() => {
-                  setIsHovered(true);
                   setActive(true);
                 }}
               />
@@ -206,12 +354,12 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
             {/* Header - SOBRE MK */}
             <div
               className="hidden md:flex h-auto group px-3 py-2 rounded-md transition-all duration-1000"
-              onMouseEnter={() => (setIsHovered(true), setActive(true))}
+              onMouseEnter={() => (setActive(true))}
             >
               <CustomLink
                 to=""
                 label="SOBRE MK"
-                onMouseEnter={() => (setIsHovered(true), setActive(true))}
+                onMouseEnter={() => (setActive(true))}
               />
               <section className="absolute w-screen flex flex-row gap-0 h-0 group-hover:h-[350px] overflow-hidden left-[0px] top-full transition-all duration-500 bg-gradient-to-br from-gray-50 to-white shadow-2xl z-50">
                 <div className="container text-xs mx-auto px-8 py-6 flex gap-8 h-full">
@@ -306,12 +454,12 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
             {/* Header - LO NUEVO */}
             <div
               className="hidden md:flex h-auto group px-3 py-2 rounded-md transition-all duration-1000"
-              onMouseEnter={() => (setIsHovered(true), setActive(true))}
+              onMouseEnter={() => ( setActive(true))}
             >
               <CustomLink
                 to=""
                 label="LO NUEVO"
-                onMouseEnter={() => (setIsHovered(true), setActive(true))}
+                onMouseEnter={() => (setActive(true))}
               />
               <section className="absolute text-xs w-screen flex flex-row gap-0 h-0 group-hover:h-[350px] overflow-hidden left-[0px] top-full transition-all duration-500 bg-gradient-to-br from-gray-50 to-white shadow-2xl z-50">
                 <div className="container mx-auto px-8 py-6 flex gap-8 h-full">
@@ -436,13 +584,6 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
             </div>
           </section>
 
-          {navbar && (
-            <img
-              src={ImagenLogo2}
-              className="w-[45px] block transition-opacity absolute top-7 left-[50%] duration-300"
-            />
-          )}
-
           <div className="flex justify-end">
             <button onClick={Home} className="w-1/6 hover:w-1/5">
               <img
@@ -470,7 +611,7 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
                   className={`
                     rounded-[100px] text-[10px] w-[15px] h-[15px] absolute right-0 -mt-[10px]
                   ${
-                    navbar && !isHover && !active
+                    navbar && !active
                       ? "bg-[#fff] text-black"
                       : "bg-[#000000] text-white"
                   } 
@@ -487,4 +628,4 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
   );
 }
 
-export default Sidebar;
+export default Header_Movile;

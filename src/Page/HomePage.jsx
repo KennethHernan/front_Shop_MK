@@ -1,6 +1,8 @@
 import Sidebar from "../Layout/Sidebar";
+import Header_Movile from "../Layout/Header_Movile";
 import Navbar from "../Layout/Navbar";
 import Cart from "../Layout/Cart";
+import icon_logo from "../assets/icon_logotexto_white.svg";
 import AddCart from "../Layout/addCart";
 import Footer from "../Layout/Footer";
 import Add from "../assets/icon-shop.svg";
@@ -295,21 +297,37 @@ function HomePage() {
           <Navbar navbar={navbar} />
         </div>
 
-        <div className="sticky top-0 left-0 w-full z-40">
+        {/* Header Desktop */}
+        <div className="hidden md:block sticky top-0 left-0 w-full z-40">
           <Sidebar
             navbar={navbar}
             onAbrirCarrito={abrirCarrito}
             cantidadCart={carrito}
             cartIconRef={cartIconRef}
           />
+
         </div>
-        <div className="w-full h-[60vh] overflow-hidden -mt-[80px] bg-[#c5c5c5] flex justify-center items-center">
-          <img src={Fondo} alt="Fondo" />
+        {/* Header Movile */}
+        <div className="block md:hidden sticky top-0 left-0 w-full z-40">
+          <Header_Movile
+            navbar={navbar}
+            onAbrirCarrito={abrirCarrito}
+            cantidadCart={carrito}
+            cartIconRef={cartIconRef}
+          />
+          
+        </div>
+        <div className="w-full h-[60vh] overflow-hidden -mt-[60px] bg-[#c5c5c5] flex justify-center items-center">
+          <img src={Fondo} alt="Fondo" className="object-cover w-full h-full" />
         </div>
 
-        <p className="py-10 text-[35px] font-light ml-10 font-sans"
+        <p
+          className="py-10 text-[35px] font-light ml-10 font-sans"
           data-aos="fade-right"
-          data-aos-duration="3000">NOVEDADES</p>
+          data-aos-duration="3000"
+        >
+          NOVEDADES
+        </p>
 
         {/* Lista de Productos */}
         <section
@@ -341,7 +359,7 @@ function HomePage() {
                     className="hover:mt-[10px] w-[300px] min-w-[350px] text-md transition-all duration-700"
                     key={index}
                   >
-                    <div className="bg-[#a1a1a1] h-[70vh] group relative group/foto">
+                    <div className="bg-[#a1a1a1] h-[50vh] group relative group/foto">
                       {/* Juego de imagenes - Max 2 img */}
                       <img
                         src={product.img}
@@ -405,7 +423,7 @@ function HomePage() {
                     className="hover:-mt-[3px] w-[300px] min-w-[300px] animate-pulse"
                     key={i}
                   >
-                    <div className="bg-[#e7e7e7] h-[70vh] group relative group/foto"></div>
+                    <div className="bg-[#e7e7e7] h-[50vh] group relative group/foto"></div>
                     <p className="pt-1 bg-[#e7e7e7] rounded-[10px] w-[160px] h-[23px] my-[2px]"></p>
                     <div className="flex gap-3">
                       <p className="bg-[#e7e7e7] rounded-[10px] w-[60px] h-[23px]"></p>
@@ -424,46 +442,49 @@ function HomePage() {
         </section>
 
         {/* Frase */}
-        <p
-          className="py-[10vh] text-[40px] font-light mx-10 text-center italic"
-          data-aos="fade-left"
-          data-aos-duration="3000"
-        >
-          "Cada pieza fue creada para recordarte que eres única, valiosa y capaz
-          de conquistar el mundo. No solo uses joyas, exprésate con ellas"
-        </p>
+        <div className="w-auto text-[20px] font-light px-10 my-20 text-center italic overflow-hidden">
+          <p
+            className=""
+            data-aos="fade-left"
+            data-aos-duration="3000"
+          >
+            "Cada pieza fue creada para recordarte que eres única, valiosa y
+            capaz de conquistar el mundo. No solo uses joyas, exprésate con
+            ellas"
+          </p>
+        </div>
 
         {/* Lista de Categorias */}
         <section
-          className="w-full z-0"
+          className="w-full z-0 mt-5 overflow-hidden"
           data-aos="fade-up"
           data-aos-duration="3000"
         >
-          <ul className="h-[90vh] flex gap-1 mx-10 justify-center font-light text-[16px] select-none">
+          <ul className="h-auto flex gap-1 px-0 py-2 font-light text-[16px] select-none">
             {categoryAll.length > 0
               ? categoryAll.map((category, index) => (
-                  <li className="w-[45vh] hover:-mt-[3px]" key={index}>
-                    <div className="h-[80vh] bg-white relative overflow-hidden flex justify-center items-center">
+                  <li
+                    className="w-[80vh] hover:-mb-[13px]  transition-all duration-700"
+                    key={index}
+                  >
+                    <div className="h-[70vh] relative overflow-hidden flex justify-center items-center">
                       <img
                         src={category.img}
-                        className="object-cover hover:scale-105"
+                        className="object-cover hover:scale-105 transition-all duration-700"
                       />
                     </div>
                     <button
-                      className="flex gap-3"
+                      className="flex items-center gap-3 mt-2"
                       onClick={() => handleCategoria(category)}
                     >
-                      <p className="pt-1">{category.nombre}</p>
+                      <p className="">{category.nombre}</p>
                       <img src={arrow_derecha} alt="" />
                     </button>
                   </li>
                 ))
               : Array.from({ length: 3 }).map((_, i) => (
-                  <li
-                    className="w-[45vh] hover:-mt-[3px] animate-pulse"
-                    key={i}
-                  >
-                    <div className="bg-[#e7e7e7] h-[80vh] relative"></div>
+                  <li className="w-[45vh] animate-pulse" key={i}>
+                    <div className="bg-[#e7e7e7] h-[40vh] relative"></div>
                     <p className="pt-1 bg-[#e7e7e7] rounded-[10px] w-[160px] h-[23px] mt-[3px]"></p>
                   </li>
                 ))}
@@ -482,9 +503,9 @@ function HomePage() {
           data-aos-duration="3000"
         ></div>
         {/* Baner 3 mensajes */}
-        <section className="px-10 py-[10vh] flex justify-between font-light mx-10 text-center">
+        <section className="md:px-10 py-[10vh] text-[12px] flex gap-2 justify-between font-light mx-5 md:mx-10 text-center">
           <div data-aos="fade-up" data-aos-duration="2000">
-            <p className=" font-medium">Calidad que brilla</p>
+            <p className="font-medium">Calidad que brilla</p>
             <p>Acero inoxidable duradero y con estilo.</p>
           </div>
           <div data-aos="fade-up" data-aos-duration="2500">
@@ -492,7 +513,7 @@ function HomePage() {
             <p>Moderno, elegante y para todo momento.</p>
           </div>
           <div data-aos="fade-up" data-aos-duration="3000">
-            <p className=" font-medium">Hecho para durar</p>
+            <p className="font-medium">Hecho para durar</p>
             <p>Resistente al agua y hipoalergénico.</p>
           </div>
         </section>
@@ -527,7 +548,7 @@ function HomePage() {
                     className="hover:mt-[10px] w-[300px] min-w-[350px] text-md transition-all duration-700"
                     key={index}
                   >
-                    <div className="bg-[#ffffff] h-[70vh] group relative group/foto">
+                    <div className="bg-[#ffffff] h-[50vh] group relative group/foto">
                       {/* Juego de imagenes - Max 2 img */}
                       <img
                         src={product.img}
@@ -591,7 +612,7 @@ function HomePage() {
                     className="hover:-mt-[3px] w-[300px] min-w-[300px] animate-pulse"
                     key={i}
                   >
-                    <div className="bg-[#e7e7e7] h-[70vh] group relative group/foto"></div>
+                    <div className="bg-[#e7e7e7] h-[50vh] group relative group/foto"></div>
                     <p className="pt-1 bg-[#e7e7e7] rounded-[10px] w-[160px] h-[23px] my-[2px]"></p>
                     <div className="flex gap-3">
                       <p className="bg-[#e7e7e7] rounded-[10px] w-[60px] h-[23px]"></p>
@@ -611,37 +632,38 @@ function HomePage() {
 
         {/* Portada 3 */}
         <div
-          className="bg-[#F2D0BD] w-[100wh] h-[100vh] my-20 flex overflow-hidden"
+          className="bg-[#F2D0BD] w-[100wh] h-[50vh] md:h-[100vh] my-20 flex flex-col md:flex-row overflow-hidden"
           data-aos="fade-up"
           data-aos-duration="3000"
         >
-          <section className="w-auto font-light p-32 flex flex-col justify-between">
-            <div data-aos="fade-right" data-aos-duration="3000">
-              <p className="text-[50px] italic mb-10">
+          <section className="w-auto h-full font-light p-10 relative md:p-32 flex flex-col justify-between">
+            <div className="z-20" data-aos="fade-right" data-aos-duration="3000">
+              <p className="text-[28px] md:text-[50px] italic mb-8 md:mb-10">
                 Cada joya tiene una historia… ¿ya elegiste la tuya?
               </p>
               <a
                 href="#"
-                className="bg-black px-8 py-3 my-5 rounded-sm font-normal text-white text-md transition-all duration-500 hover:bg-white hover:text-black"
+                className="bg-black px-5 md:px-8 py-3 my-5 rounded-sm font-normal text-white text-sm md:text-md transition-all duration-500 hover:bg-white hover:text-black"
               >
                 Visitanos
               </a>
-            </div>
-            <div>
+              </div>
+            <div className="z-20">
               <p
-                className="text-[28px]"
+                className="text-[16px] md:text-[28px]"
                 data-aos="fade-up"
                 data-aos-duration="3000"
               >
-                Descubre lo nuevo en nuestra tienda virtual, nos encontramos en{" "}
+                Descubre lo nuevo en nuestra tienda virtual, nos encontramos en
                 <a href="#" className="font-medium hover:underline">
                   @mayikh.pe
                 </a>
               </p>
             </div>
+            <img src={icon_logo} alt="Imagen Logo" className="absolute -right-0 rotate-0 z-10 top-40 w-[250px] opacity-55" />
           </section>
           <div
-            className="bg-[#fff] border-t-2 border-b-2 w-[690px] flex flex-col justify-center items-center font-light"
+            className="hidden bg-[#fff] border-t-2 border-b-2 w-[690px] md:flex flex-col justify-center items-center font-light"
             style={{
               backgroundImage: `url(${""})`,
               backgroundSize: "cover",
