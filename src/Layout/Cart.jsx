@@ -39,85 +39,91 @@ const Cart = ({ isOpen, onCerrarCarrito, cart, onAumentar, onDisminuir }) => {
     Cookies.set("cart", JSON.stringify(carrito), { expires: 14 });
   };
 
-  useEffect(() => {
-    setActiveModal(false);
-    if (isOpen) {
-      setTimeout(() => {
-        setActiveModal(true);
-      }, 30);
-    }
-  }, [isOpen]);
+  // useEffect(() => {
+  //   setActiveModal(false);
+  //   if (isOpen) {
+  //     setTimeout(() => {
+  //       setActiveModal(true);
+  //     }, 30);
+  //   }
+  // }, [isOpen]);
 
   return (
     <>
       {/* Carrito */}
-      {isOpen && (
-        <div className="fixed top-0 left-0 w-screen h-screen md:bg-black md:bg-opacity-50 z-50">
-          <section className="w-full flex">
-            <div
-              className="w-full md:w-full h-[100vh] bg-[#00000000]"
-              onClick={() => (onCerrarCarrito, setActiveModal(false))}
-            ></div>
+      <div
+        className={`
+      fixed top-0 left-0 w-full h-[100vh] bg-white md:bg-black md:bg-opacity-50 z-50 transition-all duration-500 ease-in-out overflow-hidden
+      ${isOpen ? "w-[200vh] md:w-[70vh] opacity-100" : "w-[0vh] opacity-100"}`}
+      >
+        <section className="w-full flex">
+          <div
+            className="hidden md:block w-full md:w-full h-[100vh] bg-[#00000000]"
+            onClick={() => onCerrarCarrito}
+          ></div>
 
-            {/* Contenido carrito */}
-            <div
-              className={`
-                 h-[100vh] bg-white flex flex-col justify-between relative pb-16 transition-transform duration-300 overflow-hidden
-                ${activeModal ? "w-[200vh] md:w-[70vh]" : "w-[0vh]"}
-                `}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Contenido carrito vacio */}
-              {cart.length == null || cart - length == 0 ? (
-                <>
-                  <div className="m-3 w-auto h-auto flex justify-end">
-                    <img
-                      onClick={onCerrarCarrito}
-                      src={Close}
-                      className="w-[30px] hover:scale-110"
-                    />
-                  </div>
-                  <div className="h-full flex flex-col justify-center items-center text-[25px] font-light">
-                    <p>Tu carrito esta vacío.</p>
-                    <button
-                      onClick={onCerrarCarrito}
-                      className="mt-5 py-2 px-10 bg-black text-white text-[15px] hover:bg-[#2d2d2d]"
-                    >
-                      Ir a comprar
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <section className="px-[20px] my-[25px] w-auto h-auto flex justify-between font-extralight">
-                    <div className="flex items-center">
-                      <p className="text-[30px]">Carrito</p>
-                      <div className="bg-black text-[#fff] rounded-[100px] text-xs px-2 py-1 w-auto h-auto flex justify-center items-center ml-[10px]">
-                        <p className="text-center">{cart.length}</p>
-                      </div>
+          {/* Contenido carrito */}
+          <div
+            className="w-[200vh] md:w-[70v] h-[100vh] flex flex-col justify-between relative pb-16 overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Contenido carrito vacio */}
+            {cart.length == null || cart - length == 0 ? (
+              <>
+                <div className="m-3 w-auto h-auto flex justify-end">
+                  <img
+                    onClick={onCerrarCarrito}
+                    src={Close}
+                    className="w-[30px] hover:scale-110"
+                  />
+                </div>
+                <div className="h-full flex flex-col justify-center items-center text-[25px] font-light">
+                  <p>Tu carrito esta vacío.</p>
+                  <button
+                    onClick={onCerrarCarrito}
+                    className="mt-5 py-2 px-10 bg-black text-white text-[15px] hover:bg-[#2d2d2d]"
+                  >
+                    Ir a comprar
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <section className="px-[20px] my-[7px] py-[7px] w-auto h-auto border-b border-[#cecece]  flex justify-between font-extralight">
+                  <div className="flex items-center">
+                    <p className="text-[25px] md:text-[30px] font-medium">
+                      Carrito
+                    </p>
+                    <div className="bg-black text-[#fff] hidden md:flex rounded-[50%] text-xs w-[20px] h-[20px]  justify-center items-center ml-[10px]">
+                      <p className="text-center">{cart.length}</p>
                     </div>
-                    <img
-                      onClick={onCerrarCarrito}
-                      src={Close}
-                      className="w-[30px] hover:scale-110"
-                    />
-                  </section>
-                  <section className="w-full h-full px-[20px] relative flex flex-col text-[25px] font-light overflow-scroll">
-                    <ul className="h-full text-sm flex flex-col absolute bottom-0 justify-start overflow-scroll">
-                      {cart.length > 0
-                        ? cart.map((product, index) => (
-                            <li
-                              className="mb-3 p-2 border-t border-[#cecece] grid grid-cols-[auto,auto,60px] md:grid-cols-[auto,180px,60px] justify-between"
-                              key={index}
-                            >
-                              <div className="w-[75px] h-[75px] mr-[10px]">
+                    <p className="text-[12px] ml-2 text-center font-medium">
+                      ({cart.length} Productos)
+                    </p>
+                  </div>
+                  <img
+                    onClick={() => onCerrarCarrito()}
+                    src={Close}
+                    className="w-[25px] hover:rotate-45 transition-transform duration-300 md:hover:scale-110"
+                  />
+                </section>
+                <section className="bg-black h-full relative flex flex-col text-[25px] font-light overflow-scroll">
+                  <ul className="bg-white w-full px-[10px] h-full text-sm flex flex-col absolute bottom-0 justify-start overflow-scroll">
+                    {cart.length > 0
+                      ? cart.map((product, index) => (
+                          <li
+                            className="w-auto mb-3 p-2 grid grid-cols-[auto,auto] md:grid-cols-[auto,180px,60px] justify-between"
+                            key={index}
+                          >
+                            <section className="flex">
+                              <div className="w-[75px] h-auto mr-[10px] overflow-hidden">
                                 <img
                                   src={product.img}
-                                  className="w-full h-full"
+                                  className="w-full h-full object-cover scale-150"
                                 />
                               </div>
 
-                              <div className="">
+                              <div>
                                 <p>{product.nombre}</p>
                                 {/* Precio unidad */}
                                 <div className="text-[#000000] flex gap-1 items-center">
@@ -157,58 +163,59 @@ const Cart = ({ isOpen, onCerrarCarrito, cart, onAumentar, onDisminuir }) => {
                                   </button>
                                 </section>
                               </div>
-                              {/* Precio Total  - poer 3 price*/}
-                              <div className="h-auto w-auto">
-                                {product.oferta >= 1 ? (
-                                  <>
-                                    <p className="line-through text-xs -[#8d8d8d] text-end">
-                                      S/
-                                      {(
-                                        product.precio * product.cantidad
-                                      ).toFixed(2)}
-                                    </p>
-                                    <p className="w-full font-medium text-end">
-                                      S/
-                                      {(
-                                        (product.precio -
-                                          (product.precio * product.oferta) /
-                                            100) *
-                                        product.cantidad
-                                      ).toFixed(2)}
-                                    </p>
-                                  </>
-                                ) : (
-                                  <input
-                                    className="w-full font-medium text-end"
-                                    disabled
-                                    value={`S/ ${
+                            </section>
+                            {/* Precio Total  - poer 3 price*/}
+                            <div className="h-auto w-auto">
+                              {product.oferta >= 1 ? (
+                                <>
+                                  <p className="w-full font-medium text-end">
+                                    S/
+                                    {(
+                                      (product.precio -
+                                        (product.precio * product.oferta) /
+                                          100) *
+                                      product.cantidad
+                                    ).toFixed(2)}
+                                  </p>
+                                  <p className="line-through text-xs -[#8d8d8d] text-end">
+                                    S/
+                                    {(
                                       product.precio * product.cantidad
-                                    }`}
-                                  />
-                                )}
-                              </div>
-                            </li>
-                          ))
-                        : null}
-                    </ul>
-                  </section>
-                </>
-              )}
-              {cart.length == null || cart - length == 0 ? null : (
-                <div className="absolute flex justify-center items-center bottom-0  w-full p-5 bg-gradient-to-b from-white/40 to-[#ffffff]">
-                  <button
-                    onClick={onCerrarCarrito}
-                    className="w-full py-3 px-10 flex justify-between rounded-md bg-black text-white text-sm hover:bg-[#2d2d2d] transition-colors duration-300"
-                  >
-                    <p>Ir a comprar</p>
-                    <p className="font-bold">S/ {totalprice}</p>
-                  </button>
-                </div>
-              )}
-            </div>
-          </section>
-        </div>
-      )}
+                                    ).toFixed(2)}
+                                  </p>
+                                </>
+                              ) : (
+                                <input
+                                  className="w-full font-medium text-end"
+                                  disabled
+                                  value={`S/ ${
+                                    product.precio * product.cantidad
+                                  }`}
+                                />
+                              )}
+                            </div>
+                          </li>
+                        ))
+                      : null}
+                  </ul>
+                </section>
+              </>
+            )}
+            {cart.length == null || cart - length == 0 ? null : (
+              <div className="absolute flex justify-center items-center bottom-0  w-full p-5 bg-gradient-to-b from-white/40 to-[#ffffff]">
+                <button
+                  onClick={onCerrarCarrito}
+                  className="w-full py-[11px] px-10 flex font-medium justify-center gap-2 rounded-none bg-black text-white text-xs hover:bg-[#2d2d2d] transition-colors duration-300"
+                >
+                  <p>IR A COMPRAR</p>
+                  <p>•</p>
+                  <p>S/ {totalprice}</p>
+                </button>
+              </div>
+            )}
+          </div>
+        </section>
+      </div>
     </>
   );
 };

@@ -65,17 +65,15 @@ function Header_Movile({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
     <>
       <div className="font-sans select-none">
         <div
-          className={`h-[60px] flex justify-between relative items-center px-5 md:px-10 transition-colors md:duration-300
-            ${navbar ? "bg-[#ffffff00] text-[#fff]" : "bg-[#ffffff] text-black"}
-            ${active ? "bg-white text-black" : ""}
-            ${isHover ? "bg-white text-black" : ""}
+          className={`h-[60px] flex justify-between text-[#fff] relative items-center px-5 md:px-10
+            ${active || isHover || !navbar  && "bg-white text-black"}
+            ${isHover  && "bg-white text-black"}
           `}
         >
           <section className="flex gap-4">
             {/* Header - MENU ANDROID */}
             <div
-              className="h-auto group px-3 py-2 rounded-md flex overflow-hidden"
-              onMouseEnter={() => setActive(true)}
+              className="h-auto px-3 py-2 rounded-md flex overflow-hidden"
               onClick={() => InactiveNavbar()}
             >
               <div className="flex gap-2 items-center">
@@ -83,7 +81,7 @@ function Header_Movile({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
                   <img
                     src={isHover && active ? Close : Menu2}
                     alt="Icono Menu"
-                    className={` transition-all duration-300
+                    className={` transition-transform duration-300
                   ${active ? "rotate-90" : " rotate-0"}
                   `}
                   />
@@ -96,17 +94,12 @@ function Header_Movile({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
                   `}
                   />
                 )}
-
-                <CustomLink
-                  to="/"
-                  label="MENU"
-                  onMouseEnter={() => setActive(true)}
-                />
+                <img src={navbar && !isHover && !active ? ImagenLogo2 : ImagenLogo}alt="Logo" className="w-[30px] mt-1" />
               </div>
 
               <section
                 className={`
-                absolute w-full flex flex-col gap-0 overflow-hidden left-[0px] top-full transition-all duration-500 bg-gradient-to-br from-gray-50 to-white shadow-2xl z-50
+                absolute w-full text-[#000] flex flex-col gap-0 overflow-hidden left-[0px] top-full transition-all duration-500 ease-in-out bg-gradient-to-br from-gray-50 to-white shadow-2xl z-50
                 ${active ? "h-[350px]" : "h-0"}
                 `}
               >
@@ -613,7 +606,7 @@ function Header_Movile({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
                   className={`
                     rounded-[100px] text-[10px] w-[15px] h-[15px] absolute right-0 -mt-[10px]
                   ${
-                    navbar && !active
+                    navbar && !isHover && !active
                       ? "bg-[#fff] text-black"
                       : "bg-[#000000] text-white"
                   } 

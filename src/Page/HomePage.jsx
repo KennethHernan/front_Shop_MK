@@ -182,6 +182,8 @@ function HomePage() {
     setIsOpen(true);
   };
   const closeCarrito = () => {
+    console.log("close cart");
+    
     setIsOpen(false);
   };
   const abrirModalCart = (product) => {
@@ -191,18 +193,6 @@ function HomePage() {
   const closeModalCart = () => {
     setIsOpenCart(false);
   };
-
-  useEffect(() => {
-    if (isOpen || isOpenCart) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [isOpen, isOpenCart]);
 
   useEffect(() => {
     const handleScroll = () => {
