@@ -22,7 +22,14 @@ function CustomLink({ to, label, ...props }) {
   );
 }
 
-const AddCart = ({ isOpenCart, onCerrarCart, onProducto, onAgregar, onAnimarCarrito, imgRef }) => {
+const AddCart = ({
+  isOpenCart,
+  onCerrarCart,
+  onProducto,
+  onAgregar,
+  onAnimarCarrito,
+  imgRef,
+}) => {
   const [añadirCart, setAñadirCart] = useState(false);
   const [tallaSeleccionada, setTallaSeleccionada] = useState(null);
   const tallas = ["7", "8", "9"];
@@ -34,7 +41,6 @@ const AddCart = ({ isOpenCart, onCerrarCart, onProducto, onAgregar, onAnimarCarr
     }, 2000);
   };
 
-
   return (
     <>
       {/* Carrito */}
@@ -45,38 +51,40 @@ const AddCart = ({ isOpenCart, onCerrarCart, onProducto, onAgregar, onAnimarCarr
         >
           {/* Contenido carrito */}
           <section
-            className="w-[100vh] h-[70vh] flex bg-white"
+            className="w-[40vh] md:w-[100vh] h-[70vh] flex flex-col md:flex-row bg-white overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             <div
-              className="w-[50vh] h-auto flex flex-col overflow-scroll hide-scrollbar"
+              className="w-full md:w-[50vh] h-[50vh] md:h-auto flex gap-1 flex-row md:flex-col overflow-scroll hide-scrollbar"
               onClick={(e) => e.stopPropagation()}
             >
               <img
                 src={onProducto.img}
-                className="w-full h-[65vh] object-cover bg-cover bg-center mb-1"
+                className="w-[38vh] md:w-full h-full md:h-[65vh] object-cover bg-cover bg-center flex"
                 ref={imgRef}
               />
               <img
                 src={onProducto.img}
-                className="w-full h-[65vh] object-cover bg-cover bg-center mb-1"
+                className="w-[38vh] md:w-full h-full md:h-[65vh] object-cover bg-cover bg-center flex"
               />
               <img
                 src={onProducto.img}
-                className="w-full h-[65vh] object-cover bg-cover bg-center"
+                className="w-[38vh] md:w-full h-full md:h-[65vh] object-cover bg-cover bg-center flex"
               />
             </div>
             {/* Contenido cart */}
-            <div className="w-[50vh] h-auto relative flex flex-col font-light m-10">
+            <div className="w-auto md:w-[50vh] h-auto relative flex flex-col font-light m-10 md:m-10">
               <button className="absolute -top-5 -right-5 w-[25px]">
                 <img
                   onClick={onCerrarCart}
                   src={Close}
-                  className="w-[25px] hover:scale-110"
+                  className="scale-110 md:scale-100 md:w-[25px] hover:scale-110"
                 />
               </button>
-              <p className="font-black text-[30px]">{onProducto.nombre}</p>
-              <section className="flex font-sans text-[20px] mb-2 text-[#a1a1a1]">
+              <p className="font-black text-lg md:text-[30px]">
+                {onProducto.nombre}
+              </p>
+              <section className="flex font-sans text-lg md:text-[20px] mb-2 text-[#a1a1a1]">
                 <p>S/.</p>
                 <p>{onProducto.precio}</p>
               </section>
@@ -102,8 +110,10 @@ const AddCart = ({ isOpenCart, onCerrarCart, onProducto, onAgregar, onAnimarCarr
                 </>
               )}
               <button
-                className="w-full mt-5 py-3 px-10 bg-black text-white text-xs hover:bg-[#2d2d2d] flex items-center justify-center transition-all duration-300"
-                onClick={() => (onAgregar(onProducto), Agregar(), onAnimarCarrito(imgRef))}
+                className="w-full mt-5 py-3 px-10 bg-black text-white text-xs rounded-sm hover:bg-[#2d2d2d] flex items-center justify-center transition-all duration-300"
+                onClick={() => (
+                  onAgregar(onProducto), Agregar(), onAnimarCarrito(imgRef)
+                )}
               >
                 {!añadirCart ? (
                   <>
@@ -118,7 +128,7 @@ const AddCart = ({ isOpenCart, onCerrarCart, onProducto, onAgregar, onAnimarCarr
                 )}
               </button>
 
-              <button className="w-full mt-3 py-3 px-10 bg-black text-white text-xs hover:bg-[#2d2d2d] transition-all duration-300">
+              <button className="w-full mt-3 py-3 px-10 bg-black rounded-sm text-white text-xs hover:bg-[#2d2d2d] transition-all duration-300">
                 Ir a comprar
               </button>
             </div>

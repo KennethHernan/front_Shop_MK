@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 
 const Cart = ({ isOpen, onCerrarCarrito, cart, onAumentar, onDisminuir }) => {
   const [totalprice, setTotalPrice] = useState("");
+  const [activeModal, setActiveModal] = useState(false);
 
   useEffect(() => {
     if (!cart || !Array.isArray(cart) || cart.length === 0) {
@@ -38,19 +39,32 @@ const Cart = ({ isOpen, onCerrarCarrito, cart, onAumentar, onDisminuir }) => {
     Cookies.set("cart", JSON.stringify(carrito), { expires: 14 });
   };
 
+  useEffect(() => {
+    setActiveModal(false);
+    if (isOpen) {
+      setTimeout(() => {
+        setActiveModal(true);
+      }, 30);
+    }
+  }, [isOpen]);
+
   return (
     <>
       {/* Carrito */}
       {isOpen && (
-        <div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-50 z-50">
+        <div className="fixed top-0 left-0 w-screen h-screen md:bg-black md:bg-opacity-50 z-50">
           <section className="w-full flex">
             <div
-              className="w-full h-[100vh] bg-[#00000000]"
-              onClick={onCerrarCarrito}
+              className="w-full md:w-full h-[100vh] bg-[#00000000]"
+              onClick={() => (onCerrarCarrito, setActiveModal(false))}
             ></div>
+
             {/* Contenido carrito */}
             <div
-              className="w-[70vh] h-[100vh] bg-white flex flex-col justify-between relative pb-16"
+              className={`
+                 h-[100vh] bg-white flex flex-col justify-between relative pb-16 transition-transform duration-300 overflow-hidden
+                ${activeModal ? "w-[200vh] md:w-[70vh]" : "w-[0vh]"}
+                `}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Contenido carrito vacio */}
@@ -89,11 +103,11 @@ const Cart = ({ isOpen, onCerrarCarrito, cart, onAumentar, onDisminuir }) => {
                     />
                   </section>
                   <section className="w-full h-full px-[20px] relative flex flex-col text-[25px] font-light overflow-scroll">
-                    <ul className="h-full text-sm flex flex-col absolute bottom-0 justify-start transition-all duration-700 overflow-scroll">
+                    <ul className="h-full text-sm flex flex-col absolute bottom-0 justify-start overflow-scroll">
                       {cart.length > 0
                         ? cart.map((product, index) => (
                             <li
-                              className="mb-3 p-2 border-t border-[#cecece] transition-all duration-700 grid grid-cols-[auto,180px,60px] justify-between"
+                              className="mb-3 p-2 border-t border-[#cecece] grid grid-cols-[auto,auto,60px] md:grid-cols-[auto,180px,60px] justify-between"
                               key={index}
                             >
                               <div className="w-[75px] h-[75px] mr-[10px]">
@@ -184,7 +198,7 @@ const Cart = ({ isOpen, onCerrarCarrito, cart, onAumentar, onDisminuir }) => {
                 <div className="absolute flex justify-center items-center bottom-0  w-full p-5 bg-gradient-to-b from-white/40 to-[#ffffff]">
                   <button
                     onClick={onCerrarCarrito}
-                    className="w-full py-3 px-10 flex justify-between rounded-md bg-black text-white text-sm hover:bg-[#2d2d2d] transition-all duration-300"
+                    className="w-full py-3 px-10 flex justify-between rounded-md bg-black text-white text-sm hover:bg-[#2d2d2d] transition-colors duration-300"
                   >
                     <p>Ir a comprar</p>
                     <p className="font-bold">S/ {totalprice}</p>

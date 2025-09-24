@@ -15,9 +15,9 @@ import Footer from "../Layout/Footer";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { nav } from "framer-motion/client";
-import Menu from "../assets/icon_menu.svg"
-import Menu2 from "../assets/icon_menu_black.svg"
-import Close from "../assets/close_new.svg"
+import Menu from "../assets/icon_menu.svg";
+import Menu2 from "../assets/icon_menu_black.svg";
+import Close from "../assets/close_new.svg";
 
 function CustomLink({ to, label, ...props }) {
   AOS.init();
@@ -28,7 +28,7 @@ function CustomLink({ to, label, ...props }) {
     <Link to={to}>
       <p
         {...props}
-        className={`text-[11px] md:text-xs font-medium hover:font-black 
+        className={`text-[11px] md:text-xs font-medium 
           ${isActive && "font-semibold"}
         `}
       >
@@ -43,18 +43,18 @@ function Header_Movile({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
   const [active, setActive] = useState(false);
   const [isHover, setIsHover] = useState(false);
 
-   const InactiveNavbar = () => {
-     if (!isHover) {
-       setActive(true);
-       setIsHover(true)
-     }
-     if (isHover) {
-         setActive(false);
-       setTimeout(() => {
-         setIsHover(false);
-       }, 500);
-     }
-   };
+  const InactiveNavbar = () => {
+    if (!isHover) {
+      setActive(true);
+      setIsHover(true);
+    }
+    if (isHover) {
+      setActive(false);
+      setTimeout(() => {
+        setIsHover(false);
+      }, 500);
+    }
+  };
 
   const Home = () => {
     console.log("Click");
@@ -65,9 +65,7 @@ function Header_Movile({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
     <>
       <div className="font-sans select-none">
         <div
-          onMouseEnter={() => setActive(true)}
-          onMouseLeave={() => InactiveNavbar(true)}
-          className={`h-[60px] flex justify-between relative items-center px-5 md:px-10 transition-colors duration-300
+          className={`h-[60px] flex justify-between relative items-center px-5 md:px-10 transition-colors md:duration-300
             ${navbar ? "bg-[#ffffff00] text-[#fff]" : "bg-[#ffffff] text-black"}
             ${active ? "bg-white text-black" : ""}
             ${isHover ? "bg-white text-black" : ""}
@@ -76,38 +74,42 @@ function Header_Movile({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
           <section className="flex gap-4">
             {/* Header - MENU ANDROID */}
             <div
-              className="h-auto group px-3 py-2 rounded-md flex transition-all duration-1000 overflow-hidden"
+              className="h-auto group px-3 py-2 rounded-md flex overflow-hidden"
+              onMouseEnter={() => setActive(true)}
               onClick={() => InactiveNavbar()}
             >
               <div className="flex gap-2 items-center">
                 {isHover ? (
-                <img 
-                 src={isHover && active ? Close : Menu2} 
-                alt="Icono Menu"
-                className={` transition-all duration-300
+                  <img
+                    src={isHover && active ? Close : Menu2}
+                    alt="Icono Menu"
+                    className={` transition-all duration-300
                   ${active ? "rotate-90" : " rotate-0"}
                   `}
-                /> ): (
-                  <img 
-                 src={navbar && !isHover && !active ? Menu : Menu2} 
-                alt="Icono Menu"
-                className={` transition-all duration-300
+                  />
+                ) : (
+                  <img
+                    src={navbar && !isHover && !active ? Menu : Menu2}
+                    alt="Icono Menu"
+                    className={` transition-all duration-300
                   ${active ? "rotate-90" : " rotate-0"}
                   `}
-                /> 
+                  />
                 )}
 
                 <CustomLink
                   to="/"
                   label="MENU"
-                  onMouseEnter={() => (setActive(true))}
+                  onMouseEnter={() => setActive(true)}
                 />
               </div>
 
-              <section className={`
+              <section
+                className={`
                 absolute w-full flex flex-col gap-0 overflow-hidden left-[0px] top-full transition-all duration-500 bg-gradient-to-br from-gray-50 to-white shadow-2xl z-50
                 ${active ? "h-[350px]" : "h-0"}
-                `}>
+                `}
+              >
                 <div className="container text-xs mx-auto px-8 py-6 flex gap-8 h-full">
                   {/* Columna 1: ANILLOS */}
                   <div className="flex-1 rounded-lg p-0">
@@ -226,7 +228,7 @@ function Header_Movile({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
             {/* Header - JOYERIA */}
             <div
               className="hidden md:flex h-auto group px-3 py-2 rounded-md transition-all duration-1000 overflow-hidden"
-              onMouseEnter={() => (setActive(true))}
+              onMouseEnter={() => setActive(true)}
             >
               <CustomLink
                 to=""
@@ -354,12 +356,12 @@ function Header_Movile({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
             {/* Header - SOBRE MK */}
             <div
               className="hidden md:flex h-auto group px-3 py-2 rounded-md transition-all duration-1000"
-              onMouseEnter={() => (setActive(true))}
+              onMouseEnter={() => setActive(true)}
             >
               <CustomLink
                 to=""
                 label="SOBRE MK"
-                onMouseEnter={() => (setActive(true))}
+                onMouseEnter={() => setActive(true)}
               />
               <section className="absolute w-screen flex flex-row gap-0 h-0 group-hover:h-[350px] overflow-hidden left-[0px] top-full transition-all duration-500 bg-gradient-to-br from-gray-50 to-white shadow-2xl z-50">
                 <div className="container text-xs mx-auto px-8 py-6 flex gap-8 h-full">
@@ -454,12 +456,12 @@ function Header_Movile({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
             {/* Header - LO NUEVO */}
             <div
               className="hidden md:flex h-auto group px-3 py-2 rounded-md transition-all duration-1000"
-              onMouseEnter={() => ( setActive(true))}
+              onMouseEnter={() => setActive(true)}
             >
               <CustomLink
                 to=""
                 label="LO NUEVO"
-                onMouseEnter={() => (setActive(true))}
+                onMouseEnter={() => setActive(true)}
               />
               <section className="absolute text-xs w-screen flex flex-row gap-0 h-0 group-hover:h-[350px] overflow-hidden left-[0px] top-full transition-all duration-500 bg-gradient-to-br from-gray-50 to-white shadow-2xl z-50">
                 <div className="container mx-auto px-8 py-6 flex gap-8 h-full">

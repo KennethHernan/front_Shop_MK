@@ -6,23 +6,19 @@ import icon_logo from "../assets/icon_logotexto_white.svg";
 import AddCart from "../Layout/addCart";
 import Footer from "../Layout/Footer";
 import Add from "../assets/icon-shop.svg";
-import img_2 from "../assets/img_2.png";
-import img_1 from "../assets/img_1.png";
 import Check from "../assets/Check.svg";
 import arrow_derecha from "../assets/Arrorw-Derecha.svg";
 import ArrowLeft from "../assets/ArrowLeft.svg";
 import { useEffect, useState, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
 import Cookies from "js-cookie";
-import Fondo from "../assets/fondo1.jpg";
-import Fondo2 from "../assets/fondo2.jpg";
+import Fondo from "../assets/fondo_portada.webp";
+import Fondo2 from "../assets/fondo_portada2.webp";
 import { motion, useScroll } from "framer-motion";
-import PruebaMotion from "../Components/pruebaMOTION";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
 function HomePage() {
-  AOS.init();
   const { listarProducto, productAll, listarCategoria, categoryAll } =
     useAuth();
   const [navbar, setNavbar] = useState(true);
@@ -33,8 +29,11 @@ function HomePage() {
   const [MostrarBotonIzquierdo, setMostrarBotonIzquierdo] = useState(false);
   const [MostrarBotonDerecho2, setMostrarBotonDerecho2] = useState(false);
   const [MostrarBotonIzquierdo2, setMostrarBotonIzquierdo2] = useState(false);
+  const [MostrarBotonDerecho3, setMostrarBotonDerecho3] = useState(false);
+  const [MostrarBotonIzquierdo3, setMostrarBotonIzquierdo3] = useState(false);
   const ulRef = useRef(null);
   const ulRef2 = useRef(null);
+  const ulRef3 = useRef(null);
 
   const [carrito, setCarrito] = useState(false);
   const [productoModal, setProductoModal] = useState([]);
@@ -49,8 +48,14 @@ function HomePage() {
     listarProducto();
     listarCategoria();
     ActualizarCarrito();
+
+    AOS.init({
+      duration: 3000,
+      once: true,
+    });
   }, []);
 
+  // Boton desplazamiento lista de Productos 1
   useEffect(() => {
     const ul = ulRef.current;
     if (!ul) return;
@@ -84,6 +89,7 @@ function HomePage() {
     };
   }, [productAll]);
 
+  // Boton desplazamiento lista de Productos 2
   useEffect(() => {
     const ul2 = ulRef2.current;
     if (!ul2) return;
@@ -117,6 +123,40 @@ function HomePage() {
     };
   }, [productAll]);
 
+  // Boton desplazamiento lista de Categoria 1
+  useEffect(() => {
+    const ul3 = ulRef3.current;
+    if (!ul3) return;
+
+    const checkOverflow = () => {
+      const hasOverflow = ul3.scrollWidth > ul3.clientWidth + 1;
+      setMostrarBotonDerecho3(hasOverflow);
+      setMostrarBotonIzquierdo3(false);
+    };
+
+    const handleScroll = () => {
+      const scrollLeft = ul3.scrollLeft;
+      const scrollRight = ul3.scrollLeft + ul3.clientWidth;
+      const scrollWidth = ul3.scrollWidth;
+
+      const alInicio = scrollLeft <= 5;
+      const alFinal = scrollRight >= scrollWidth - 5;
+
+      setMostrarBotonIzquierdo3(!alInicio);
+      setMostrarBotonDerecho3(!alFinal);
+    };
+
+    // Revisar al montar
+    checkOverflow();
+    ul3.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", checkOverflow);
+
+    return () => {
+      ul3.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", checkOverflow);
+    };
+  }, [categoryAll]);
+
   const scrollDerecha = () => {
     ulRef.current.scrollBy({ left: 600, behavior: "smooth" });
   };
@@ -131,6 +171,13 @@ function HomePage() {
   const scrollIzquierda2 = () => {
     ulRef2.current.scrollBy({ left: -600, behavior: "smooth" });
   };
+  const scrollDerecha3 = () => {
+    ulRef3.current.scrollBy({ left: 600, behavior: "smooth" });
+  };
+  const scrollIzquierda3 = () => {
+    ulRef3.current.scrollBy({ left: -600, behavior: "smooth" });
+  };
+
   const abrirCarrito = () => {
     setIsOpen(true);
   };
@@ -305,7 +352,6 @@ function HomePage() {
             cantidadCart={carrito}
             cartIconRef={cartIconRef}
           />
-
         </div>
         {/* Header Movile */}
         <div className="block md:hidden sticky top-0 left-0 w-full z-40">
@@ -315,10 +361,14 @@ function HomePage() {
             cantidadCart={carrito}
             cartIconRef={cartIconRef}
           />
-          
         </div>
         <div className="w-full h-[60vh] overflow-hidden -mt-[60px] bg-[#c5c5c5] flex justify-center items-center">
-          <img src={Fondo} alt="Fondo" className="object-cover w-full h-full" />
+          <img
+            src={Fondo}
+            alt="Fondo"
+            loading="eager"
+            className="object-cover w-full h-full"
+          />
         </div>
 
         <p
@@ -331,17 +381,21 @@ function HomePage() {
 
         {/* Lista de Productos */}
         <section
-          className="relative flex items-center p-1 group/button"
+          className="relative flex items-center group/button"
           style={{ width: "100%" }}
           data-aos="fade-up"
           data-aos-duration="3000"
         >
           {MostrarBotonIzquierdo && (
             <button
-              className="bg-[#ffffff] z-20 absolute left-[20px] w-[45px] h-[45px] rounded-[50px] justify-center items-center shadow-md hover:scale-105 transition-all duration-300 hidden group-hover/button:flex"
+              className="bg-[#ffffff] z-20 absolute left-[20px] w-[45px] h-[45px] rounded-[50px] justify-center items-center shadow-md hover:scale-105 transition-transform duration-300 hidden group-hover/button:flex"
               onClick={scrollIzquierda}
             >
-              <img src={ArrowLeft} className="w-[6px] rotate-180" />
+              <img
+                src={ArrowLeft}
+                loading="eager"
+                className="w-[6px] rotate-180"
+              />
             </button>
           )}
           <ul
@@ -356,18 +410,20 @@ function HomePage() {
             {productAll.length > 0
               ? productAll.map((product, index) => (
                   <li
-                    className="hover:mt-[10px] w-[300px] min-w-[350px] text-md transition-all duration-700"
+                    className="hover:mt-[10px] w-[300px] min-w-[350px] text-md transition-transform duration-300 first:pl-5 last:pr-5"
                     key={index}
                   >
                     <div className="bg-[#a1a1a1] h-[50vh] group relative group/foto">
                       {/* Juego de imagenes - Max 2 img */}
                       <img
                         src={product.img}
-                        className="absolute top-0 opacity-100 w-full h-full object-cover transition-all duration-700"
+                        className="absolute top-0 opacity-100 w-full h-full object-cover"
+                        loading="lazy"
                       />
                       <img
                         src={Fondo}
-                        className="absolute top-0 opacity-0 w-full h-full object-cover group-hover/foto:opacity-100 transition-all duration-700"
+                        className="absolute top-0 opacity-0 w-full h-full object-cover group-hover/foto:opacity-100 transition-opacity duration-300"
+                        loading="lazy"
                       />
                       {product.stock <= 0 && (
                         <button className="bg-[#000000] absolute bottom-1 px-3 py-2 m-2 rounded-[5px] text-[#fff] text-[14px] disabled">
@@ -381,15 +437,23 @@ function HomePage() {
                         >
                           {añadirCart ? (
                             <>
-                              <img src={Check} className="w-[13px] h-[13px]" />
-                              <p className="ml-2 hidden w-0 group-hover/sub:w-5 transition-all duration-700">
+                              <img
+                                src={Check}
+                                className="w-[13px] h-[13px]"
+                                loading="eager"
+                              />
+                              <p className="ml-2 hidden w-0 group-hover/sub:w-5 transition-transform duration-300">
                                 AÑADIDO
                               </p>
                             </>
                           ) : (
                             <>
-                              <img src={Add} className="w-[13px] h-[13px]" />
-                              <p className="w-0 text-white group-hover/sub:w-10 group-hover/sub:ml-2 group-hover/sub:text-black transition-all duration-700">
+                              <img
+                                src={Add}
+                                className="w-[13px] h-[13px]"
+                                loading="eager"
+                              />
+                              <p className="w-0 text-white group-hover/sub:w-10 group-hover/sub:ml-2 group-hover/sub:text-black transition-all duration-300">
                                 AÑADIR
                               </p>
                             </>
@@ -420,20 +484,20 @@ function HomePage() {
                 ))
               : Array.from({ length: 5 }).map((_, i) => (
                   <li
-                    className="hover:-mt-[3px] w-[300px] min-w-[300px] animate-pulse"
+                    className="w-[300px] min-w-[350px] text-md animate-pulse first:pl-5 last:pr-5"
                     key={i}
                   >
                     <div className="bg-[#e7e7e7] h-[50vh] group relative group/foto"></div>
-                    <p className="pt-1 bg-[#e7e7e7] rounded-[10px] w-[160px] h-[23px] my-[2px]"></p>
+                    <p className="pt-1 bg-[#e7e7e7] rounded-[5px] w-[160px] h-[23px] my-[2px]"></p>
                     <div className="flex gap-3">
-                      <p className="bg-[#e7e7e7] rounded-[10px] w-[60px] h-[23px]"></p>
+                      <p className="bg-[#e7e7e7] rounded-[5px] w-[60px] h-[23px]"></p>
                     </div>
                   </li>
                 ))}
           </ul>
-          {MostrarBotonDerecho && (
+          {MostrarBotonDerecho && productAll.length > 0 && (
             <button
-              className="bg-[#ffffff] z-20 absolute  right-[20px] w-[45px] h-[45px] rounded-[50px] justify-center items-center shadow-md hover:scale-105 transition-all duration-300 hidden group-hover/button:flex"
+              className="bg-[#ffffff] z-20 absolute  right-[20px] w-[45px] h-[45px] rounded-[50px] justify-center items-center shadow-md hover:scale-105 transition-transform duration-300 hidden group-hover/button:flex"
               onClick={scrollDerecha}
             >
               <img src={ArrowLeft} className="w-[6px]" />
@@ -443,11 +507,7 @@ function HomePage() {
 
         {/* Frase */}
         <div className="w-auto text-[20px] font-light px-10 my-20 text-center italic overflow-hidden">
-          <p
-            className=""
-            data-aos="fade-left"
-            data-aos-duration="3000"
-          >
+          <p className="" data-aos="fade-left" data-aos-duration="3000">
             "Cada pieza fue creada para recordarte que eres única, valiosa y
             capaz de conquistar el mundo. No solo uses joyas, exprésate con
             ellas"
@@ -456,41 +516,83 @@ function HomePage() {
 
         {/* Lista de Categorias */}
         <section
-          className="w-full z-0 mt-5 overflow-hidden"
+          className="relative flex items-center overflow-hidden group/button"
           data-aos="fade-up"
           data-aos-duration="3000"
+          style={{ width: "100%" }}
         >
-          <ul className="h-auto flex gap-1 px-0 py-2 font-light text-[16px] select-none">
+          {MostrarBotonIzquierdo3 && (
+            <button
+              className="bg-[#ffffff] z-20 absolute left-[20px] w-[45px] h-[45px] rounded-[50px] justify-center items-center shadow-md hover:scale-105 transition-transform duration-300 hidden group-hover/button:flex"
+              onClick={scrollIzquierda3}
+            >
+              <img
+                src={ArrowLeft}
+                alt="Boton para desplazar a la Izquierda"
+                className="w-[6px] rotate-180"
+              />
+            </button>
+          )}
+          <ul
+            ref={ulRef3}
+            className="flex justify-start font-light text-[16px] select-none space-x-1 overflow-x-auto no-scrollbar ml-0"
+            style={{
+              maxWidth: "100%",
+              width: "100%",
+              display: "flex",
+            }}
+          >
             {categoryAll.length > 0
               ? categoryAll.map((category, index) => (
                   <li
-                    className="w-[80vh] hover:-mb-[13px]  transition-all duration-700"
+                    className="hover:mt-[10px] w-[80vh] min-w-[350px] text-md first:pl-5 last:pr-5"
                     key={index}
                   >
-                    <div className="h-[70vh] relative overflow-hidden flex justify-center items-center">
+                    <div className="bg-[#ffffff] h-[70vh] group relative group/foto">
+                      {/* Juego de imagenes - Max 2 img */}
                       <img
                         src={category.img}
-                        className="object-cover hover:scale-105 transition-all duration-700"
+                        alt="producto"
+                        className="absolute top-0 opacity-100 w-full h-full object-cover"
+                        loading="lazy"
                       />
+                      <img
+                        src={Fondo}
+                        alt="producto"
+                        className="absolute top-0 opacity-0 w-full h-full object-cover group-hover/foto:opacity-100 transition-opacity duration-300"
+                        loading="lazy"
+                      />
+                      <div className="absolute bottom-1 px-3 py-2 m-5 text-[#fff] text-[25px] font-extrabold disabled">
+                        <p className="-mb-3">{category.nombre}</p>
+                        <button className="text-sm md:font-medium border-b">
+                          VER MÁS
+                        </button>
+                      </div>
                     </div>
-                    <button
-                      className="flex items-center gap-3 mt-2"
-                      onClick={() => handleCategoria(category)}
-                    >
-                      <p className="">{category.nombre}</p>
-                      <img src={arrow_derecha} alt="" />
-                    </button>
                   </li>
                 ))
-              : Array.from({ length: 3 }).map((_, i) => (
-                  <li className="w-[45vh] animate-pulse" key={i}>
-                    <div className="bg-[#e7e7e7] h-[40vh] relative"></div>
-                    <p className="pt-1 bg-[#e7e7e7] rounded-[10px] w-[160px] h-[23px] mt-[3px]"></p>
+              : Array.from({ length: 5 }).map((_, i) => (
+                  <li
+                    className="w-[80vh] min-w-[350px] text-md animate-pulse first:pl-5 last:pr-5"
+                    key={i}
+                  >
+                    <div className="bg-[#e7e7e7] h-[70vh] group relative group/foto"></div>
                   </li>
                 ))}
           </ul>
+          {MostrarBotonDerecho3 && categoryAll.length > 0 && (
+            <button
+              className="bg-[#ffffff] z-20 absolute  right-[20px] w-[45px] h-[45px] rounded-[50px] justify-center items-center shadow-md hover:scale-105 transition-transform duration-300 hidden group-hover/button:flex"
+              onClick={scrollDerecha3}
+            >
+              <img
+                src={ArrowLeft}
+                alt="Boron para desplazar a la Derecha"
+                className="w-[6px]"
+              />
+            </button>
+          )}
         </section>
-
         {/* Portada 2 */}
         <div
           className="bg-[#bebebe] h-[100vh] mt-10"
@@ -499,6 +601,7 @@ function HomePage() {
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
+          loading="eager"
           data-aos="fade-up"
           data-aos-duration="3000"
         ></div>
@@ -520,22 +623,26 @@ function HomePage() {
 
         {/* Seccion de producto 2 */}
         <section
-          className="relative flex items-center overflow-hidden p-1 group/button"
+          className="relative flex items-center overflow-hidden group/button"
           data-aos="fade-up"
           data-aos-duration="3000"
           style={{ width: "100%" }}
         >
           {MostrarBotonIzquierdo2 && (
             <button
-              className="bg-[#ffffff] z-20 absolute left-[20px] w-[45px] h-[45px] rounded-[50px] justify-center items-center shadow-md hover:scale-105 transition-all duration-300 hidden group-hover/button:flex"
+              className="bg-[#ffffff] z-20 absolute left-[20px] w-[45px] h-[45px] rounded-[50px] justify-center items-center shadow-md hover:scale-105 transition-transform duration-300 hidden group-hover/button:flex"
               onClick={scrollIzquierda2}
             >
-              <img src={ArrowLeft} className="w-[6px] rotate-180" />
+              <img
+                src={ArrowLeft}
+                alt="Boton para desplazar a la Izquierda"
+                className="w-[6px] rotate-180"
+              />
             </button>
           )}
           <ul
             ref={ulRef2}
-            className="flex justify-start font-light text-[16px] select-none space-x-1 overflow-x-auto no-scrollbar ml-10"
+            className="flex justify-start font-light text-[16px] select-none space-x-1 overflow-x-auto no-scrollbar ml-0"
             style={{
               maxWidth: "100%",
               width: "100%",
@@ -545,18 +652,22 @@ function HomePage() {
             {productAll.length > 0
               ? productAll.map((product, index) => (
                   <li
-                    className="hover:mt-[10px] w-[300px] min-w-[350px] text-md transition-all duration-700"
+                    className="hover:mt-[10px] w-[300px] min-w-[350px] text-md first:pl-5 last:pr-5"
                     key={index}
                   >
                     <div className="bg-[#ffffff] h-[50vh] group relative group/foto">
                       {/* Juego de imagenes - Max 2 img */}
                       <img
                         src={product.img}
-                        className="absolute top-0 opacity-100 w-full h-full object-cover transition-all duration-700"
+                        alt="producto"
+                        className="absolute top-0 opacity-100 w-full h-full object-cover"
+                        loading="lazy"
                       />
                       <img
                         src={Fondo}
-                        className="absolute top-0 opacity-0 w-full h-full object-cover group-hover/foto:opacity-100 transition-all duration-700"
+                        alt="producto"
+                        className="absolute top-0 opacity-0 w-full h-full object-cover group-hover/foto:opacity-100 transition-opacity duration-300"
+                        loading="lazy"
                       />
                       {product.stock <= 0 && (
                         <button className="bg-[#000000] absolute bottom-1 px-3 py-2 m-2 rounded-[5px] text-[#fff] text-xs disabled">
@@ -571,14 +682,14 @@ function HomePage() {
                           {añadirCart ? (
                             <>
                               <img src={Check} className="w-[13px] h-[13px]" />
-                              <p className="ml-2 hidden w-0 group-hover/sub:w-5 transition-all duration-700">
+                              <p className="ml-2 hidden w-0 group-hover/sub:w-5 transition-transform duration-300">
                                 AÑADIDO
                               </p>
                             </>
                           ) : (
                             <>
                               <img src={Add} className="w-[13px] h-[13px]" />
-                              <p className="w-0 text-white group-hover/sub:w-10 group-hover/sub:ml-2 group-hover/sub:text-black transition-all duration-700">
+                              <p className="w-0 text-white group-hover/sub:w-10 group-hover/sub:ml-2 group-hover/sub:text-black transition-all duration-300">
                                 AÑADIR
                               </p>
                             </>
@@ -609,23 +720,27 @@ function HomePage() {
                 ))
               : Array.from({ length: 5 }).map((_, i) => (
                   <li
-                    className="hover:-mt-[3px] w-[300px] min-w-[300px] animate-pulse"
+                    className="w-[300px] min-w-[350px] text-md animate-pulse first:pl-5 last:pr-5"
                     key={i}
                   >
                     <div className="bg-[#e7e7e7] h-[50vh] group relative group/foto"></div>
-                    <p className="pt-1 bg-[#e7e7e7] rounded-[10px] w-[160px] h-[23px] my-[2px]"></p>
+                    <p className="pt-1 bg-[#e7e7e7] rounded-[5px] w-[160px] h-[23px] my-[2px]"></p>
                     <div className="flex gap-3">
-                      <p className="bg-[#e7e7e7] rounded-[10px] w-[60px] h-[23px]"></p>
+                      <p className="bg-[#e7e7e7] rounded-[5px] w-[60px] h-[23px]"></p>
                     </div>
                   </li>
                 ))}
           </ul>
-          {MostrarBotonDerecho2 && (
+          {MostrarBotonDerecho2 && productAll.length > 0 && (
             <button
-              className="bg-[#ffffff] z-20 absolute  right-[20px] w-[45px] h-[45px] rounded-[50px] justify-center items-center shadow-md hover:scale-105 transition-all duration-300 hidden group-hover/button:flex"
+              className="bg-[#ffffff] z-20 absolute  right-[20px] w-[45px] h-[45px] rounded-[50px] justify-center items-center shadow-md hover:scale-105 transition-transform duration-300 hidden group-hover/button:flex"
               onClick={scrollDerecha2}
             >
-              <img src={ArrowLeft} className="w-[6px]" />
+              <img
+                src={ArrowLeft}
+                alt="Boron para desplazar a la Derecha"
+                className="w-[6px]"
+              />
             </button>
           )}
         </section>
@@ -637,17 +752,21 @@ function HomePage() {
           data-aos-duration="3000"
         >
           <section className="w-auto h-full font-light p-10 relative md:p-32 flex flex-col justify-between">
-            <div className="z-20" data-aos="fade-right" data-aos-duration="3000">
+            <div
+              className="z-20"
+              data-aos="fade-right"
+              data-aos-duration="3000"
+            >
               <p className="text-[28px] md:text-[50px] italic mb-8 md:mb-10">
                 Cada joya tiene una historia… ¿ya elegiste la tuya?
               </p>
               <a
                 href="#"
-                className="bg-black px-5 md:px-8 py-3 my-5 rounded-sm font-normal text-white text-sm md:text-md transition-all duration-500 hover:bg-white hover:text-black"
+                className="bg-black px-5 md:px-8 py-3 my-5 rounded-sm font-normal text-white text-sm md:text-md transition-colors duration-500 hover:bg-white hover:text-black"
               >
                 Visitanos
               </a>
-              </div>
+            </div>
             <div className="z-20">
               <p
                 className="text-[16px] md:text-[28px]"
@@ -660,7 +779,12 @@ function HomePage() {
                 </a>
               </p>
             </div>
-            <img src={icon_logo} alt="Imagen Logo" className="absolute -right-0 rotate-0 z-10 top-40 w-[250px] opacity-55" />
+            <img
+              src={icon_logo}
+              alt="Imagen Logo"
+              className="absolute -right-0 rotate-0 z-10 top-40 w-[250px] opacity-55"
+              loading="eager"
+            />
           </section>
           <div
             className="hidden bg-[#fff] border-t-2 border-b-2 w-[690px] md:flex flex-col justify-center items-center font-light"
