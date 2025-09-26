@@ -73,7 +73,7 @@ function Header_Movile({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
           <section className="flex gap-4">
             {/* Header - MENU ANDROID */}
             <div
-              className="h-auto px-3 py-2 rounded-md flex overflow-hidden bg-[#ce1717]"
+              className="h-auto px-3 py-2 rounded-md flex overflow-hidden"
               onClick={() => InactiveNavbar()}
             >
               <div className="flex gap-2 items-center">
