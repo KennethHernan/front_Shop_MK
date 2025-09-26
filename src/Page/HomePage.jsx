@@ -182,8 +182,6 @@ function HomePage() {
     setIsOpen(true);
   };
   const closeCarrito = () => {
-    console.log("close cart");
-    
     setIsOpen(false);
   };
   const abrirModalCart = (product) => {
@@ -311,7 +309,7 @@ function HomePage() {
   };
 
   return (
-    <div className="font-sans">
+    <div className="font-sans select-none">
       <Cart
         isOpen={isOpen}
         onCerrarCarrito={closeCarrito}
@@ -361,10 +359,11 @@ function HomePage() {
           />
         </div>
 
+        {/* Titulo */}
         <p
           className="py-10 text-[35px] font-light ml-10 font-sans"
-          data-aos="fade-right"
-          data-aos-duration="3000"
+          data-aos="fade-up"
+          data-aos-duration="1000"
         >
           NOVEDADES
         </p>
@@ -373,8 +372,6 @@ function HomePage() {
         <section
           className="relative flex items-center group/button"
           style={{ width: "100%" }}
-          data-aos="fade-up"
-          data-aos-duration="3000"
         >
           {MostrarBotonIzquierdo && (
             <button
@@ -487,7 +484,7 @@ function HomePage() {
           </ul>
           {MostrarBotonDerecho && productAll.length > 0 && (
             <button
-              className="bg-[#ffffff] z-20 absolute  right-[20px] w-[45px] h-[45px] rounded-[50px] justify-center items-center shadow-md hover:scale-105 transition-transform duration-300 hidden group-hover/button:flex"
+              className="bg-[#ffffff] z-20 absolute  right-[20px] w-[45px] h-[45px] rounded-[50px] justify-center items-center shadow-md hover:scale-105 transition-transform duration-300 flex"
               onClick={scrollDerecha}
             >
               <img src={ArrowLeft} className="w-[6px]" />
@@ -497,7 +494,7 @@ function HomePage() {
 
         {/* Frase */}
         <div className="w-auto text-[20px] font-light px-10 my-20 text-center italic overflow-hidden">
-          <p className="" data-aos="fade-left" data-aos-duration="3000">
+          <p className="" data-aos="fade-up" data-aos-duration="1000">
             "Cada pieza fue creada para recordarte que eres única, valiosa y
             capaz de conquistar el mundo. No solo uses joyas, exprésate con
             ellas"
@@ -507,8 +504,6 @@ function HomePage() {
         {/* Lista de Categorias */}
         <section
           className="relative flex items-center overflow-hidden group/button"
-          data-aos="fade-up"
-          data-aos-duration="3000"
           style={{ width: "100%" }}
         >
           {MostrarBotonIzquierdo3 && (
@@ -592,30 +587,32 @@ function HomePage() {
             backgroundPosition: "center",
           }}
           loading="eager"
-          data-aos="fade-up"
-          data-aos-duration="3000"
         ></div>
         {/* Baner 3 mensajes */}
-        <section className="md:px-10 py-[10vh] text-[12px] flex gap-2 justify-between font-light mx-5 md:mx-10 text-center">
-          <div data-aos="fade-up" data-aos-duration="2000">
+        <section className="md:px-10 my-[10vh] text-[12px] flex gap-2 justify-between font-light mx-5 md:mx-10 text-center">
+          <div className="overflow-hidden">
             <p className="font-medium">Calidad que brilla</p>
-            <p>Acero inoxidable duradero y con estilo.</p>
+            <p data-aos="fade-up" data-aos-duration="500">
+              Acero inoxidable duradero y con estilo.
+            </p>
           </div>
-          <div data-aos="fade-up" data-aos-duration="2500">
+          <div className="overflow-hidden">
             <p className=" font-medium">Diseño que inspira</p>
-            <p>Moderno, elegante y para todo momento.</p>
+            <p data-aos="fade-up" data-aos-duration="1000">
+              Moderno, elegante y para todo momento.
+            </p>
           </div>
-          <div data-aos="fade-up" data-aos-duration="3000">
+          <div className="overflow-hidden">
             <p className="font-medium">Hecho para durar</p>
-            <p>Resistente al agua y hipoalergénico.</p>
+            <p data-aos="fade-up" data-aos-duration="1500">
+              Resistente al agua y hipoalergénico.
+            </p>
           </div>
         </section>
 
         {/* Seccion de producto 2 */}
         <section
           className="relative flex items-center overflow-hidden group/button"
-          data-aos="fade-up"
-          data-aos-duration="3000"
           style={{ width: "100%" }}
         >
           {MostrarBotonIzquierdo2 && (
@@ -736,17 +733,9 @@ function HomePage() {
         </section>
 
         {/* Portada 3 */}
-        <div
-          className="bg-[#F2D0BD] w-[100wh] h-[50vh] md:h-[100vh] my-20 flex flex-col md:flex-row overflow-hidden"
-          data-aos="fade-up"
-          data-aos-duration="3000"
-        >
+        <div className="bg-[#F2D0BD] w-[100wh] h-[50vh] md:h-[100vh] my-20 flex flex-col md:flex-row overflow-hidden">
           <section className="w-auto h-full font-light p-10 relative md:p-32 flex flex-col justify-between">
-            <div
-              className="z-20"
-              data-aos="fade-right"
-              data-aos-duration="3000"
-            >
+            <div className="z-20">
               <p className="text-[28px] md:text-[50px] italic mb-8 md:mb-10">
                 Cada joya tiene una historia… ¿ya elegiste la tuya?
               </p>
@@ -761,7 +750,7 @@ function HomePage() {
               <p
                 className="text-[16px] md:text-[28px]"
                 data-aos="fade-up"
-                data-aos-duration="3000"
+                data-aos-duration="1000"
               >
                 Descubre lo nuevo en nuestra tienda virtual, nos encontramos en
                 <a href="#" className="font-medium hover:underline">

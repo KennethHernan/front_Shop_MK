@@ -18,8 +18,6 @@ const Footer = ({ navbar }) => {
             <p className="text-[#fff] font-normal mb-3">Conocenos</p>
             <button
               className="hover:underline"
-              data-aos="fade-right"
-              data-aos-duration="3000"
             >
               Nosotros
             </button>
@@ -29,36 +27,26 @@ const Footer = ({ navbar }) => {
             <p className="text-[#fff] font-normal mb-3">Legal</p>
             <button
               className="hover:underline text-start"
-              data-aos="fade-right"
-              data-aos-duration="3000"
             >
               Terminos de Servicios
             </button>
             <button
               className="hover:underline text-start"
-              data-aos="fade-right"
-              data-aos-duration="3000"
             >
               Política de privacidad
             </button>
             <button
               className="hover:underline text-start"
-              data-aos="fade-right"
-              data-aos-duration="3000"
             >
               Política de Cokkies
             </button>
             <button
               className="hover:underline text-start"
-              data-aos="fade-right"
-              data-aos-duration="3000"
             >
               Procesamiento de Datos
             </button>
             <button
-              className="hover:underline text-start"
-              data-aos="fade-right"
-              data-aos-duration="3000"
+              className="hover:underline text-start" 
             >
               Libro de Reclamaciones
             </button>
@@ -72,7 +60,8 @@ const Footer = ({ navbar }) => {
       <section className="w-full h-auto p-10 text-[#ffffffc9] bg-[#000000] ">
         <div className="w-auto flex justify-between py-10 h-auto border-t border-[#ffffff6f]">
           <div className="w-auto flex flex-row items-center gap-2">
-            <p className="text-sm">© Mayihk Style, 2025</p>
+            <p className="text-xs"
+              >© Mayikh Style, 2025.</p>
           </div>
 
           <section

@@ -29,9 +29,9 @@ function CustomLink({ to, label, ...props }) {
     <Link to={to}>
       <p
         {...props}
-        className={`text-[11px] md:text-xs font-medium hover:font-black 
-          ${isActive && "font-semibold"}
-          ${isHovered && "font-semibold"}
+        className={`text-[11px] md:text-xs hover:font-semibold 
+          ${isActive ? "font-semibold" : "font-medium"}
+          ${isHovered ? "font-semibold" : "font-medium"}
         `}
       >
         {label}
@@ -76,11 +76,11 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
           <section className="flex gap-4">
             {/* Header - JOYERIA */}
             <div
-              className="hidden md:flex h-auto group px-3 py-2 rounded-md transition-all duration-1000 overflow-hidden"
+              className="hidden md:flex h-auto group px-3 py-2 rounded-md overflow-hidden"
               onMouseEnter={() => (setIsHovered(true), setActive(true))}
             >
               <CustomLink
-                to=""
+                to="/"
                 label="JOYERIA"
                 onMouseEnter={() => {
                   setIsHovered(true);
@@ -98,28 +98,28 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
                     <div className="space-y-5">
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Anillos de Compromiso
                       </a>
 
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Anillos de Matrimonio
                       </a>
 
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Anillos de Oro
                       </a>
 
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Anillos de Plata
                       </a>
@@ -135,28 +135,28 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
                     <div className="space-y-5">
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Collares de Oro
                       </a>
 
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Collares de Plata
                       </a>
 
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Cadenas
                       </a>
 
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Dijes
                       </a>
@@ -172,28 +172,28 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
                     <div className="space-y-5">
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Pulseras de Oro
                       </a>
 
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Pulseras de Plata
                       </a>
 
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Brazaletes
                       </a>
 
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Pulseras con Dijes
                       </a>
@@ -205,7 +205,7 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
 
             {/* Header - SOBRE MK */}
             <div
-              className="hidden md:flex h-auto group px-3 py-2 rounded-md transition-all duration-1000"
+              className="hidden md:flex h-auto group px-3 py-2 rounded-md"
               onMouseEnter={() => (setIsHovered(true), setActive(true))}
             >
               <CustomLink
@@ -224,7 +224,7 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
                     <div className="space-y-5">
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Nosotros
                       </a>
@@ -240,7 +240,7 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
                     <div className="space-y-5">
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Política de privacidad
                       </a>
@@ -256,28 +256,28 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
                     <div className="space-y-5">
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Facebook
                       </a>
 
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Instagram
                       </a>
 
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         WhatsApp
                       </a>
 
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Tiktok
                       </a>
@@ -293,7 +293,7 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
                     <div className="space-y-5">
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium underline"
                       >
                         Libro de reclamaciones
                       </a>
@@ -305,7 +305,7 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
 
             {/* Header - LO NUEVO */}
             <div
-              className="hidden md:flex h-auto group px-3 py-2 rounded-md transition-all duration-1000"
+              className="hidden md:flex h-auto group px-3 py-2 rounded-md"
               onMouseEnter={() => (setIsHovered(true), setActive(true))}
             >
               <CustomLink
@@ -324,34 +324,34 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
                     <div className="space-y-5">
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Primavera-Verano 2025
                       </a>
 
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Colección San Valentín
                       </a>
 
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Edición Día de la Madre
                       </a>
 
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Línea Elegancia
                       </a>
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Colección Minimalista
                       </a>
@@ -367,28 +367,28 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
                     <div className="space-y-5">
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Joyas Vintage Revival
                       </a>
 
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Estilo Boho Chic
                       </a>
 
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Diseños Geométricos
                       </a>
 
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Acabados Mate
                       </a>
@@ -404,28 +404,28 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
                     <div className="space-y-5">
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Nuevos Materiales
                       </a>
 
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Piedras Sintéticas
                       </a>
 
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Acabados Especiales
                       </a>
 
                       <a
                         href="#"
-                        className="block hover:font-medium transition-all duration-300"
+                        className="block hover:font-medium"
                       >
                         Diseño Sostenible
                       </a>

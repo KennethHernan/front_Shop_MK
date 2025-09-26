@@ -9,9 +9,7 @@ const Navbar = ({ navbar }) => {
           navbar ? "pointer-events-none" : ""
         }`}
       >
-        <div className="text-white flex gap-1 text-xs my-3"
-        data-aos="fade-left"
-        data-aos-duration="3000">
+        <div className="text-white flex gap-1 text-xs my-3">
           {/* Text bolt */}
           <b>50%</b>
           {/* Text normal */}
