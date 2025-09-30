@@ -19,16 +19,16 @@ const Cart = ({ onAumentar, onDisminuir }) => {
     }
 
     const total = itemCarrito.reduce((acc, product) => {
-      if (!product || !product.precio || !product.cantidad) {
+      if (!product || !product.price || !product.cantidad) {
         return acc;
       }
 
       let precioFinal;
 
-      if (product.oferta && product.oferta > 1) {
-        precioFinal = product.precio - (product.precio * product.oferta) / 100;
+      if (product.discount && product.discount > 1) {
+        precioFinal = product.price - (product.price * product.discount) / 100;
       } else {
-        precioFinal = product.precio;
+        precioFinal = product.price;
       }
 
       return acc + precioFinal * product.cantidad;
@@ -38,7 +38,7 @@ const Cart = ({ onAumentar, onDisminuir }) => {
   }, [itemCarrito]);
 
   const eliminarDelCarrito = (idProducto) => {
-    const nuevoCarrito = itemCarrito.filter((p) => p._id !== idProducto);
+    const nuevoCarrito = itemCarrito.filter((p) => p.idProduct !== idProducto);
     Cookies.set("cart", JSON.stringify(nuevoCarrito), { expires: 14 });
     ActualizarCarrito();    
   };
@@ -132,7 +132,7 @@ const Cart = ({ onAumentar, onDisminuir }) => {
                                         (product.discount / 100) * product.price}
                                     </p>
                                     <p className="line-through text-xs text-[#8d8d8d]">
-                                      S/ {(product.price).toFixed(2)}
+                                      S/ {(product.price)}
                                     </p>
                                   </>
                                 )}
@@ -179,7 +179,7 @@ const Cart = ({ onAumentar, onDisminuir }) => {
                               </>
                             ) : (
                               <input
-                                className="w-full font-medium text-end"
+                                className="w-full font-medium text-end bg-white"
                                 disabled
                                 value={`S/ ${(product.price * product.cantidad).toFixed(
                                     2
@@ -207,7 +207,7 @@ const Cart = ({ onAumentar, onDisminuir }) => {
             <div className="absolute flex justify-center items-center bottom-0  w-full p-5 bg-white">
               <button
                 onClick={() => setOpenCart(false)}
-                className="w-full py-[11px] px-10 flex font-medium justify-center gap-2 rounded-none bg-black text-white text-xs hover:bg-[#2d2d2d] transition-colors duration-300"
+                className="w-full py-[15px] px-10 flex font-medium justify-center gap-2 rounded-none bg-black text-white text-xs hover:bg-[#2d2d2d] transition-colors duration-300"
               >
                 <p>IR A COMPRAR</p>
                 <p>•</p>

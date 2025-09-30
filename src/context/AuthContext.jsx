@@ -48,6 +48,8 @@ export const AuthProvider = ({ children }) => {
     if (carritoGuardado) {
       const productosCarrito = JSON.parse(carritoGuardado);
       setItemCarrito(productosCarrito);
+      console.log("Productos en el carrito:", productosCarrito);
+      
     }
   };
 
@@ -58,7 +60,7 @@ export const AuthProvider = ({ children }) => {
     getCategorys().then((listCategory) => {
       setCategoryAll(listCategory);
     });
-    
+
     ActualizarCarrito();
   }, []);
 

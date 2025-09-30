@@ -477,18 +477,25 @@ function HomePage() {
             {categoryAll.length > 0
               ? categoryAll.map((category, index) => (
                   <li
-                    className="w-full h-[40vh] bg-[#e7e7e7] overflow-hidden relative"
+                    className="w-full h-[40vh] bg-[#f0f0f0] overflow-hidden relative"
                     key={index}
                   >
                     <img
                       src={category.url}
                       alt="producto"
-                      className="h-[40vh] absolute -top-10 -rotate-12 right-0 object-cover drop-shadow-custom"
+                      className="h-[40vh] absolute z-0 -bottom-10 -rotate-12 right-0 object-cover drop-shadow-custom"
                       loading="lazy"
                     />
-                    <div className="absolute bottom-1 px-3 py-2 m-5 text-[25px] text-[#fff] font-sans disabled">
-                      <p className="text-[#ffffff]">{category.category}</p>
-                      <button className="text-xs hover:text-black transition-colors duration-300">
+                    <div className="absolute top-1 px-3 py-2 m-5 text-[25px] text-[#000000] font-sans disabled">
+                      <button className="text-xs text-white bg-black py-1 px-2 rounded-[3px] hover:text-black transition-colors duration-300">
+                        Categoría N° {index + 1}
+                      </button>
+                      <p className="w-[150px] mt-2">{category.category}</p>
+                    </div>
+                    
+                    <div className="absolute hidden bg-black -rotate-90 bottom-10 px-3 py-2 m-5 text-[25px] text-[#000000] font-sans disabled">
+                      <p>{category.category}</p>
+                      <button className="text-xs hidden text-white bg-black py-1 px-2 rounded-[3px] hover:text-black transition-colors duration-300">
                         Ver más
                       </button>
                     </div>
@@ -555,7 +562,7 @@ function HomePage() {
             {productAll.length > 0
               ? productAll.map((product, index) => (
                   <li
-                    className="w-[230px] min-w-[230px] text-sm md:text-md"
+                    className="w-[180px] min-w-[180px] text-sm md:text-md"
                     onClick={() => abrirModalCart(product)}
                     key={index}
                   >
@@ -570,7 +577,7 @@ function HomePage() {
                       <img
                         src={product.urlP}
                         alt="producto"
-                        className="absolute top-0 opacity-0 w-full h-full object-cover group-hover/foto:opacity-100 transition-opacity duration-300"
+                        className="absolute top-0 opacity-0 w-full h-auto object-cover group-hover/foto:opacity-100 transition-opacity duration-300"
                         loading="lazy"
                       />
                       {product.stock <= 0 && (
