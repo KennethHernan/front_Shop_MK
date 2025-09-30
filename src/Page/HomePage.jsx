@@ -483,12 +483,12 @@ function HomePage() {
                     <img
                       src={category.url}
                       alt="producto"
-                      className="h-[50vh] absolute -top-10 -rotate-12 right-0 object-cover drop-shadow-custom"
+                      className="h-[40vh] absolute -top-10 -rotate-12 right-0 object-cover drop-shadow-custom"
                       loading="lazy"
                     />
                     <div className="absolute bottom-1 px-3 py-2 m-5 text-[25px] text-[#fff] font-sans disabled">
                       <p className="text-[#ffffff]">{category.category}</p>
-                      <button className="text-xs hover:border-b pb-1 border-blacks">
+                      <button className="text-xs hover:text-black transition-colors duration-300">
                         Ver más
                       </button>
                     </div>
