@@ -18,6 +18,7 @@ import { nav } from "framer-motion/client";
 import Menu from "../assets/icon_menu.svg"
 import Menu2 from "../assets/icon_menu_black.svg"
 import Close from "../assets/close_new.svg"
+import { useAuth } from "../context/AuthContext";
 
 function CustomLink({ to, label, ...props }) {
   AOS.init();
@@ -40,7 +41,8 @@ function CustomLink({ to, label, ...props }) {
   );
 }
 
-function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
+function Sidebar({ cartIconRef }) {
+  const { navbar, openCart, setOpenCart, itemCarrito } = useAuth();
   const navigate = useNavigate();
   const [isHover, setIsHovered] = useState(false);
   const [active, setActive] = useState(false);
@@ -457,7 +459,7 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
               />
             </button>
             <button
-              onClick={onAbrirCarrito}
+              onClick={() => setOpenCart(true)}
               className="w-1/6 hover:w-1/5 relative"
             >
               <img
@@ -465,7 +467,7 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
                 alt="Boton carrito"
                 ref={cartIconRef}
               />
-              {cantidadCart.length > 0 && (
+              {itemCarrito.length > 0 && (
                 <div
                   className={`
                     rounded-[100px] text-[10px] w-[15px] h-[15px] absolute right-0 -mt-[10px]
@@ -476,7 +478,7 @@ function Sidebar({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
                   } 
                   `}
                 >
-                  {cantidadCart.length}
+                  {itemCarrito.length}
                 </div>
               )}
             </button>

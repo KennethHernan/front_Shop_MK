@@ -7,24 +7,33 @@ import AddCart from "../Layout/addCart";
 import Footer from "../Layout/Footer";
 import Add from "../assets/icon-shop.svg";
 import Check from "../assets/Check.svg";
-import arrow_derecha from "../assets/Arrorw-Derecha.svg";
+import Search from "../Components/Search";
 import ArrowLeft from "../assets/ArrowLeft.svg";
 import { useEffect, useState, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
 import Cookies from "js-cookie";
-import Fondo from "../assets/fondo_portada.webp";
+import Fondo from "../assets/fondo_portada-1.webp";
 import Fondo2 from "../assets/fondo_portada2.webp";
 import { motion, useScroll } from "framer-motion";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
 function HomePage() {
-  const { listarProducto, productAll, listarCategoria, categoryAll } =
-    useAuth();
-  const [navbar, setNavbar] = useState(true);
-  const [isOpen, setIsOpen] = useState(false);
-  const [isOpenCart, setIsOpenCart] = useState(false);
-  const [añadirCart, setAñadirCart] = useState(false); // false
+  const {
+    productAll,
+    ActualizarCarrito,
+    categoryAll,
+    productoModal,
+    setProductoModal,
+    setOpenAddCart,
+    openCart,
+    setOpenCart,
+    setNavbar,
+    itemCarrito,
+    setItemCarrito,
+  } = useAuth();
+
+  const [añadirCart, setAñadirCart] = useState(false);
   const [MostrarBotonDerecho, setMostrarBotonDerecho] = useState(false);
   const [MostrarBotonIzquierdo, setMostrarBotonIzquierdo] = useState(false);
   const [MostrarBotonDerecho2, setMostrarBotonDerecho2] = useState(false);
@@ -35,9 +44,6 @@ function HomePage() {
   const ulRef2 = useRef(null);
   const ulRef3 = useRef(null);
 
-  const [carrito, setCarrito] = useState(false);
-  const [productoModal, setProductoModal] = useState([]);
-
   const cartIconRef = useRef(null);
   const imgRef = useRef(null);
 
@@ -45,8 +51,6 @@ function HomePage() {
   const { scrollYProgress } = useScroll();
 
   useEffect(() => {
-    listarProducto();
-    listarCategoria();
     ActualizarCarrito();
 
     AOS.init({
@@ -178,18 +182,9 @@ function HomePage() {
     ulRef3.current.scrollBy({ left: -600, behavior: "smooth" });
   };
 
-  const abrirCarrito = () => {
-    setIsOpen(true);
-  };
-  const closeCarrito = () => {
-    setIsOpen(false);
-  };
   const abrirModalCart = (product) => {
     setProductoModal(product);
-    setIsOpenCart(true);
-  };
-  const closeModalCart = () => {
-    setIsOpenCart(false);
+    setOpenAddCart(true);
   };
 
   useEffect(() => {
@@ -209,24 +204,9 @@ function HomePage() {
     };
   }, []);
 
-  const ActualizarCarrito = () => {
-    const carritoGuardado = Cookies.get("cart");
-    if (carritoGuardado) {
-      const productosCarrito = JSON.parse(carritoGuardado);
-      setCarrito(productosCarrito);
-    }
-  };
-
   const Aumentar = (idProducto) => {
-    let carrito = JSON.parse(Cookies.get("cart") || "[]");
-
-    carrito = carrito.map((p) =>
-      p._id === idProducto ? { ...p, cantidad: p.cantidad + 1 } : p
-    );
-
-    carrito = carrito.map((p) => {
-      if (p._id === idProducto) {
-        // Evitar que sobrepase el stock
+    const nuevoCarrito = itemCarrito.map((p) => {
+      if (p.idProduct === idProducto) {
         if (p.cantidad < p.stock) {
           return { ...p, cantidad: p.cantidad + 1 };
         } else {
@@ -237,54 +217,45 @@ function HomePage() {
       return p;
     });
 
-    Cookies.set("cart", JSON.stringify(carrito), { expires: 14 });
+    setItemCarrito(nuevoCarrito);
+    Cookies.set("cart", JSON.stringify(nuevoCarrito), { expires: 14 });
     ActualizarCarrito();
   };
 
   const Disminuir = (idProducto) => {
-    let carrito = JSON.parse(Cookies.get("cart") || "[]");
-
-    carrito = carrito
+    const nuevoCarrito = itemCarrito
       .map((p) =>
-        p._id === idProducto ? { ...p, cantidad: p.cantidad - 1 } : p
+        p.idProduct === idProducto ? { ...p, cantidad: p.cantidad - 1 } : p
       )
       .filter((p) => p.cantidad > 0);
 
-    Cookies.set("cart", JSON.stringify(carrito), { expires: 14 });
+    setItemCarrito(nuevoCarrito);
+    Cookies.set("cart", JSON.stringify(nuevoCarrito), { expires: 14 });
     ActualizarCarrito();
   };
 
   const añadirAlCarrito = (producto) => {
-    let carrito = JSON.parse(Cookies.get("cart") || "[]");
-
-    const productoExistente = carrito.find((p) => p._id === producto._id);
+    const productoExistente = itemCarrito.find((p) => p.idProduct === producto.idProduct);
 
     if (productoExistente) {
       productoExistente.cantidad += 1;
     } else {
       producto.cantidad = 1;
-      carrito.push(producto);
+      itemCarrito.push(producto);
     }
 
-    Cookies.set("cart", JSON.stringify(carrito), { expires: 14 });
+    Cookies.set("cart", JSON.stringify(itemCarrito), { expires: 14 });
     ActualizarCarrito();
-  };
-  const eliminarDelCarrito = (idProducto) => {
-    const carritoExistente = Cookies.get("cart");
-    let carrito = carritoExistente ? JSON.parse(carritoExistente) : [];
-
-    carrito = carrito.filter((p) => p.id !== idProducto);
-    Cookies.set("cart", JSON.stringify(carrito), { expires: 14 });
   };
 
   const animarCarrito = (imgRef) => {
-    const carrito = cartIconRef.current;
+    const cartIconRefe = cartIconRef.current;
     const img = imgRef.current;
 
-    if (!carrito || !img) return;
+    if (!cartIconRefe || !img) return;
 
     const imgRect = img.getBoundingClientRect();
-    const cartRect = carrito.getBoundingClientRect();
+    const cartRect = cartIconRefe.getBoundingClientRect();
     const clone = img.cloneNode();
 
     clone.style.position = "fixed";
@@ -311,16 +282,10 @@ function HomePage() {
   return (
     <div className="font-sans select-none">
       <Cart
-        isOpen={isOpen}
-        onCerrarCarrito={closeCarrito}
-        cart={carrito}
         onAumentar={(id) => Aumentar(id)}
         onDisminuir={(id) => Disminuir(id)}
       />
       <AddCart
-        isOpenCart={isOpenCart}
-        onCerrarCart={closeModalCart}
-        onProducto={productoModal}
         onAgregar={(p) => añadirAlCarrito(p)}
         onAnimarCarrito={(i) => animarCarrito(i)}
         imgRef={imgRef}
@@ -329,26 +294,17 @@ function HomePage() {
       {/* Body */}
       <div className="w-[100wh]">
         <div className="bg-transparent">
-          <Navbar navbar={navbar} />
+          <Navbar />
         </div>
 
         {/* Header Desktop */}
         <div className="hidden md:block sticky top-0 left-0 w-full z-40">
-          <Sidebar
-            navbar={navbar}
-            onAbrirCarrito={abrirCarrito}
-            cantidadCart={carrito}
-            cartIconRef={cartIconRef}
-          />
+          <Sidebar cartIconRef={cartIconRef} />
         </div>
         {/* Header Movile */}
         <div className="block md:hidden sticky top-0 left-0 w-full z-40">
-          <Header_Movile
-            navbar={navbar}
-            onAbrirCarrito={abrirCarrito}
-            cantidadCart={carrito}
-            cartIconRef={cartIconRef}
-          />
+          <Header_Movile cartIconRef={cartIconRef} />
+          <Search />
         </div>
         <div className="w-full h-[60vh] overflow-hidden -mt-[60px] bg-[#c5c5c5] flex justify-center items-center">
           <img
@@ -361,7 +317,7 @@ function HomePage() {
 
         {/* Titulo */}
         <p
-          className="py-10 text-[35px] font-light ml-10 font-sans"
+          className="mt-10 mb-5 text-[30px] md:text-[35px] font-light px-5 font-sans overflow-hidden"
           data-aos="fade-up"
           data-aos-duration="1000"
         >
@@ -398,17 +354,20 @@ function HomePage() {
               ? productAll.map((product, index) => (
                   <li
                     className="hover:mt-[10px] w-[300px] min-w-[350px] text-md transition-transform duration-300 first:pl-5 last:pr-5"
+                    onClick={() => abrirModalCart(product)}
                     key={index}
                   >
                     <div className="bg-[#a1a1a1] h-[50vh] group relative group/foto">
                       {/* Juego de imagenes - Max 2 img */}
                       <img
-                        src={product.img}
+                        src={product.urlP}
+                        alt="producto"
                         className="absolute top-0 opacity-100 w-full h-full object-cover"
                         loading="lazy"
                       />
                       <img
-                        src={Fondo}
+                        src={product.urlP}
+                        alt="producto"
                         className="absolute top-0 opacity-0 w-full h-full object-cover group-hover/foto:opacity-100 transition-opacity duration-300"
                         loading="lazy"
                       />
@@ -417,52 +376,57 @@ function HomePage() {
                           Agotado
                         </button>
                       )}
-                      <div className="absolute bottom-1 right-1">
-                        <button
-                          onClick={() => abrirModalCart(product)}
-                          className="shadow-md hidden group-hover:flex group/sub relative h-[30px] overflow-hidden items-center bg-[#ffffff] p-2 m-2 rounded-[200px] text-[#000] font-normal text-[10px]"
-                        >
-                          {añadirCart ? (
-                            <>
-                              <img
-                                src={Check}
-                                className="w-[13px] h-[13px]"
-                                loading="eager"
-                              />
-                              <p className="ml-2 hidden w-0 group-hover/sub:w-5 transition-transform duration-300">
-                                AÑADIDO
-                              </p>
-                            </>
-                          ) : (
-                            <>
-                              <img
-                                src={Add}
-                                className="w-[13px] h-[13px]"
-                                loading="eager"
-                              />
-                              <p className="w-0 text-white group-hover/sub:w-10 group-hover/sub:ml-2 group-hover/sub:text-black transition-all duration-300">
-                                AÑADIR
-                              </p>
-                            </>
-                          )}
-                        </button>
-                      </div>
+
+                      {product.stock > 0 && (
+                        <div className="absolute bottom-1 right-1">
+                          <button
+                            onClick={() => abrirModalCart(product)}
+                            className="shadow-md hidden group-hover:flex group/sub relative h-[30px] overflow-hidden items-center bg-[#ffffff] p-2 m-2 rounded-[200px] text-[#000] font-normal text-[10px]"
+                          >
+                            {añadirCart ? (
+                              <>
+                                <img
+                                  src={Check}
+                                  alt="Boton Añadir al carrito"
+                                  className="w-[13px] h-[13px]"
+                                  loading="eager"
+                                />
+                                <p className="ml-2 hidden w-0 group-hover/sub:w-5 transition-transform duration-300">
+                                  AÑADIDO
+                                </p>
+                              </>
+                            ) : (
+                              <>
+                                <img
+                                  src={Add}
+                                  alt="Boton Añadir al carrito"
+                                  className="w-[13px] h-[13px]"
+                                  loading="eager"
+                                />
+                                <p className="w-0 text-white group-hover/sub:w-10 group-hover/sub:ml-2 group-hover/sub:text-black transition-all duration-300">
+                                  AÑADIR
+                                </p>
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      )}
                     </div>
-                    <p className="pt-1">{product.nombre}</p>
+                    <p className="pt-1">{product.nameP}</p>
                     <div className="flex gap-3">
-                      {product.oferta <= 1 ? (
-                        <p>S/{product.precio.toFixed(2)}</p>
+                      {product.discount <= 1 ? (
+                        <p>S/{product.price.toFixed(2)}</p>
                       ) : (
                         <>
                           <p>
                             S/
                             {(
-                              product.precio -
-                              (product.oferta / 100) * product.precio
+                              product.price -
+                              (product.discount / 100) * product.price
                             ).toFixed(2)}
                           </p>
                           <p className="line-through text-[#ababab]">
-                            S/{product.precio.toFixed(2)}
+                            S/{product.price.toFixed(2)}
                           </p>
                         </>
                       )}
@@ -506,53 +470,27 @@ function HomePage() {
           className="relative flex items-center overflow-hidden group/button"
           style={{ width: "100%" }}
         >
-          {MostrarBotonIzquierdo3 && (
-            <button
-              className="bg-[#ffffff] z-20 absolute left-[20px] w-[45px] h-[45px] rounded-[50px] justify-center items-center shadow-md hover:scale-105 transition-transform duration-300 hidden group-hover/button:flex"
-              onClick={scrollIzquierda3}
-            >
-              <img
-                src={ArrowLeft}
-                alt="Boton para desplazar a la Izquierda"
-                className="w-[6px] rotate-180"
-              />
-            </button>
-          )}
           <ul
             ref={ulRef3}
-            className="flex justify-start font-light text-[16px] select-none space-x-1 overflow-x-auto no-scrollbar ml-0"
-            style={{
-              maxWidth: "100%",
-              width: "100%",
-              display: "flex",
-            }}
+            className="w-full h-auto flex flex-col space-y-4 justify-start font-light text-[16px]"
           >
             {categoryAll.length > 0
               ? categoryAll.map((category, index) => (
                   <li
-                    className="hover:mt-[10px] w-[80vh] min-w-[350px] text-md first:pl-5 last:pr-5"
+                    className="w-full h-[40vh] bg-[#e7e7e7] overflow-hidden relative"
                     key={index}
                   >
-                    <div className="bg-[#ffffff] h-[70vh] group relative group/foto">
-                      {/* Juego de imagenes - Max 2 img */}
-                      <img
-                        src={category.img}
-                        alt="producto"
-                        className="absolute top-0 opacity-100 w-full h-full object-cover"
-                        loading="lazy"
-                      />
-                      <img
-                        src={Fondo}
-                        alt="producto"
-                        className="absolute top-0 opacity-0 w-full h-full object-cover group-hover/foto:opacity-100 transition-opacity duration-300"
-                        loading="lazy"
-                      />
-                      <div className="absolute bottom-1 px-3 py-2 m-5 text-[#fff] text-[25px] font-extrabold disabled">
-                        <p className="-mb-3">{category.nombre}</p>
-                        <button className="text-sm md:font-medium border-b">
-                          VER MÁS
-                        </button>
-                      </div>
+                    <img
+                      src={category.url}
+                      alt="producto"
+                      className="h-[50vh] absolute -top-10 -rotate-12 right-0 object-cover drop-shadow-custom"
+                      loading="lazy"
+                    />
+                    <div className="absolute bottom-1 px-3 py-2 m-5 text-[25px] text-[#fff] font-sans disabled">
+                      <p className="text-[#ffffff]">{category.category}</p>
+                      <button className="text-xs hover:border-b pb-1 border-blacks">
+                        Ver más
+                      </button>
                     </div>
                   </li>
                 ))
@@ -565,18 +503,6 @@ function HomePage() {
                   </li>
                 ))}
           </ul>
-          {MostrarBotonDerecho3 && categoryAll.length > 0 && (
-            <button
-              className="bg-[#ffffff] z-20 absolute  right-[20px] w-[45px] h-[45px] rounded-[50px] justify-center items-center shadow-md hover:scale-105 transition-transform duration-300 hidden group-hover/button:flex"
-              onClick={scrollDerecha3}
-            >
-              <img
-                src={ArrowLeft}
-                alt="Boron para desplazar a la Derecha"
-                className="w-[6px]"
-              />
-            </button>
-          )}
         </section>
         {/* Portada 2 */}
         <div
@@ -610,48 +536,39 @@ function HomePage() {
           </div>
         </section>
 
-        {/* Seccion de producto 2 */}
-        <section
-          className="relative flex items-center overflow-hidden group/button"
-          style={{ width: "100%" }}
+        {/* Titulo 2 */}
+        <p
+          className="pb-5 text-[30px] md:text-[35px] font-light px-5 font-sans"
+          data-aos="fade-up"
+          data-aos-duration="1000"
         >
-          {MostrarBotonIzquierdo2 && (
-            <button
-              className="bg-[#ffffff] z-20 absolute left-[20px] w-[45px] h-[45px] rounded-[50px] justify-center items-center shadow-md hover:scale-105 transition-transform duration-300 hidden group-hover/button:flex"
-              onClick={scrollIzquierda2}
-            >
-              <img
-                src={ArrowLeft}
-                alt="Boton para desplazar a la Izquierda"
-                className="w-[6px] rotate-180"
-              />
-            </button>
-          )}
+          EN TENDENCIA
+        </p>
+
+        {/* Seccion de producto 2 */}
+        <section className="w-full h-auto relative flex items-center overflow-hidden">
           <ul
             ref={ulRef2}
-            className="flex justify-start font-light text-[16px] select-none space-x-1 overflow-x-auto no-scrollbar ml-0"
-            style={{
-              maxWidth: "100%",
-              width: "100%",
-              display: "flex",
-            }}
+            className="w-full h-auto flex flex-wrap justify-center grid-flow-row gap-2
+             font-light text-[16px]"
           >
             {productAll.length > 0
               ? productAll.map((product, index) => (
                   <li
-                    className="hover:mt-[10px] w-[300px] min-w-[350px] text-md first:pl-5 last:pr-5"
+                    className="w-[230px] min-w-[230px] text-sm md:text-md"
+                    onClick={() => abrirModalCart(product)}
                     key={index}
                   >
-                    <div className="bg-[#ffffff] h-[50vh] group relative group/foto">
+                    <div className="bg-[#ffffff] h-[30vh] group relative group/foto">
                       {/* Juego de imagenes - Max 2 img */}
                       <img
-                        src={product.img}
+                        src={product.urlP}
                         alt="producto"
                         className="absolute top-0 opacity-100 w-full h-full object-cover"
                         loading="lazy"
                       />
                       <img
-                        src={Fondo}
+                        src={product.urlP}
                         alt="producto"
                         className="absolute top-0 opacity-0 w-full h-full object-cover group-hover/foto:opacity-100 transition-opacity duration-300"
                         loading="lazy"
@@ -661,44 +578,49 @@ function HomePage() {
                           Agotado
                         </button>
                       )}
-                      <div className="absolute bottom-1 right-1">
-                        <button
-                          onClick={() => abrirModalCart(product)}
-                          className="shadow-md hidden group-hover:flex group/sub relative h-[30px] overflow-hidden items-center bg-[#ffffff] p-2 m-2 rounded-[200px] text-[#000] font-normal text-[10px]"
-                        >
-                          {añadirCart ? (
-                            <>
-                              <img src={Check} className="w-[13px] h-[13px]" />
-                              <p className="ml-2 hidden w-0 group-hover/sub:w-5 transition-transform duration-300">
-                                AÑADIDO
-                              </p>
-                            </>
-                          ) : (
-                            <>
-                              <img src={Add} className="w-[13px] h-[13px]" />
-                              <p className="w-0 text-white group-hover/sub:w-10 group-hover/sub:ml-2 group-hover/sub:text-black transition-all duration-300">
-                                AÑADIR
-                              </p>
-                            </>
-                          )}
-                        </button>
-                      </div>
+                      {product.stock > 0 && (
+                        <div className="absolute bottom-1 right-1">
+                          <button
+                            onClick={() => abrirModalCart(product)}
+                            className="shadow-md hidden group-hover:flex group/sub relative h-[30px] overflow-hidden items-center bg-[#ffffff] p-2 m-2 rounded-[200px] text-[#000] font-normal text-[10px]"
+                          >
+                            {añadirCart ? (
+                              <>
+                                <img
+                                  src={Check}
+                                  className="w-[13px] h-[13px]"
+                                />
+                                <p className="ml-2 hidden w-0 group-hover/sub:w-5 transition-transform duration-300">
+                                  AÑADIDO
+                                </p>
+                              </>
+                            ) : (
+                              <>
+                                <img src={Add} className="w-[13px] h-[13px]" />
+                                <p className="w-0 text-white group-hover/sub:w-10 group-hover/sub:ml-2 group-hover/sub:text-black transition-all duration-300">
+                                  AÑADIR
+                                </p>
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      )}
                     </div>
-                    <p className="pt-1">{product.nombre}</p>
+                    <p className="pt-1">{product.nameP}</p>
                     <div className="flex gap-3">
-                      {product.oferta <= 1 ? (
-                        <p>S/{product.precio.toFixed(2)}</p>
+                      {product.discount <= 1 ? (
+                        <p>S/{product.price.toFixed(2)}</p>
                       ) : (
                         <>
                           <p>
                             S/
                             {(
-                              product.precio -
-                              (product.oferta / 100) * product.precio
+                              product.price -
+                              (product.discount / 100) * product.price
                             ).toFixed(2)}
                           </p>
                           <p className="line-through text-[#ababab]">
-                            S/{product.precio.toFixed(2)}
+                            S/{product.price.toFixed(2)}
                           </p>
                         </>
                       )}
@@ -718,18 +640,6 @@ function HomePage() {
                   </li>
                 ))}
           </ul>
-          {MostrarBotonDerecho2 && productAll.length > 0 && (
-            <button
-              className="bg-[#ffffff] z-20 absolute  right-[20px] w-[45px] h-[45px] rounded-[50px] justify-center items-center shadow-md hover:scale-105 transition-transform duration-300 hidden group-hover/button:flex"
-              onClick={scrollDerecha2}
-            >
-              <img
-                src={ArrowLeft}
-                alt="Boron para desplazar a la Derecha"
-                className="w-[6px]"
-              />
-            </button>
-          )}
         </section>
 
         {/* Portada 3 */}

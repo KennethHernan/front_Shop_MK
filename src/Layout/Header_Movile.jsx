@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 //import { useAuth } from "../context/AuthContext";
 import ImagenLogo from "../assets/LOGO TEXTO.svg";
@@ -18,6 +18,7 @@ import { nav } from "framer-motion/client";
 import Menu from "../assets/icon_menu.svg";
 import Menu2 from "../assets/icon_menu_black.svg";
 import Close from "../assets/close_new.svg";
+import { useAuth } from "../context/AuthContext";
 
 function CustomLink({ to, label, ...props }) {
   AOS.init();
@@ -38,15 +39,29 @@ function CustomLink({ to, label, ...props }) {
   );
 }
 
-function Header_Movile({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
+function Header_Movile({ cartIconRef }) {
   const navigate = useNavigate();
+  const { search, setSearch, navbar, openCart, setOpenCart, itemCarrito } = useAuth();
   const [active, setActive] = useState(false);
   const [activeItem1, setActiveItem1] = useState(false);
   const [activeItem2, setActiveItem2] = useState(false);
   const [activeItem3, setActiveItem3] = useState(false);
   const [isHover, setIsHover] = useState(false);
 
-  const InactiveNavbar = () => {
+  useEffect(() => {
+    if (!isHover) {
+      setSearch(true);
+      setIsHover(true);
+    }
+    if (isHover) {
+      setSearch(false);
+      setTimeout(() => {
+        setIsHover(false);
+      }, 500);
+    }
+  }, [search]);
+
+  const ActiveMenu = () => {
     if (!isHover) {
       setActive(true);
       setIsHover(true);
@@ -75,15 +90,15 @@ function Header_Movile({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
         >
           <section className="flex gap-4 overflow-hidden">
             {/* Header - MENU ANDROID */}
-            <div className="h-auto px-3 py-2 rounded-md flex overflow-hidden">
+            <div className="h-auto rounded-md flex overflow-hidden">
               {/* Boton Menu */}
               <div
                 className="flex gap-2 items-center"
-                onClick={() => InactiveNavbar()}
+                onClick={() => ActiveMenu()}
               >
                 {isHover ? (
                   <img
-                    src={isHover && active ? Close : Menu2}
+                    src={isHover && !search && active ? Close : Menu2}
                     alt="Icono Menu"
                     className={` transition-transform duration-300
                   ${active ? "rotate-90" : " rotate-0"}
@@ -91,7 +106,7 @@ function Header_Movile({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
                   />
                 ) : (
                   <img
-                    src={navbar && !isHover && !active ? Menu : Menu2}
+                    src={navbar && !search && !isHover && !active ? Menu : Menu2}
                     alt="Icono Menu"
                     className={` transition-all duration-300
                   ${active ? "rotate-90" : " rotate-0"}
@@ -99,7 +114,7 @@ function Header_Movile({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
                   />
                 )}
                 <img
-                  src={navbar && !isHover && !active ? ImagenLogo2 : ImagenLogo}
+                  src={navbar && !search && !isHover && !active ? ImagenLogo2 : ImagenLogo}
                   alt="Logo"
                   className="w-[30px] mt-1"
                 />
@@ -111,7 +126,7 @@ function Header_Movile({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
                 ${active ? "h-[100vh]" : "h-0"}
                 `}
               >
-                <div className="container text-xs mx-auto px-8 py-6 flex flex-col gap-8 h-full overflow-scroll">
+                <div className="container text-xs mx-auto px-8 py-6 flex flex-col gap-5 h-full overflow-scroll">
                   {/* Header - JOYERIA */}
                   <div className="h-auto px-3 py-2">
                     <button
@@ -119,7 +134,13 @@ function Header_Movile({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
                       onClick={() => setActiveItem1((prev) => !prev)}
                     >
                       <p>JOYERIA</p>
-                      <img src={Close} alt="Disminuir" className={` transition-transform duration-300 w-[20px] ${activeItem1 ? " rotate-90" : "rotate-45"}`} />
+                      <img
+                        src={Close}
+                        alt="Disminuir"
+                        className={` transition-transform duration-300 w-[20px] ${
+                          activeItem1 ? " rotate-90" : "rotate-45"
+                        }`}
+                      />
                     </button>
                     <section
                       className={`
@@ -241,260 +262,252 @@ function Header_Movile({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
                       </div>
                     </section>
                   </div>
-                  
+
                   {/* Header - SOBRE MK */}
                   <div className="h-auto px-3 py-2">
                     <button
                       className="w-full text-start text-[11px] pb-3 font-medium border-b flex justify-between items-center"
                       onClick={() => setActiveItem2((prev) => !prev)}
                     >
-                      <p>JOYERIA</p>
-                      <img src={Close} alt="Disminuir" className={` transition-transform duration-300 w-[20px] ${activeItem1 ? " rotate-90" : "rotate-45"}`} />
+                      <p>SOBRE MK</p>
+                      <img
+                        src={Close}
+                        alt="Disminuir"
+                        className={` transition-transform duration-300 w-[20px] ${
+                          activeItem2 ? " rotate-90" : "rotate-45"
+                        }`}
+                      />
                     </button>
                     <section
                       className={`
-                      w-full flex flex-row bg-white transition-all duration-500 overflow-hidden
+                      w-full flex flex-row transition-all duration-500 overflow-hidden
                       ${activeItem2 ? "h-auto" : "h-[0vh]"}
                     `}
                     >
                       <div className="container text-xs mx-auto py-6 flex flex-col gap-3">
-                        {/* Columna 1: ANILLOS */}
+                        {/* Columna 1: CONOCENOS */}
                         <div className="h-auto flex-1 p-0">
                           <div className="flex items-start pb-2 text-gray-400">
-                            <p>ANILLOS</p>
+                            <p>CONOCENOS</p>
                           </div>
 
-                          <div className="w-full">
+                          <div>
                             <a
                               href="#"
                               className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                             >
-                              Anillos de Compromiso
-                            </a>
-
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Anillos de Matrimonio
-                            </a>
-
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Anillos de Oro
-                            </a>
-
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Anillos de Plata
+                              Nosotros
                             </a>
                           </div>
                         </div>
 
-                        {/* Columna 2: COLLARES */}
+                        {/* Columna 2: ATENCIÓN AL CLIENTE */}
                         <div className="h-auto flex-1 p-0">
                           <div className="flex items-start pb-2 text-gray-400">
-                            <p>COLLARES</p>
+                            <p>ATENCIÓN AL CLIENTE</p>
                           </div>
 
-                          <div className="W-full">
+                          <div>
                             <a
                               href="#"
                               className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                             >
-                              Collares de Oro
-                            </a>
-
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Collares de Plata
-                            </a>
-
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Cadenas
-                            </a>
-
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Dijes
+                              Política de privacidad
                             </a>
                           </div>
                         </div>
 
-                        {/* Columna 3: PULSERAS */}
+                        {/* Columna 3: REDES SOCIALES */}
                         <div className="h-auto flex-1 p-0">
                           <div className="flex items-start pb-2 text-gray-400">
-                            <p>PULSERAS</p>
+                            <p>REDES SOCIALES</p>
                           </div>
 
-                          <div className="w-full">
+                          <div>
                             <a
                               href="#"
                               className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                             >
-                              Pulseras de Oro
+                              Facebook
                             </a>
 
                             <a
                               href="#"
                               className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                             >
-                              Pulseras de Plata
+                              Instagram
                             </a>
 
                             <a
                               href="#"
                               className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                             >
-                              Brazaletes
+                              WhatsApp
                             </a>
 
                             <a
                               href="#"
                               className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                             >
-                              Pulseras con Dijes
+                              Tiktok
+                            </a>
+                          </div>
+                        </div>
+
+                        {/* Columna 4: LIBRO DE RECLAMACIONES */}
+                        <div className="h-auto flex-1 p-0">
+                          <div className="flex items-start pb-2 text-gray-400">
+                            <p>LIBRO DE RECLAMACIONES</p>
+                          </div>
+
+                          <div>
+                            <a
+                              href="#"
+                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md underline"
+                            >
+                              Libro de reclamaciones
                             </a>
                           </div>
                         </div>
                       </div>
                     </section>
                   </div>
-                  
-                  {/* Header - JOYERIA */}
+
+                  {/* Header - LO NUEVO */}
                   <div className="h-auto px-3 py-2">
                     <button
                       className="w-full text-start text-[11px] pb-3 font-medium border-b flex justify-between items-center"
                       onClick={() => setActiveItem3((prev) => !prev)}
                     >
-                      <p>JOYERIA</p>
-                      <img src={Close} alt="Disminuir" className={` transition-transform duration-300 w-[20px] ${activeItem1 ? " rotate-90" : "rotate-45"}`} />
+                      <p>LO NUEVO</p>
+                      <img
+                        src={Close}
+                        alt="Disminuir"
+                        className={` transition-transform duration-300 w-[20px] ${
+                          activeItem3 ? " rotate-90" : "rotate-45"
+                        }`}
+                      />
                     </button>
                     <section
                       className={`
-                      w-full flex flex-row bg-white transition-all duration-500 overflow-hidden
+                      w-full flex flex-row bg-white transition-all mb-5 duration-500 overflow-hidden
                       ${activeItem3 ? "h-auto" : "h-[0vh]"}
                     `}
                     >
                       <div className="container text-xs mx-auto py-6 flex flex-col gap-3">
-                        {/* Columna 1: ANILLOS */}
+                        {/* Columna 1: COLECCIONES 2025 */}
                         <div className="h-auto flex-1 p-0">
                           <div className="flex items-start pb-2 text-gray-400">
-                            <p>ANILLOS</p>
+                            <p>COLECCIONES 2025</p>
                           </div>
 
-                          <div className="w-full">
+                          <div>
                             <a
                               href="#"
                               className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                             >
-                              Anillos de Compromiso
+                              Primavera-Verano 2025
                             </a>
 
                             <a
                               href="#"
                               className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                             >
-                              Anillos de Matrimonio
+                              Colección San Valentín
                             </a>
 
                             <a
                               href="#"
                               className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                             >
-                              Anillos de Oro
+                              Edición Día de la Madre
                             </a>
 
                             <a
                               href="#"
                               className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                             >
-                              Anillos de Plata
+                              Línea Elegancia
+                            </a>
+                            <a
+                              href="#"
+                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
+                            >
+                              Colección Minimalista
                             </a>
                           </div>
                         </div>
 
-                        {/* Columna 2: COLLARES */}
+                        {/* Columna 2: TENDENCIAS */}
                         <div className="h-auto flex-1 p-0">
                           <div className="flex items-start pb-2 text-gray-400">
-                            <p>COLLARES</p>
+                            <p>TENDENCIAS</p>
                           </div>
 
-                          <div className="W-full">
+                          <div>
                             <a
                               href="#"
                               className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                             >
-                              Collares de Oro
+                              Joyas Vintage Revival
                             </a>
 
                             <a
                               href="#"
                               className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                             >
-                              Collares de Plata
+                              Estilo Boho Chic
                             </a>
 
                             <a
                               href="#"
                               className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                             >
-                              Cadenas
+                              Diseños Geométricos
                             </a>
 
                             <a
                               href="#"
                               className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                             >
-                              Dijes
+                              Acabados Mate
                             </a>
                           </div>
                         </div>
 
-                        {/* Columna 3: PULSERAS */}
+                        {/* Columna 3: INNOVACIONES */}
                         <div className="h-auto flex-1 p-0">
                           <div className="flex items-start pb-2 text-gray-400">
-                            <p>PULSERAS</p>
+                            <p>INNOVACIONES</p>
                           </div>
 
-                          <div className="w-full">
+                          <div>
                             <a
                               href="#"
                               className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                             >
-                              Pulseras de Oro
+                              Nuevos Materiales
                             </a>
 
                             <a
                               href="#"
                               className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                             >
-                              Pulseras de Plata
+                              Piedras Sintéticas
                             </a>
 
                             <a
                               href="#"
                               className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                             >
-                              Brazaletes
+                              Acabados Especiales
                             </a>
 
                             <a
                               href="#"
                               className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                             >
-                              Pulseras con Dijes
+                              Diseño Sostenible
                             </a>
                           </div>
                         </div>
@@ -505,41 +518,44 @@ function Header_Movile({ navbar, onAbrirCarrito, cantidadCart, cartIconRef }) {
               </section>
             </div>
           </section>
-
           <div className="flex justify-end">
-            <button onClick={Home} className="w-1/6 hover:w-1/5">
+            <button onClick={() => setSearch(true)} className="w-1/6">
               <img
                 src={navbar && !isHover && !active ? Seach2 : Seach}
                 alt="Boton Buscar"
+                className={`transition-transform duration-300 ease-linear ${
+                  search ? "rotate-45 opacity-0" : "opacity-100 rotate-0"
+                }`}
               />
             </button>
-            <button onClick={Home} className="w-1/6 mx-5 hover:w-1/5">
+            <section></section>
+            <button onClick={Home} className="w-1/6 mx-5">
               <img
-                src={navbar && !isHover && !active ? Profile2 : Profile}
+                src={navbar && !isHover && !search && !active ? Profile2 : Profile}
                 alt="Boton Perfil"
               />
             </button>
             <button
-              onClick={onAbrirCarrito}
-              className="w-1/6 hover:w-1/5 relative"
+              onClick={() => setOpenCart(true)}
+              className="w-1/6 relative"
             >
               <img
-                src={navbar && !isHover && !active ? Shop2 : Shop}
+                src={navbar && !isHover && !search && !active ? Shop2 : Shop}
                 alt="Boton carrito"
                 ref={cartIconRef}
               />
-              {cantidadCart.length > 0 && (
+              {itemCarrito.length > 0 && (
                 <div
                   className={`
                     rounded-[100px] text-[10px] w-[15px] h-[15px] absolute right-0 -mt-[10px]
                   ${
-                    navbar && !isHover && !active
+                    navbar && !isHover && !search && !active
                       ? "bg-[#fff] text-black"
                       : "bg-[#000000] text-white"
                   } 
                   `}
                 >
-                  {cantidadCart.length}
+                  {itemCarrito.length}
                 </div>
               )}
             </button>
