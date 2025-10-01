@@ -235,7 +235,9 @@ function HomePage() {
   };
 
   const añadirAlCarrito = (producto) => {
-    const productoExistente = itemCarrito.find((p) => p.idProduct === producto.idProduct);
+    const productoExistente = itemCarrito.find(
+      (p) => p.idProduct === producto.idProduct
+    );
 
     if (productoExistente) {
       productoExistente.cantidad += 1;
@@ -293,6 +295,10 @@ function HomePage() {
 
       {/* Body */}
       <div className="w-[100wh]">
+        <Search
+          onModalCart={(p) => abrirModalCart(p)}
+          onAñadirCart={(i) => añadirCart()}
+        />
         <div className="bg-transparent">
           <Navbar />
         </div>
@@ -304,7 +310,6 @@ function HomePage() {
         {/* Header Movile */}
         <div className="block md:hidden sticky top-0 left-0 w-full z-40">
           <Header_Movile cartIconRef={cartIconRef} />
-          <Search />
         </div>
         <div className="w-full h-[60vh] overflow-hidden -mt-[60px] bg-[#c5c5c5] flex justify-center items-center">
           <img
@@ -492,7 +497,7 @@ function HomePage() {
                       </button>
                       <p className="w-[150px] mt-2">{category.category}</p>
                     </div>
-                    
+
                     <div className="absolute hidden bg-black -rotate-90 bottom-10 px-3 py-2 m-5 text-[25px] text-[#000000] font-sans disabled">
                       <p>{category.category}</p>
                       <button className="text-xs hidden text-white bg-black py-1 px-2 rounded-[3px] hover:text-black transition-colors duration-300">
@@ -556,28 +561,21 @@ function HomePage() {
         <section className="w-full h-auto relative flex items-center overflow-hidden">
           <ul
             ref={ulRef2}
-            className="w-full h-auto flex flex-wrap justify-center grid-flow-row gap-2
-             font-light text-[16px]"
+            className="w-full px-5 h-auto grid grid-cols-2 md:grid-cols-3 gap-2 font-light"
           >
             {productAll.length > 0
               ? productAll.map((product, index) => (
                   <li
-                    className="w-[180px] min-w-[180px] text-sm md:text-md"
+                    className="w-auto mb-3 text-sm md:text-md"
                     onClick={() => abrirModalCart(product)}
                     key={index}
                   >
-                    <div className="bg-[#ffffff] h-[30vh] group relative group/foto">
+                    <div className="h-[25vh] group relative">
                       {/* Juego de imagenes - Max 2 img */}
                       <img
                         src={product.urlP}
                         alt="producto"
-                        className="absolute top-0 opacity-100 w-full h-full object-cover"
-                        loading="lazy"
-                      />
-                      <img
-                        src={product.urlP}
-                        alt="producto"
-                        className="absolute top-0 opacity-0 w-full h-auto object-cover group-hover/foto:opacity-100 transition-opacity duration-300"
+                        className="absolute top-0 w-full h-full"
                         loading="lazy"
                       />
                       {product.stock <= 0 && (

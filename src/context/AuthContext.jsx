@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }) => {
   const [openAddCart, setOpenAddCart] = useState(false);
   const [openCart, setOpenCart] = useState(false);
   const [itemCarrito, setItemCarrito] = useState(false);
+  const [itemSearch, setItemSearch] = useState("");
 
   // Listar Prodcutos
   // const listarProducto = async () => {
@@ -47,9 +48,7 @@ export const AuthProvider = ({ children }) => {
     const carritoGuardado = Cookies.get("cart");
     if (carritoGuardado) {
       const productosCarrito = JSON.parse(carritoGuardado);
-      setItemCarrito(productosCarrito);
-      console.log("Productos en el carrito:", productosCarrito);
-      
+      setItemCarrito(productosCarrito);      
     }
   };
 
@@ -77,11 +76,13 @@ export const AuthProvider = ({ children }) => {
         openCart,
         navbar,
         itemCarrito,
+        itemSearch,
         setSearch,
         setOpenAddCart,
         setProductoModal,
         setOpenCart,
         setNavbar,
+        setItemSearch,
         setItemCarrito,
       }}
     >

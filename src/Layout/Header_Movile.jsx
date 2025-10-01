@@ -528,7 +528,6 @@ function Header_Movile({ cartIconRef }) {
                 }`}
               />
             </button>
-            <section></section>
             <button onClick={Home} className="w-1/6 mx-5">
               <img
                 src={navbar && !isHover && !search && !active ? Profile2 : Profile}
