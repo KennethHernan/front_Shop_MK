@@ -20,8 +20,8 @@ function CustomLink({ to, label, ...props }) {
   );
 }
 
-const AddCart = ({ onAgregar, onAnimarCarrito, imgRef }) => {
-  const { productoModal, openAddCart, setOpenAddCart } = useAuth();
+const AddCart = ({ onAgregar, imgRef }) => {
+  const { productoModal, openAddCart, setOpenAddCart, animarCarrito } = useAuth();
   const [añadirCart, setAñadirCart] = useState(false);
   const [tallaSeleccionada, setTallaSeleccionada] = useState(null);
   const tallas = ["7", "8", "9"];
@@ -132,7 +132,7 @@ const AddCart = ({ onAgregar, onAnimarCarrito, imgRef }) => {
                 <button
                   className="w-full py-3 px-10 bg-black text-white text-xs rounded-sm hover:bg-[#2d2d2d] flex items-center justify-center transition-all duration-300"
                   onClick={() => (
-                    onAgregar(productoModal), Agregar(), onAnimarCarrito(imgRef)
+                    onAgregar(productoModal), Agregar(), animarCarrito(imgRef)
                   )}
                 >
                   {!añadirCart ? (
