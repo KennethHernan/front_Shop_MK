@@ -115,7 +115,12 @@ function Search() {
               {/* Titulo 1 */}
               <div className="w-full h-auto flex justify-between items-center my-2 pb-2">
                 <p className="text-sm md:text-[30px]">VISTOS RECIENTES</p>
-                <button onClick={() => eliminarProducRecientes()} className="text-xs font-medium hover:scale-105">Borrar</button>
+                <button
+                  onClick={() => eliminarProducRecientes()}
+                  className="text-xs font-medium hover:scale-105"
+                >
+                  Borrar
+                </button>
               </div>
 
               {/* Lista de productos vistos Reciente */}
@@ -142,7 +147,9 @@ function Search() {
               {/* Titulo 2 */}
               <div className="w-full h-auto flex justify-between items-center my-2 pb-2">
                 <p className="text-sm md:text-[30px]">LOS MÁS BUSCADOS</p>
-                <button className="text-xs font-medium hover:scale-105">Ver más</button>
+                <button className="text-xs font-medium hover:scale-105">
+                  Ver más
+                </button>
               </div>
 
               {/* Lista de productos populares */}
@@ -192,82 +199,15 @@ function Search() {
           )}
 
           {/* Lista de productos */}
-          <ul className="w-full h-auto grid grid-cols-2 md:grid-cols-3 gap-2 font-light">
+          <ul className="w-full h-auto grid grid-cols-2 md:grid-cols-3 gap-2 font-light pb-24">
             {resultado
               ? resultado.map((product, index) => (
-                  <li
-                    className="w-auto mb-3 text-sm md:text-md last:mb-36 hover:-mt-1"
-                    onClick={() => onModalCart(product)}
+                  <ProductCard
                     key={index}
-                  >
-                    <div className="h-[25vh] group relative">
-                      {/* Imagen de Producto  */}
-                      <img
-                        src={product.urlP}
-                        alt="producto"
-                        className="absolute top-0 w-full h-full"
-                        loading="lazy"
-                      />
-                      {/* Boton Agotado  */}
-                      {product.stock <= 0 && (
-                        <button className="bg-[#000000] absolute bottom-1 px-3 py-2 m-2 rounded-[5px] text-[#fff] text-xs disabled">
-                          Agotado
-                        </button>
-                      )}
-
-                      {/* Boton Añadir al carrito  */}
-                      {product.stock > 0 && (
-                        <div className="absolute bottom-1 right-1 hidden md:block">
-                          <button
-                            onClick={() => onModalCart(product)}
-                            className="shadow-md hidden group-hover:flex group/sub relative h-[30px] overflow-hidden items-center bg-[#ffffff] p-2 m-2 rounded-[200px] text-[#000] font-normal text-[10px]"
-                          >
-                            {añadirCart ? (
-                              <>
-                                <img
-                                  src={Check}
-                                  className="w-[13px] h-[13px]"
-                                />
-                                <p className="ml-2 hidden w-0 group-hover/sub:w-5 transition-transform duration-300">
-                                  AÑADIDO
-                                </p>
-                              </>
-                            ) : (
-                              <>
-                                <img src={Add} className="w-[13px] h-[13px]" />
-                                <p className="w-0 text-white group-hover/sub:w-10 group-hover/sub:ml-2 group-hover/sub:text-black transition-all duration-300">
-                                  AÑADIR
-                                </p>
-                              </>
-                            )}
-                          </button>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Nombre de Producto */}
-                    <p className="pt-1">{product.nameP}</p>
-
-                    {/* Precio de Producto */}
-                    <div className="flex gap-1">
-                      {product.discount <= 1 ? (
-                        <p>S/ {product.price.toFixed(2)}</p>
-                      ) : (
-                        <>
-                          <p>
-                            S/{" "}
-                            {(
-                              product.price -
-                              (product.discount / 100) * product.price
-                            ).toFixed(2)}
-                          </p>
-                          <p className="line-through text-[#ababab]">
-                            S/ {product.price.toFixed(2)}
-                          </p>
-                        </>
-                      )}
-                    </div>
-                  </li>
+                    product={product}
+                    abrirModalCart={abrirModalCart}
+                    añadirCart={añadirCart}
+                  />
                 ))
               : null}
           </ul>

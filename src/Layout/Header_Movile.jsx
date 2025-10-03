@@ -538,7 +538,12 @@ function Header_Movile() {
               </section>
             </div>
           </section>
-          <div className="flex justify-end">
+          <div
+            className={`
+            flex justify-end transition-opacity duration-300 ease-linear
+             ${active ? "opacity-0" : "opacity-100"}
+            `}
+          >
             <button onClick={() => setSearch(true)} className="w-1/6">
               <span className="pointer-events-none">
                 <img

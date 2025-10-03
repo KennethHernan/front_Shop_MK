@@ -1,11 +1,10 @@
-import icon_logo from "../assets/LogoMK.svg";
 import icon_tiktok from "../assets/icon_tiktok_white.svg";
 import icon_wsp from "../assets/icon_whatsapp_white.svg";
 import icon_ig from "../assets/icon_instagram_white.svg";
 import icon_fb from "../assets/icon_facebook_white.svg";
-import ImagenLogo2 from "../assets/icon_marca_white.svg";
 import AOS from "aos";
 import "aos/dist/aos.css";
+
 const Footer = ({ navbar }) => {
   AOS.init();
   return (
@@ -65,33 +64,33 @@ const Footer = ({ navbar }) => {
           </div>
 
           <section
-            className="w-auto h-auto grid grid-cols-4 gap-2"
+            className="w-auto h-auto grid grid-cols-2 gap-2"
           >
-            <button className="w-auto flex justify-start items-center">
+            <button className="hidden w-auto flex justify-start items-center">
               <img
                 src={icon_fb}
-                className="w-[30px] transition-all duration-500 hover:size-8"
+                className="w-[30px]"
               />
             </button>
 
             <button className="w-auto flex justify-start items-center">
               <img
                 src={icon_ig}
-                className="w-[30px] transition-all duration-500 hover:size-8"
+                className="w-[30px]"
               />
             </button>
 
             <button className="w-auto flex justify-start items-center">
               <img
                 src={icon_wsp}
-                className="w-[30px] transition-all duration-500 hover:size-8"
+                className="w-[30px]"
               />
             </button>
 
-            <button className="w-auto flex justify-start items-center">
+            <button className="hidden w-auto flex justify-start items-center">
               <img
                 src={icon_tiktok}
-                className="w-[30px] transition-all duration-500 hover:size-8"
+                className="w-[30px]"
               />
             </button>
           </section>

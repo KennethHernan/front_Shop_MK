@@ -170,23 +170,6 @@ export const AuthProvider = ({ children }) => {
     ActualizarProductoReciente();
   }, []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY === 0) {
-        setNavbar(true);
-      }
-      if (window.scrollY > 0) {
-        setNavbar(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   return (
     <AuthContext.Provider
       value={{

@@ -26,6 +26,7 @@ function HomePage() {
     abrirModalCart,
     añadirAlCarrito,
     categoryAll,
+    setNavbar,
   } = useAuth();
 
   const [añadirCart, setAñadirCart] = useState(false);
@@ -40,6 +41,21 @@ function HomePage() {
       duration: 3000,
       once: true,
     });
+    
+    const handleScroll = () => {
+      if (window.scrollY === 0) {
+        setNavbar(true);
+      }
+      if (window.scrollY > 0) {
+        setNavbar(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   // Boton desplazamiento lista de Productos 1
@@ -268,7 +284,7 @@ function HomePage() {
 
         {/* Lista de Categorias */}
         <section
-          className="relative flex items-center overflow-hidden group/button"
+          className="relative flex items-center group/button"
           style={{ width: "100%" }}
         >
           <ul className="w-full h-auto flex flex-col space-y-4 justify-start font-light text-[16px]">
@@ -319,7 +335,7 @@ function HomePage() {
         </p>
 
         {/* Seccion de producto 2 */}
-        <section className="w-full h-auto relative flex items-center overflow-hidden">
+        <section className="w-full h-auto relative flex items-center">
           <ul className="w-full px-5 h-auto grid grid-cols-2 md:grid-cols-3 gap-2 font-light">
             {productAll.length > 0
               ? productAll.map((product, index) => (

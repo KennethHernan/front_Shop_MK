@@ -7,7 +7,7 @@ function ProductCard({ product, abrirModalCart, añadirCart }) {
     <>
       {product ? (
         <li
-          className="w-auto mb-3 text-sm md:text-md"
+          className="w-auto mb-3 text-sm md:text-md hover:-mt-1"
           onClick={() => abrirModalCart(product)}
         >
           <div className="h-[25vh] group relative">
