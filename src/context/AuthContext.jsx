@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
 import { getProducts, getCategorys } from "../Services/firebaseFunction";
 
@@ -14,6 +14,8 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [productAll, setProductsAll] = useState([]);
   const [categoryAll, setCategoryAll] = useState([]);
+
+  const cartIconRef = useRef(null);
 
   // Estados de componentes
   const [navbar, setNavbar] = useState(true);
@@ -33,7 +35,7 @@ export const AuthProvider = ({ children }) => {
       setItemCarrito(productosCarrito);
     }
   };
-    const ActualizarProductoReciente = () => {
+  const ActualizarProductoReciente = () => {
     const PRGuardado = Cookies.get("recently_viewed");
     if (PRGuardado) {
       const productosReciente = JSON.parse(PRGuardado);
@@ -69,7 +71,9 @@ export const AuthProvider = ({ children }) => {
       console.log("recently viewed");
     }
 
-    Cookies.set("recently_viewed", JSON.stringify(itemCarrito), { expires: 14 });
+    Cookies.set("recently_viewed", JSON.stringify(itemCarrito), {
+      expires: 14,
+    });
     ActualizarProductoReciente();
   };
 
@@ -190,6 +194,7 @@ export const AuthProvider = ({ children }) => {
         navbar,
         itemCarrito,
         itemSearch,
+        cartIconRef,
         setSearch,
         setOpenAddCart,
         setProductoModal,

@@ -41,8 +41,8 @@ function CustomLink({ to, label, ...props }) {
   );
 }
 
-function Sidebar({ cartIconRef }) {
-  const { navbar, openCart, setOpenCart, itemCarrito } = useAuth();
+function Sidebar() {
+  const { navbar, openCart, setOpenCart, itemCarrito, cartIconRef } = useAuth();
   const navigate = useNavigate();
   const [isHover, setIsHovered] = useState(false);
   const [active, setActive] = useState(false);

@@ -33,7 +33,6 @@ function HomePage() {
   const [MostrarBotonIzquierdo, setMostrarBotonIzquierdo] = useState(false);
   const ulRef = useRef(null);
 
-  const cartIconRef = useRef(null);
   const imgRef = useRef(null);
 
   useEffect(() => {
@@ -108,12 +107,12 @@ function HomePage() {
 
         {/* Header Desktop */}
         <div className="hidden md:block sticky top-0 left-0 w-full z-40">
-          <Sidebar cartIconRef={cartIconRef} />
+          <Sidebar />
         </div>
 
         {/* Header Movile */}
         <div className="block md:hidden sticky top-0 left-0 w-full z-30">
-          <Header_Movile cartIconRef={cartIconRef} />
+          <Header_Movile />
         </div>
 
         {/* Portada 1 */}

@@ -39,9 +39,9 @@ function CustomLink({ to, label, ...props }) {
   );
 }
 
-function Header_Movile({ cartIconRef }) {
+function Header_Movile() {
   const navigate = useNavigate();
-  const { search, setSearch, navbar, openCart, setOpenCart, itemCarrito } = useAuth();
+  const { search, setSearch, navbar, openCart, setOpenCart, itemCarrito, cartIconRef } = useAuth();
   const [active, setActive] = useState(false);
   const [activeItem1, setActiveItem1] = useState(false);
   const [activeItem2, setActiveItem2] = useState(false);
