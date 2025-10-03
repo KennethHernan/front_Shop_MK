@@ -10,7 +10,7 @@ import Check from "../assets/Check.svg";
 import Search from "../Components/Search";
 import ArrowLeft from "../assets/ArrowLeft.svg";
 import { useEffect, useState, useRef } from "react";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/authSingleton";
 import Cookies from "js-cookie";
 import Fondo from "../assets/fondo_portada-1.webp";
 import Fondo2 from "../assets/fondo_portada2.webp";

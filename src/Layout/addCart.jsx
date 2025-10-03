@@ -3,7 +3,7 @@ import Check from "../assets/check-white.svg";
 import Add from "../assets/add_cart-white.svg";
 
 import { useEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/authSingleton";
 
 function CustomLink({ to, label, ...props }) {
   return (
@@ -32,7 +32,7 @@ const AddCart = ({ onAgregar, imgRef }) => {
       setAñadirCart(false);
     }, 2000);
   };
-
+  
   return (
     <>
       {/* Carrito */}

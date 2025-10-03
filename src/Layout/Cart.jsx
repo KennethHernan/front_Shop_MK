@@ -1,11 +1,11 @@
 import Close from "../assets/close_new.svg";
 import { useEffect, useState, useRef } from "react";
 import Cookies from "js-cookie";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/authSingleton";
 import icon_eliminar from "../assets/icon_delete.svg";
 
 const Cart = ({ onAumentar, onDisminuir }) => {
-  const { openCart, setOpenCart, itemCarrito, setItemCarrito, ActualizarCarrito } = useAuth();
+  const { openCart, setOpenCart, itemCarrito, eliminarDelCarrito, ActualizarCarrito } = useAuth();
   const [totalprice, setTotalPrice] = useState("");
 
   useEffect(() => {
@@ -36,12 +36,6 @@ const Cart = ({ onAumentar, onDisminuir }) => {
 
     setTotalPrice(total.toFixed(2));
   }, [itemCarrito]);
-
-  const eliminarDelCarrito = (idProducto) => {
-    const nuevoCarrito = itemCarrito.filter((p) => p.idProduct !== idProducto);
-    Cookies.set("cart", JSON.stringify(nuevoCarrito), { expires: 14 });
-    ActualizarCarrito();    
-  };
 
   return (
     <div

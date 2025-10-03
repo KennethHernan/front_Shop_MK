@@ -1,8 +1,7 @@
 import React, { use, useEffect, useState } from "react";
 import close from "../assets/close_new.svg";
 import search_Icon from "../assets/Seach.svg";
-import { useAuth } from "../context/AuthContext";
-import { div, li, p } from "framer-motion/client";
+import { useAuth } from "../context/authSingleton";
 import Add from "../assets/icon-shop.svg";
 import Check from "../assets/Check.svg";
 

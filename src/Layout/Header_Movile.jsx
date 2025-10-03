@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-//import { useAuth } from "../context/AuthContext";
 import ImagenLogo from "../assets/LOGO TEXTO.svg";
 import ImagenLogo2 from "../assets/icon_marca_white.svg";
 import Profile from "../assets/Profile.svg";
@@ -10,15 +9,12 @@ import Seach2 from "../assets/seach_white.svg";
 import Shop from "../assets/Shop.svg";
 import Shop2 from "../assets/shop_white.svg";
 import { useState } from "react";
-import { time } from "framer-motion";
-import Footer from "../Layout/Footer";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { nav } from "framer-motion/client";
 import Menu from "../assets/icon_menu.svg";
 import Menu2 from "../assets/icon_menu_black.svg";
 import Close from "../assets/close_new.svg";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/authSingleton";
 
 function CustomLink({ to, label, ...props }) {
   AOS.init();
@@ -41,7 +37,15 @@ function CustomLink({ to, label, ...props }) {
 
 function Header_Movile() {
   const navigate = useNavigate();
-  const { search, setSearch, navbar, openCart, setOpenCart, itemCarrito, cartIconRef } = useAuth();
+  const {
+    search,
+    setSearch,
+    navbar,
+    openCart,
+    setOpenCart,
+    itemCarrito,
+    cartIconRef,
+  } = useAuth();
   const [active, setActive] = useState(false);
   const [activeItem1, setActiveItem1] = useState(false);
   const [activeItem2, setActiveItem2] = useState(false);
@@ -96,28 +100,38 @@ function Header_Movile() {
                 className="flex gap-2 items-center"
                 onClick={() => ActiveMenu()}
               >
-                {isHover ? (
-                  <img
-                    src={isHover && !search && active ? Close : Menu2}
-                    alt="Icono Menu"
-                    className={` transition-transform duration-300
+                <span className="pointer-events-none">
+                  {isHover ? (
+                    <img
+                      src={isHover && !search && active ? Close : Menu2}
+                      alt="Icono Menu"
+                      className={` transition-transform duration-300
                   ${active ? "rotate-90" : " rotate-0"}
                   `}
-                  />
-                ) : (
-                  <img
-                    src={navbar && !search && !isHover && !active ? Menu : Menu2}
-                    alt="Icono Menu"
-                    className={` transition-all duration-300
+                    />
+                  ) : (
+                    <img
+                      src={
+                        navbar && !search && !isHover && !active ? Menu : Menu2
+                      }
+                      alt="Icono Menu"
+                      className={` transition-all duration-300
                   ${active ? "rotate-90" : " rotate-0"}
                   `}
+                    />
+                  )}
+                </span>
+                <span className="pointer-events-none">
+                  <img
+                    src={
+                      navbar && !search && !isHover && !active
+                        ? ImagenLogo2
+                        : ImagenLogo
+                    }
+                    alt="Logo"
+                    className="w-[30px] mt-1"
                   />
-                )}
-                <img
-                  src={navbar && !search && !isHover && !active ? ImagenLogo2 : ImagenLogo}
-                  alt="Logo"
-                  className="w-[30px] mt-1"
-                />
+                </span>
               </div>
 
               <section
@@ -134,13 +148,15 @@ function Header_Movile() {
                       onClick={() => setActiveItem1((prev) => !prev)}
                     >
                       <p>JOYERIA</p>
-                      <img
-                        src={Close}
-                        alt="Disminuir"
-                        className={` transition-transform duration-300 w-[20px] ${
-                          activeItem1 ? " rotate-90" : "rotate-45"
-                        }`}
-                      />
+                      <span className="pointer-events-none">
+                        <img
+                          src={Close}
+                          alt="Disminuir"
+                          className={` transition-transform duration-300 w-[20px] ${
+                            activeItem1 ? " rotate-90" : "rotate-45"
+                          }`}
+                        />
+                      </span>
                     </button>
                     <section
                       className={`
@@ -270,13 +286,15 @@ function Header_Movile() {
                       onClick={() => setActiveItem2((prev) => !prev)}
                     >
                       <p>SOBRE MK</p>
-                      <img
-                        src={Close}
-                        alt="Disminuir"
-                        className={` transition-transform duration-300 w-[20px] ${
-                          activeItem2 ? " rotate-90" : "rotate-45"
-                        }`}
-                      />
+                      <span className="pointer-events-none">
+                        <img
+                          src={Close}
+                          alt="Disminuir"
+                          className={` transition-transform duration-300 w-[20px] ${
+                            activeItem2 ? " rotate-90" : "rotate-45"
+                          }`}
+                        />
+                      </span>
                     </button>
                     <section
                       className={`
@@ -380,13 +398,15 @@ function Header_Movile() {
                       onClick={() => setActiveItem3((prev) => !prev)}
                     >
                       <p>LO NUEVO</p>
-                      <img
-                        src={Close}
-                        alt="Disminuir"
-                        className={` transition-transform duration-300 w-[20px] ${
-                          activeItem3 ? " rotate-90" : "rotate-45"
-                        }`}
-                      />
+                      <span className="pointer-events-none">
+                        <img
+                          src={Close}
+                          alt="Disminuir"
+                          className={` transition-transform duration-300 w-[20px] ${
+                            activeItem3 ? " rotate-90" : "rotate-45"
+                          }`}
+                        />
+                      </span>
                     </button>
                     <section
                       className={`
@@ -520,29 +540,36 @@ function Header_Movile() {
           </section>
           <div className="flex justify-end">
             <button onClick={() => setSearch(true)} className="w-1/6">
-              <img
-                src={navbar && !isHover && !active ? Seach2 : Seach}
-                alt="Boton Buscar"
-                className={`transition-transform duration-300 ease-linear ${
-                  search ? "rotate-45 opacity-0" : "opacity-100 rotate-0"
-                }`}
-              />
+              <span className="pointer-events-none">
+                <img
+                  src={navbar && !isHover && !active ? Seach2 : Seach}
+                  alt="Boton Buscar"
+                />
+              </span>
             </button>
-            <button onClick={Home} className="w-1/6 mx-5">
-              <img
-                src={navbar && !isHover && !search && !active ? Profile2 : Profile}
-                alt="Boton Perfil"
-              />
+            <button onClick={Home} className="w-1/6 mx-5 overflow-hidden">
+              <span className="pointer-events-none">
+                <img
+                  src={
+                    navbar && !isHover && !search && !active
+                      ? Profile2
+                      : Profile
+                  }
+                  alt="Boton Perfil"
+                />
+              </span>
             </button>
             <button
               onClick={() => setOpenCart(true)}
               className="w-1/6 relative"
             >
-              <img
-                src={navbar && !isHover && !search && !active ? Shop2 : Shop}
-                alt="Boton carrito"
-                ref={cartIconRef}
-              />
+              <span className="pointer-events-none">
+                <img
+                  src={navbar && !isHover && !search && !active ? Shop2 : Shop}
+                  alt="Boton carrito"
+                  ref={cartIconRef}
+                />
+              </span>
               {itemCarrito.length > 0 && (
                 <div
                   className={`

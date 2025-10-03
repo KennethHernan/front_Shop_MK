@@ -10,13 +10,13 @@ import Check from "../assets/Check.svg";
 import Search from "../Components/Search";
 import ArrowLeft from "../assets/ArrowLeft.svg";
 import { useEffect, useState, useRef } from "react";
-import { useAuth } from "../context/AuthContext";
-import Cookies from "js-cookie";
+import { useAuth } from "../context/authSingleton";
 import Fondo from "../assets/fondo_portada-1.webp";
 import Fondo2 from "../assets/fondo_portada2.webp";
-import { motion, useScroll } from "framer-motion";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import ProductCard from "../Components/ProductCard";
+import CategoryCard from "../Components/CategoryCard";
 
 function HomePage() {
   const {
@@ -89,10 +89,7 @@ function HomePage() {
         onAumentar={(id) => Aumentar(id)}
         onDisminuir={(id) => Disminuir(id)}
       />
-      <AddCart
-        onAgregar={(p) => añadirAlCarrito(p)}
-        imgRef={imgRef}
-      />
+      <AddCart onAgregar={(p) => añadirAlCarrito(p)} imgRef={imgRef} />
 
       <Search
         onModalCart={(p) => abrirModalCart(p)}
@@ -146,7 +143,6 @@ function HomePage() {
             >
               <img
                 src={ArrowLeft}
-                loading="eager"
                 className="w-[6px] rotate-180"
               />
             </button>
@@ -173,7 +169,6 @@ function HomePage() {
                         src={product.urlP}
                         alt="producto"
                         className="absolute top-0 w-full h-full object-cover"
-                        loading="lazy"
                       />
                       {product.stock <= 0 && (
                         <button className="bg-[#000000] absolute bottom-1 px-3 py-2 m-2 rounded-[5px] text-[#fff] text-[14px] disabled">
@@ -276,43 +271,13 @@ function HomePage() {
           className="relative flex items-center overflow-hidden group/button"
           style={{ width: "100%" }}
         >
-          <ul
-            className="w-full h-auto flex flex-col space-y-4 justify-start font-light text-[16px]"
-          >
+          <ul className="w-full h-auto flex flex-col space-y-4 justify-start font-light text-[16px]">
             {categoryAll.length > 0
               ? categoryAll.map((category, index) => (
-                  <li
-                    className="w-full h-[40vh] bg-[#f0f0f0] overflow-hidden relative"
-                    key={index}
-                  >
-                    <img
-                      src={category.url}
-                      alt="producto"
-                      className="h-[40vh] absolute z-0 -bottom-10 -rotate-12 right-0 object-cover drop-shadow-custom"
-                      loading="lazy"
-                    />
-                    <div className="absolute top-1 px-3 py-2 m-5 text-[25px] text-[#000000] font-sans disabled">
-                      <button className="text-xs text-white bg-black py-1 px-2 rounded-[3px] hover:text-black transition-colors duration-300">
-                        Categoría N° {index + 1}
-                      </button>
-                      <p className="w-[150px] mt-2">{category.category}</p>
-                    </div>
-
-                    <div className="absolute hidden bg-black -rotate-90 bottom-10 px-3 py-2 m-5 text-[25px] text-[#000000] font-sans disabled">
-                      <p>{category.category}</p>
-                      <button className="text-xs hidden text-white bg-black py-1 px-2 rounded-[3px] hover:text-black transition-colors duration-300">
-                        Ver más
-                      </button>
-                    </div>
-                  </li>
+                  < CategoryCard key={index} index={index} category={category} />
                 ))
-              : Array.from({ length: 5 }).map((_, i) => (
-                  <li
-                    className="w-[80vh] min-w-[350px] text-md animate-pulse first:pl-5 last:pr-5"
-                    key={i}
-                  >
-                    <div className="bg-[#e7e7e7] h-[70vh] group relative group/foto"></div>
-                  </li>
+              : Array.from({ length: 2 }).map((_, i) => (
+                  < CategoryCard key={i} index={null} category={false} />
                 ))}
           </ul>
         </section>
@@ -355,89 +320,23 @@ function HomePage() {
 
         {/* Seccion de producto 2 */}
         <section className="w-full h-auto relative flex items-center overflow-hidden">
-          <ul
-            className="w-full px-5 h-auto grid grid-cols-2 md:grid-cols-3 gap-2 font-light"
-          >
+          <ul className="w-full px-5 h-auto grid grid-cols-2 md:grid-cols-3 gap-2 font-light">
             {productAll.length > 0
               ? productAll.map((product, index) => (
-                  <li
-                    className="w-auto mb-3 text-sm md:text-md"
-                    onClick={() => abrirModalCart(product)}
+                  <ProductCard
                     key={index}
-                  >
-                    <div className="h-[25vh] group relative">
-                      {/* Juego de imagenes - Max 2 img */}
-                      <img
-                        src={product.urlP}
-                        alt="producto"
-                        className="absolute top-0 w-full h-full"
-                        loading="lazy"
-                      />
-                      {product.stock <= 0 && (
-                        <button className="bg-[#000000] absolute bottom-1 px-3 py-2 m-2 rounded-[5px] text-[#fff] text-xs disabled">
-                          Agotado
-                        </button>
-                      )}
-                      {product.stock > 0 && (
-                        <div className="absolute bottom-1 right-1">
-                          <button
-                            onClick={() => abrirModalCart(product)}
-                            className="shadow-md hidden group-hover:flex group/sub relative h-[30px] overflow-hidden items-center bg-[#ffffff] p-2 m-2 rounded-[200px] text-[#000] font-normal text-[10px]"
-                          >
-                            {añadirCart ? (
-                              <>
-                                <img
-                                  src={Check}
-                                  className="w-[13px] h-[13px]"
-                                />
-                                <p className="ml-2 hidden w-0 group-hover/sub:w-5 transition-transform duration-300">
-                                  AÑADIDO
-                                </p>
-                              </>
-                            ) : (
-                              <>
-                                <img src={Add} className="w-[13px] h-[13px]" />
-                                <p className="w-0 text-white group-hover/sub:w-10 group-hover/sub:ml-2 group-hover/sub:text-black transition-all duration-300">
-                                  AÑADIR
-                                </p>
-                              </>
-                            )}
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                    <p className="pt-1">{product.nameP}</p>
-                    <div className="flex gap-1">
-                      {product.discount <= 1 ? (
-                        <p>S/ {product.price.toFixed(2)}</p>
-                      ) : (
-                        <>
-                          <p>
-                            S/{" "}
-                            {(
-                              product.price -
-                              (product.discount / 100) * product.price
-                            ).toFixed(2)}
-                          </p>
-                          <p className="line-through text-[#ababab]">
-                            S/ {product.price.toFixed(2)}
-                          </p>
-                        </>
-                      )}
-                    </div>
-                  </li>
+                    product={product}
+                    abrirModalCart={abrirModalCart}
+                    añadirCart={añadirCart}
+                  />
                 ))
-              : Array.from({ length: 5 }).map((_, i) => (
-                  <li
-                    className="w-[300px] min-w-[350px] text-md animate-pulse first:pl-5 last:pr-5"
+              : Array.from({ length: 4 }).map((_, i) => (
+                  <ProductCard
                     key={i}
-                  >
-                    <div className="bg-[#e7e7e7] h-[50vh] group relative group/foto"></div>
-                    <p className="pt-1 bg-[#e7e7e7] rounded-[5px] w-[160px] h-[23px] my-[2px]"></p>
-                    <div className="flex gap-3">
-                      <p className="bg-[#e7e7e7] rounded-[5px] w-[60px] h-[23px]"></p>
-                    </div>
-                  </li>
+                    onProdut={null}
+                    OnAbrirModalCart={null}
+                    añadirCart={añadirCart}
+                  />
                 ))}
           </ul>
         </section>

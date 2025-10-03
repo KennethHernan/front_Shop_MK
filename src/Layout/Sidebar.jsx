@@ -1,7 +1,5 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-//import { useAuth } from "../context/AuthContext";
-import ImagenLogo from "../assets/LOGO TEXTO.svg";
 import ImagenLogo2 from "../assets/icon_marca_white.svg";
 import Profile from "../assets/Profile.svg";
 import Profile2 from "../assets/person_white.svg";
@@ -10,15 +8,9 @@ import Seach2 from "../assets/seach_white.svg";
 import Shop from "../assets/Shop.svg";
 import Shop2 from "../assets/shop_white.svg";
 import { useState } from "react";
-import { time } from "framer-motion";
-import Footer from "../Layout/Footer";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { nav } from "framer-motion/client";
-import Menu from "../assets/icon_menu.svg"
-import Menu2 from "../assets/icon_menu_black.svg"
-import Close from "../assets/close_new.svg"
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/authSingleton";
 
 function CustomLink({ to, label, ...props }) {
   AOS.init();

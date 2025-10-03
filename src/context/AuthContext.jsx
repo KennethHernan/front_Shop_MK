@@ -1,15 +1,9 @@
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
 import { getProducts, getCategorys } from "../Services/firebaseFunction";
+import { getAuthContext } from "./authSingleton";
 
-const AuthContext = createContext();
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context)
-    throw new Error("useAuth debe usarse dentro de un AuthProvider");
-  return context;
-};
+const AuthContext = getAuthContext();
 
 export const AuthProvider = ({ children }) => {
   const [productAll, setProductsAll] = useState([]);
@@ -24,7 +18,7 @@ export const AuthProvider = ({ children }) => {
   const [productReciente, setProductReciente] = useState([]);
   const [openAddCart, setOpenAddCart] = useState(false);
   const [openCart, setOpenCart] = useState(false);
-  const [itemCarrito, setItemCarrito] = useState(false);
+  const [itemCarrito, setItemCarrito] = useState([]);
   const [itemSearch, setItemSearch] = useState("");
 
   // Actualizar Carrito
@@ -36,10 +30,12 @@ export const AuthProvider = ({ children }) => {
     }
   };
   const ActualizarProductoReciente = () => {
-    const PRGuardado = Cookies.get("recently_viewed");
+    const PRGuardado = Cookies.get("recently_viewed");    
     if (PRGuardado) {
       const productosReciente = JSON.parse(PRGuardado);
       setProductReciente(productosReciente);
+    } else {
+      setProductReciente([])
     }
   };
 
@@ -62,16 +58,18 @@ export const AuthProvider = ({ children }) => {
 
   // Productos  Recientes Cokkie
   const ProductosRecientesCokkie = (producto) => {
-    const pReciente = itemCarrito.find(
+    const pReciente = productReciente.find(
       (p) => p.idProduct === producto.idProduct
     );
 
-    if (!pReciente) {
-      itemCarrito.push(producto);
-      console.log("recently viewed");
+    if (pReciente) {
+      pReciente.cantidad += 1;
+    } else {
+      producto.cantidad = 1;
+      productReciente.push(producto);
     }
 
-    Cookies.set("recently_viewed", JSON.stringify(itemCarrito), {
+    Cookies.set("recently_viewed", JSON.stringify(productReciente), {
       expires: 14,
     });
     ActualizarProductoReciente();
@@ -141,9 +139,22 @@ export const AuthProvider = ({ children }) => {
     ActualizarCarrito();
   };
 
+  // Eliminar Item de Carrito
+  const eliminarDelCarrito = (idProducto) => {
+    const nuevoCarrito = itemCarrito.filter((p) => p.idProduct !== idProducto);
+    Cookies.set("cart", JSON.stringify(nuevoCarrito), { expires: 14 });
+    ActualizarCarrito();
+  };
+  // Eliminar Prodcutos Vistos Recientes
+  const eliminarProducRecientes = () => {
+    Cookies.remove("recently_viewed");
+    ActualizarProductoReciente()
+  };
+
   // Abrir Modal Detalle Producto
   const abrirModalCart = (product) => {
     setProductoModal(product);
+    ProductosRecientesCokkie(product);
     setOpenAddCart(true);
   };
 
@@ -156,6 +167,7 @@ export const AuthProvider = ({ children }) => {
     });
 
     ActualizarCarrito();
+    ActualizarProductoReciente();
   }, []);
 
   useEffect(() => {
@@ -179,7 +191,8 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         abrirModalCart,
-        ProductosRecientesCokkie,
+        eliminarProducRecientes,
+        eliminarDelCarrito,
         ActualizarCarrito,
         añadirAlCarrito,
         animarCarrito,
@@ -195,6 +208,7 @@ export const AuthProvider = ({ children }) => {
         itemCarrito,
         itemSearch,
         cartIconRef,
+        productReciente,
         setSearch,
         setOpenAddCart,
         setProductoModal,
