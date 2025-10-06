@@ -3,9 +3,18 @@ import { useEffect, useState, useRef } from "react";
 import Cookies from "js-cookie";
 import { useAuth } from "../context/authSingleton";
 import icon_eliminar from "../assets/icon_delete.svg";
+import { useNavigate } from "react-router-dom";
 
 const Cart = ({ onAumentar, onDisminuir }) => {
-  const { openCart, setOpenCart, itemCarrito, eliminarDelCarrito, ActualizarCarrito } = useAuth();
+  const navigate = useNavigate();
+  const {
+    openCart,
+    setOpenCart,
+    itemCarrito,
+    eliminarDelCarrito,
+    ActualizarCarrito,
+    abrirModalCart,
+  } = useAuth();
   const [totalprice, setTotalPrice] = useState("");
 
   useEffect(() => {
@@ -104,7 +113,10 @@ const Cart = ({ onAumentar, onDisminuir }) => {
                         >
                           <section className="flex items-center">
                             {/* Imagen Producto */}
-                            <div className="w-[80px] h-[80px] mr-[10px] overflow-hidden">
+                            <div
+                              className="w-[80px] h-[80px] mr-[10px] overflow-hidden"
+                              onClick={() => abrirModalCart(product)}
+                            >
                               <img
                                 src={product.urlP}
                                 className="w-full h-full object-cover bg-cover bg-center flex"
@@ -117,16 +129,17 @@ const Cart = ({ onAumentar, onDisminuir }) => {
                               {/* Precio unidad */}
                               <div className="text-[#000000] flex gap-1 items-center">
                                 {product.discount <= 1 ? (
-                                  <p>S/ {(product.price).toFixed(2)}</p>
+                                  <p>S/ {product.price.toFixed(2)}</p>
                                 ) : (
                                   <>
                                     <p>
-                                      S/ 
+                                      S/
                                       {product.price -
-                                        (product.discount / 100) * product.price}
+                                        (product.discount / 100) *
+                                          product.price}
                                     </p>
                                     <p className="line-through text-xs text-[#8d8d8d]">
-                                      S/ {(product.price)}
+                                      S/ {product.price}
                                     </p>
                                   </>
                                 )}
@@ -160,7 +173,8 @@ const Cart = ({ onAumentar, onDisminuir }) => {
                                   S/
                                   {(
                                     (product.price -
-                                      (product.price * product.discount) / 100) *
+                                      (product.price * product.discount) /
+                                        100) *
                                     product.cantidad
                                   ).toFixed(2)}
                                 </p>
@@ -175,13 +189,15 @@ const Cart = ({ onAumentar, onDisminuir }) => {
                               <input
                                 className="w-full font-medium text-end bg-white"
                                 disabled
-                                value={`S/ ${(product.price * product.cantidad).toFixed(
-                                    2
-                                  )}`}
+                                value={`S/ ${(
+                                  product.price * product.cantidad
+                                ).toFixed(2)}`}
                               />
                             )}
                             <button
-                              onClick={() => eliminarDelCarrito(product.idProduct)}
+                              onClick={() =>
+                                eliminarDelCarrito(product.idProduct)
+                              }
                             >
                               <img
                                 src={icon_eliminar}
@@ -200,7 +216,10 @@ const Cart = ({ onAumentar, onDisminuir }) => {
           {itemCarrito.length == null || itemCarrito.length == 0 ? null : (
             <div className="absolute flex justify-center items-center bottom-0  w-full p-5 bg-white">
               <button
-                onClick={() => setOpenCart(false)}
+                onClick={() => (
+                  setOpenCart(false),
+                  navigate("/checkout/Ab93xYt20FpQfD9xQa23LmZp")
+                )}
                 className="w-full py-[15px] px-10 flex font-medium justify-center gap-2 rounded-none bg-black text-white text-xs hover:bg-[#2d2d2d] transition-colors duration-300"
               >
                 <p>IR A COMPRAR</p>

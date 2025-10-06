@@ -1,7 +1,14 @@
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { useAuth } from "../context/authSingleton";
 const Navbar = ({ navbar }) => {
   AOS.init();
+
+  const BuscarCategoria = () => {
+    setSearch(true);
+    setItemSearch(category.category);
+  };
+
   return (
     <>
       <section

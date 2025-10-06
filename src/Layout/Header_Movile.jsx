@@ -96,43 +96,47 @@ function Header_Movile() {
             {/* Header - MENU ANDROID */}
             <div className="h-auto rounded-md flex overflow-hidden">
               {/* Boton Menu */}
-              <div
-                className="flex gap-2 items-center"
-                onClick={() => ActiveMenu()}
-              >
-                <span className="pointer-events-none">
-                  {isHover ? (
-                    <img
-                      src={isHover && !search && active ? Close : Menu2}
-                      alt="Icono Menu"
-                      className={` transition-transform duration-300
+              <section className="flex gap-2 items-center">
+                <div onClick={() => ActiveMenu()}>
+                  <span className="pointer-events-none bg-black">
+                    {isHover ? (
+                      <img
+                        src={isHover && !search && active ? Close : Menu2}
+                        alt="Icono Menu"
+                        className={` transition-transform duration-300
                   ${active ? "rotate-90" : " rotate-0"}
                   `}
-                    />
-                  ) : (
+                      />
+                    ) : (
+                      <img
+                        src={
+                          navbar && !search && !isHover && !active
+                            ? Menu
+                            : Menu2
+                        }
+                        alt="Icono Menu"
+                        className={` transition-all duration-300
+                  ${active ? "rotate-90" : " rotate-0"}
+                  `}
+                      />
+                    )}
+                  </span>
+                </div>
+
+                <div onClick={() => navigate("/")}>
+                  <span className="pointer-events-none">
                     <img
                       src={
-                        navbar && !search && !isHover && !active ? Menu : Menu2
+                        navbar && !search && !isHover && !active
+                          ? ImagenLogo2
+                          : ImagenLogo
                       }
-                      alt="Icono Menu"
-                      className={` transition-all duration-300
-                  ${active ? "rotate-90" : " rotate-0"}
-                  `}
+                      alt="Logo"
+                      className="w-[30px] mt-1"
                     />
-                  )}
-                </span>
-                <span className="pointer-events-none">
-                  <img
-                    src={
-                      navbar && !search && !isHover && !active
-                        ? ImagenLogo2
-                        : ImagenLogo
-                    }
-                    alt="Logo"
-                    className="w-[30px] mt-1"
-                  />
-                </span>
-              </div>
+                  </span>
+                </div>
+              </section>
 
               <section
                 className={`
@@ -311,7 +315,7 @@ function Header_Movile() {
 
                           <div>
                             <a
-                              href="#"
+                              onClick={() => navigate("/sobre-nosotros")}
                               className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                             >
                               Nosotros
@@ -327,7 +331,7 @@ function Header_Movile() {
 
                           <div>
                             <a
-                              href="#"
+                              onClick={() => navigate("/politica-y-privacidad")}
                               className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                             >
                               Política de privacidad
@@ -346,13 +350,6 @@ function Header_Movile() {
                               href="#"
                               className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                             >
-                              Facebook
-                            </a>
-
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
                               Instagram
                             </a>
 
@@ -361,13 +358,6 @@ function Header_Movile() {
                               className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                             >
                               WhatsApp
-                            </a>
-
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Tiktok
                             </a>
                           </div>
                         </div>
