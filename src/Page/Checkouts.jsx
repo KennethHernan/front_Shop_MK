@@ -1,10 +1,12 @@
 import { useAuth } from "../context/authSingleton";
 import "aos/dist/aos.css";
 import departamentos from "../../public/departamentos.json";
+import { useNavigate } from "react-router-dom";
 
 function Checkout() {
   const { itemCarrito } = useAuth();
-
+  const navigate = useNavigate();
+  
   return (
     <section className="font-sans select-none flex flex-col justify-center z-50">
       {/* Titulo */}
@@ -195,16 +197,34 @@ function Checkout() {
             <section className="grid grid-cols-2 gap-2 my-2">
               <p>hola</p>
             </section>
+            <button className="w-full text-[15px] my-4 font-medium text-white rounded-lg py-4 bg-blue-700 hover:bg-blue-800 transition-colors duration-300">
+              Pagar Ahora
+            </button>
+            <section className="my-3 border-t pt-2 pb-14 text-md text-blue-700 flex items-center">
+              <a
+                onClick={() => navigate("/politica-y-privacidad")}
+                className="w-auto px-3 underline rounded-md"
+              >
+                Política de privacidad
+              </a>
+              <a
+                onClick={() => navigate("/politica-y-privacidad")}
+                className="w-auto px-3 block underline"
+              >
+                Términos del Servicio
+              </a>
+            </section>
           </div>
         </div>
-        <div className="w-full h-[100vh] border-l bg-[#0000000f] flex justify-start">
-          <div className="w-[65vh] h-full">
-            <section className="h-full relative flex flex-col text-[25px] font-light overflow-scroll">
-              <ul className="w-full px-[10px] h-full text-sm flex flex-col absolute bottom-0 justify-start overflow-scroll">
+
+        <div className="w-full h-[100vh] border-l bg-[#0000000d] flex justify-start">
+          <div className="w-[65vh] h-full p-5 overflow-scroll">
+            <section className="h-full flex flex-col font-normal">
+              <ul className="w-full px-[10px] h-auto flex flex-col justify-start overflow-scroll">
                 {itemCarrito.length > 0
                   ? itemCarrito.map((product, index) => (
                       <li
-                        className="w-auto mb-3 p-2 grid grid-cols-[auto,auto] justify-between"
+                        className="w-auto p-2 grid grid-cols-[auto,auto] justify-between"
                         key={index}
                       >
                         <section className="flex items-center">
@@ -216,39 +236,22 @@ function Checkout() {
                                 className="w-full h-full object-cover bg-cover bg-center border-[2px] border-[#fff] flex rounded-md"
                               />
                             </div>
-                            <div className="absolute -top-0 right-0 bg-black rounded-md text-[#fff] text-xs px-2 py-1">
-                                <p>4</p>
+                            <div className="absolute -top-0 right-0 bg-black rounded-md text-[#fff] px-2 py-1">
+                              <p>{product.cantidad}</p>
                             </div>
                           </section>
 
                           <div>
                             {/* Nombre Producto */}
-                            <p>{product.nameP}</p>
-                            {/* Precio unidad */}
-                            <div className="text-[#000000] flex gap-1 items-center">
-                              {product.discount <= 1 ? (
-                                <p>S/ {product.price.toFixed(2)}</p>
-                              ) : (
-                                <>
-                                  <p>
-                                    S/
-                                    {product.price -
-                                      (product.discount / 100) * product.price}
-                                  </p>
-                                  <p className="line-through text-xs text-[#8d8d8d]">
-                                    S/ {product.price}
-                                  </p>
-                                </>
-                              )}
-                            </div>
+                            <p className="text-[14px]">{product.nameP}</p>
                           </div>
                         </section>
                         {/* Precio Total  - poer 3 price*/}
-                        <div className="h-auto w-auto flex flex-col items-end justify-between">
+                        <div className="h-auto w-auto flex flex-col items-end justify-center text-[14px]">
                           {product.discount >= 1 ? (
                             <>
-                              <p className="w-full font-medium text-end">
-                                S/
+                              <p className="w-full text-end">
+                                S/{" "}
                                 {(
                                   (product.price -
                                     (product.price * product.discount) / 100) *
@@ -258,7 +261,7 @@ function Checkout() {
                             </>
                           ) : (
                             <input
-                              className="w-full font-medium text-end bg-white"
+                              className="w-full text-end"
                               disabled
                               value={`S/ ${(
                                 product.price * product.cantidad
@@ -270,6 +273,28 @@ function Checkout() {
                     ))
                   : null}
               </ul>
+
+              <section className="w-full h-auto text-sm grid mt-5 p-5 border-t">
+                <div className="flex justify-between items-center">
+                  <p>Subtotal</p>
+                  <p>S/ 150.00</p>
+                </div>
+                <div className="flex justify-between items-center my-3">
+                  <p>Envío</p>
+                  <p>S/ 10.00</p>
+                </div>
+
+                <div className="flex justify-between items-center mt-2">
+                  <div>
+                    <p className="font-semibold text-lg">Total</p>
+                  </div>
+                  <div className="flex items-end gap-2">
+                    <p className="text-xs text-gray-400">PEN</p>
+                    <p className="font-semibold text-lg">S/ 160.00</p>
+                  </div>
+                </div>
+                <p className="text-gray-400">Incluye más el 18% de impuestos</p>
+              </section>
             </section>
           </div>
         </div>
