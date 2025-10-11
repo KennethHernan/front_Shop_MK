@@ -14,9 +14,9 @@ function Checkout() {
   const navigate = useNavigate();
 
   return (
-    <section className="font-sans select-none flex flex-col justify-center z-50">
+    <section className="font-sans lg:bg-[#0000000d] select-none flex flex-col justify-center z-50">
       {/* Titulo */}
-      <section className="w-full h-[65px] border-b flex justify-center font-light font-sans">
+      <section className="w-full h-[65px] bg-white border-b flex justify-center font-light font-sans">
         <div className="w-[65vh] h-full text-[25px] flex items-center pl-5 md:pl-0">
           MAYIKH STYLE
         </div>
@@ -24,10 +24,10 @@ function Checkout() {
       </section>
 
       {/* Body */}
-      <section className="flex flex-col md:flex-row justify-center text-xs font-sans">
+      <section className="h-auto flex flex-col lg:flex-row justify-center text-xs font-sans">
         {/* Seccion información */}
-        <div className="w-full h-auto mg:h-[100vh] flex justify-end">
-          <div className="w-[65vh] h-auto md:h-[100vh] p-5">
+        <div className="w-full h-auto bg-white md:h-full flex justify-center lg:justify-end">
+          <div className="w-[65vh] md:w-[80vh] lg:w-[65vh] h-auto md:h-full p-5">
             <div className="w-full flex text-lg mb-2 justify-between">
               <p className="font-medium">Contacto</p>
               <button className="text-xs hover:underline font-medium text-[#2d5bd0]">
@@ -199,45 +199,61 @@ function Checkout() {
             </section>
 
             {/* PAGO */}
-            <div className="w-full flex text-lg mt-5 justify-between font-medium">
-              <p>Pago</p>
+            <div className="w-full mt-5 justify-between">
+              <p className="text-lg font-medium">Pago</p>
+              <p className="text-[14px] mt-1 text-gray-500">Todas las transacciones son seguras y están encriptadas.</p>
             </div>
-            <section className="w-full flex text-[14px] items-center mt-2 border-blue-600 border-[1px] bg-slate-50 p-5 rounded-md rounded-b-none">
+            <section className="w-full flex justify-between text-[14px] items-center mt-5 border-blue-600 border-[1px] bg-slate-50 px-4 py-3 rounded-md rounded-b-none">
               <p>Mercado Pago</p>
-              <section className="flex">
-                <div className="w-auto">
-                  <span>
+              <section className="flex gap-1">
+                <div className="w-[40px] h-[25px] bg-white rounded-md border-[1px] border-gray-200 overflow-hidden px-1 flex justify-center items-center">
+                  <span className="pointer-events-none">
                     <img src={icon_visa} alt="Visa" />
                   </span>
                 </div>
-                <div className="w-auto">
-                  <span>
+                <div className="w-[40px] h-[25px] bg-white rounded-md border-[1px] border-gray-200 overflow-hidden px-2 flex justify-center items-center">
+                  <span className="pointer-events-none">
                     <img src={icon_mercadopago} alt="Visa" />
                   </span>
                 </div>
-                <div className="w-auto">
-                  <span>
+                <div className="w-[40px] h-[25px] bg-white rounded-[3px] border-[1px] border-gray-200 overflow-hidden px-1 flex justify-center items-center">
+                  <span className="pointer-events-none">
                     <img src={icon_mastercard} alt="Visa" />
                   </span>
                 </div>
-                <div className="w-auto">
-                  <span>
-                    <img src={icon_dinerclub} alt="Visa" />
+
+                <div className="w-[40px] h-[25px] bg-white rounded-[3px] border-[1px] border-gray-200 px-2 flex justify-center items-center relative group">
+                  <span className="pointer-events-none">
+                    <p className="text-blue-700 text-[13px] font-medium">+3</p>
                   </span>
-                </div>
-                <div className="w-auto">
-                  <span>
-                    <img src={icon_americanexpress} alt="Visa" />
-                  </span>
-                </div>
-                <div className="w-auto">
-                  <span>
-                    <img src={icon_yape} alt="Visa" />
-                  </span>
+
+                  <section className="flex gap-1 opacity-0 bg-black px-3 py-2 rounded-md absolute -top-[53px]  -right-4 group-hover:opacity-100 transition-opacity duration-700">
+                    <div className="w-[40px] h-[25px] bg-white rounded-[3px] border-[1px] border-gray-200 overflow-hidden px-2 flex justify-center items-center">
+                      <span className="pointer-events-none">
+                        <img src={icon_dinerclub} alt="Visa" />
+                      </span>
+                    </div>
+                    <div className="w-[40px] h-[25px] bg-[#006FCF] rounded-[3px] overflow-hidden pl-4 flex justify-center items-center">
+                      <span className="pointer-events-none">
+                        <img src={icon_americanexpress} alt="Visa" />
+                      </span>
+                    </div>
+                    <div className="w-[40px] h-[25px] bg-white rounded-[3px] border-[1px] border-gray-200 overflow-hidden px-2 flex justify-center items-center">
+                      <span className="pointer-events-none">
+                        <img src={icon_yape} alt="Visa" />
+                      </span>
+                    </div>
+                    <div class="w-0 h-0 absolute -bottom-2 right-7
+            border-l-[10px] border-l-transparent 
+            border-r-[10px] border-r-transparent 
+            border-b-[10px] border-b-[#000000] rotate-180"
+                    >
+                    </div>
+                  </section>
                 </div>
               </section>
             </section>
-            <section className="w-full flex flex-col text-[14px] items-center mb-2 border-gray-300 border-[1px] border-t-0 bg-gray-100 p-5 rounded-b-md">
+            <section className="w-full flex flex-col text-[14px] items-center mb-2 border-gray-300 border-[1px] border-t-0 bg-gray-50 p-5 rounded-b-md">
               <div className="w-[100px]">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -278,12 +294,12 @@ function Checkout() {
             </section>
 
             {/* BOTON PAGAR AHORA */}
-            <button className="md:block hidden w-full text-[15px] my-4 font-medium text-white rounded-lg py-4 bg-blue-700 hover:bg-blue-800 transition-colors duration-300">
+            <button className="lg:block hidden w-full text-[15px] my-4 font-medium text-white rounded-lg py-4 bg-blue-700 hover:bg-blue-800 transition-colors duration-300">
               Pagar Ahora
             </button>
 
             {/* POLITICA Y PRIVACIDAD */}
-            <section className="my-3 border-t pt-2 pb-14 text-md text-blue-700 md:flex hidden items-center">
+            <section className="my-3 border-t pt-2 pb-14 text-md text-blue-700 lg:flex hidden items-center">
               <a
                 onClick={() => navigate("/politica-y-privacidad")}
                 className="w-auto px-3 underline rounded-md"
@@ -300,8 +316,8 @@ function Checkout() {
           </div>
         </div>
         {/* Seccion precio total */}
-        <div className="w-full md:h-[100vh] border-l md:bg-[#0000000d] flex justify-start">
-          <div className="w-[65vh] h-full md:py-5 px-5 py-0 overflow-scroll">
+        <div className="w-full md:h-full border-l flex justify-center lg:justify-start">
+          <div className="w-[65vh] md:w-[65vh] sticky top-0 lg:w-[65vh] h-full md:py-5 px-5 py-0 overflow-scroll">
             <section className="h-full flex flex-col font-normal">
               <div className="w-full flex md:hidden text-lg mb-3 justify-between font-medium">
                 <p>Resumen del pedido</p>
@@ -309,54 +325,54 @@ function Checkout() {
               <ul className="w-full px-[10px] h-auto flex flex-col justify-start overflow-scroll">
                 {itemCarrito.length > 0
                   ? itemCarrito.map((product, index) => (
-                      <li
-                        className="w-auto p-2 grid grid-cols-[auto,auto] justify-between"
-                        key={index}
-                      >
-                        <section className="flex items-center">
-                          {/* Imagen Producto */}
-                          <section className="relative flex mr-[15px]">
-                            <div className="w-[60px] h-[60px] overflow-hidden border-[2px] border-[#0000000f] rounded-md">
-                              <img
-                                src={product.urlP}
-                                className="w-full h-full object-cover bg-cover bg-center border-[2px] border-[#fff] flex rounded-md"
-                              />
-                            </div>
-                            <div className="absolute -top-0 right-0 bg-black rounded-md text-[#fff] px-2 py-1">
-                              <p>{product.cantidad}</p>
-                            </div>
-                          </section>
-
-                          <div>
-                            {/* Nombre Producto */}
-                            <p className="text-[14px]">{product.nameP}</p>
+                    <li
+                      className="w-auto p-2 grid grid-cols-[auto,auto] justify-between"
+                      key={index}
+                    >
+                      <section className="flex items-center">
+                        {/* Imagen Producto */}
+                        <section className="relative flex mr-[15px]">
+                          <div className="w-[63px] h-[60px] overflow-hidden border-[1px] shadow-md border-[#ffffff] rounded-md">
+                            <img
+                              src={product.urlP}
+                              className="w-full h-full object-cover bg-cover bg-center border-[2px] border-[#fff] flex rounded-md"
+                            />
+                          </div>
+                          <div className="absolute -top-2 -right-2 bg-black rounded-md border-2 border-white text-[#fff] px-[7px] py-[1px]">
+                            <p>{product.cantidad}</p>
                           </div>
                         </section>
-                        {/* Precio Total  - poer 3 price*/}
-                        <div className="h-auto w-auto flex flex-col items-end justify-center text-[14px]">
-                          {product.discount >= 1 ? (
-                            <>
-                              <p className="w-full text-end">
-                                S/{" "}
-                                {(
-                                  (product.price -
-                                    (product.price * product.discount) / 100) *
-                                  product.cantidad
-                                ).toFixed(2)}
-                              </p>
-                            </>
-                          ) : (
-                            <input
-                              className="w-full text-end"
-                              disabled
-                              value={`S/ ${(
-                                product.price * product.cantidad
-                              ).toFixed(2)}`}
-                            />
-                          )}
+
+                        <div>
+                          {/* Nombre Producto */}
+                          <p className="text-[14px]">{product.nameP}</p>
                         </div>
-                      </li>
-                    ))
+                      </section>
+                      {/* Precio Total  - poer 3 price*/}
+                      <div className="h-auto w-auto flex flex-col items-end justify-center text-[14px]">
+                        {product.discount >= 1 ? (
+                          <>
+                            <p className="w-full text-end">
+                              S/{" "}
+                              {(
+                                (product.price -
+                                  (product.price * product.discount) / 100) *
+                                product.cantidad
+                              ).toFixed(2)}
+                            </p>
+                          </>
+                        ) : (
+                          <input
+                            className="w-full text-end bg-transparent"
+                            disabled
+                            value={`S/ ${(
+                              product.price * product.cantidad
+                            ).toFixed(2)}`}
+                          />
+                        )}
+                      </div>
+                    </li>
+                  ))
                   : null}
               </ul>
 
@@ -385,12 +401,12 @@ function Checkout() {
               </section>
 
               {/* BOTON PAGAR AHORA */}
-              <button className="block md:hidden w-full text-[15px] mb-4 bt-2 font-medium text-white rounded-lg py-4 bg-blue-700 hover:bg-blue-800 transition-colors duration-300">
+              <button className="block lg:hidden w-full text-[15px] mb-4 bt-2 font-medium text-white rounded-lg py-4 bg-blue-700 hover:bg-blue-800 transition-colors duration-300">
                 Pagar Ahora
               </button>
 
               {/* POLITICA Y PRIVACIDAD */}
-              <section className="my-3 border-t pt-2 pb-14 text-md text-blue-700 flex md:hidden items-center">
+              <section className="my-3 border-t pt-2 pb-14 text-md text-blue-700 flex lg:hidden items-center">
                 <a
                   onClick={() => navigate("/politica-y-privacidad")}
                   className="w-auto px-3 underline rounded-md"
