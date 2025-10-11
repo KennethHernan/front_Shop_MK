@@ -2,20 +2,21 @@ import React from "react";
 import Add from "../assets/icon-shop.svg";
 import Check from "../assets/Check.svg";
 
-function ProductCard({ product, abrirModalCart, añadirCart }) {
-    return (
+function ProductCard({ product, abrirModalCart }) {
+  return (
     <>
       {product ? (
         <li
           className="w-auto mb-3 text-sm md:text-md hover:-mt-1"
           onClick={() => abrirModalCart(product)}
         >
-          <div className="h-[25vh] group relative">
+          <div className="h-[25vh] md:h-[50vh] group relative">
             {/* Producto Imagen */}
             <img
               src={product.urlP}
               alt="Imagen de Producto"
-              className="w-full h-full flex object-cover object-bottom"
+              className="flex object-cover object-bottom w-full h-full"
+              loading="lazy"
             />
             {/* Anuncio Stock */}
             {product.stock <= 0 && (
@@ -30,28 +31,17 @@ function ProductCard({ product, abrirModalCart, añadirCart }) {
                   onClick={() => abrirModalCart(product)}
                   className="shadow-md hidden group-hover:flex group/sub relative h-[30px] overflow-hidden items-center bg-[#ffffff] p-2 m-2 rounded-[200px] text-[#000] font-normal text-[10px]"
                 >
-                  {añadirCart ? (
-                    <>
-                      <img src={Check} className="w-[13px] h-[13px]" />
-                      <p className="ml-2 hidden w-0 group-hover/sub:w-5 transition-transform duration-300">
-                        AÑADIDO
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      <img src={Add} className="w-[13px] h-[13px]" />
-                      <p className="w-0 text-white group-hover/sub:w-10 group-hover/sub:ml-2 group-hover/sub:text-black transition-all duration-300">
-                        AÑADIR
-                      </p>
-                    </>
-                  )}
+                  <img src={Add} className="w-[13px] h-[13px]" />
+                  <p className="w-0 text-white transition-all duration-300 group-hover/sub:w-10 group-hover/sub:ml-2 group-hover/sub:text-black">
+                    AÑADIR
+                  </p>
                 </button>
               </div>
             )}
           </div>
-            {/* Producto Nombre */}
+          {/* Producto Nombre */}
           <p className="pt-1">{product.nameP}</p>
-            {/* Producto Precios y Descuento */}
+          {/* Producto Precios y Descuento */}
           <div className="flex gap-1">
             {product.discount <= 1 ? (
               <p>S/ {product.price.toFixed(2)}</p>

@@ -5,7 +5,7 @@ import icon_fb from "../assets/icon_facebook_white.svg";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useNavigate } from "react-router-dom";
-const Footer = ({ navbar }) => {
+const Footer = () => {
   const navigate = useNavigate();
   AOS.init();
 
@@ -46,30 +46,30 @@ const Footer = ({ navbar }) => {
             </button>
           </div>
         </section>
-        <div className="hidden md:block font-normal underline mb-1 ml-4">
+        <div className="hidden mb-1 ml-4 font-normal underline md:block">
           <button className="hover:underline">Libro de Reclamaciones</button>
         </div>
       </div>
       <section className="w-full h-auto p-10 text-[#ffffffc9] bg-[#000000] ">
         <div className="w-auto flex justify-between py-10 h-auto border-t border-[#ffffff6f]">
-          <div className="w-auto flex flex-row items-center gap-2">
+          <div className="flex flex-row items-center w-auto gap-2">
             <p className="text-xs">© Mayikh Style, 2025.</p>
           </div>
 
-          <section className="w-auto h-auto grid grid-cols-2 gap-2">
-            {/* <button className="w-auto flex justify-start items-center">
+          <section className="grid w-auto h-auto grid-cols-2 gap-2">
+            {/* <button className="flex items-center justify-start w-auto">
               <img src={icon_fb} className="w-[30px]" />
             </button> */}
 
-            <button className="w-auto flex justify-start items-center">
+            <a href="https://www.instagram.com/mayikh.pe/" target="_blank" className="flex items-center justify-start w-auto">
               <img src={icon_ig} className="w-[30px]" />
-            </button>
+            </a>
 
-            <button className="w-auto flex justify-start items-center">
+            <a href="https://wa.link/hd9hwl" target="_blank" className="flex items-center justify-start w-auto">
               <img src={icon_wsp} className="w-[30px]" />
-            </button>
+            </a>
 
-            {/* <button className="w-auto flex justify-start items-center">
+            {/* <button className="flex items-center justify-start w-auto">
               <img src={icon_tiktok} className="w-[30px]" />
             </button> */}
           </section>

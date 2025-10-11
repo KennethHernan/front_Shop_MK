@@ -8,318 +8,365 @@ import icon_mastercard from "../assets/mastercard.svg";
 import icon_dinerclub from "../assets/dinerclub.svg";
 import icon_americanexpress from "../assets/americaexpres.svg";
 import icon_yape from "../assets/yape.svg";
+import { useForm } from "react-hook-form";
 
 function Checkout() {
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const { itemCarrito } = useAuth();
   const navigate = useNavigate();
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
 
   return (
     <section className="font-sans lg:bg-[#0000000d] select-none flex flex-col justify-center z-50">
       {/* Titulo */}
-      <section className="w-full h-[65px] bg-white border-b flex justify-center font-light font-sans">
-        <div className="w-[65vh] h-full text-[25px] flex items-center pl-5 md:pl-0">
-          MAYIKH STYLE
+      <section className="w-full h-[65px] bg-white border-b flex justify-center font-light font-sans lg:justify-end">
+        <div className="flex justify-center w-full h-auto bg-white lg:justify-end">
+          <div className="w-[65vh] md:w-[80vh] lg:w-[75vh] h-full text-[25px] flex items-center text-start pl-5">
+            MAYIKH STYLE
+          </div>
         </div>
-        <div className="invisible w-[65vh] h-full"></div>
+        <div className="justify-center hidden w-full h-full lg:justify-start lg:flex">
+          <div className="w-[65vh] h-full"></div>
+        </div>
       </section>
 
       {/* Body */}
-      <section className="h-auto flex flex-col lg:flex-row justify-center text-xs font-sans">
+      <section className="flex flex-col justify-center h-auto font-sans text-xs lg:flex-row">
         {/* Seccion información */}
-        <div className="w-full h-auto bg-white md:h-full flex justify-center lg:justify-end">
-          <div className="w-[65vh] md:w-[80vh] lg:w-[65vh] h-auto md:h-full p-5">
-            <div className="w-full flex text-lg mb-2 justify-between">
-              <p className="font-medium">Contacto</p>
-              <button className="text-xs hover:underline font-medium text-[#2d5bd0]">
-                Iniciar sesión
-              </button>
-            </div>
+        <div className="flex justify-center w-full h-auto bg-white md:h-full lg:justify-end">
+          <div className="w-[65vh] md:w-[80vh] lg:w-[75vh] h-auto md:h-full p-5">
+            <form onSubmit={handleSubmit(onSubmit)} className="w-full h-full">
+              <div className="flex justify-between w-full mb-2 text-lg">
+                <p className="font-medium">Contacto</p>
+                <button className="text-xs hover:underline font-medium text-[#2d5bd0]">
+                  Iniciar sesión
+                </button>
+              </div>
 
-            {/* Input Correo Electronico */}
-            <div className="relative w-full">
-              <input
-                type="email"
-                id="email"
-                className="peer w-full border-[1px] border-gray-300 text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-[2px] focus:border-blue-500 transition-transform duration-300"
-                placeholder="Correo Electrónico"
-              />
-              <label
-                htmlFor="email"
-                className="absolute text-gray-500 text-sm transform opacity-0 -translate-y-1/2 top-7 left-3 transition-transform duration-300
-               bg-[#39333300] px-1 pointer-events-none 
-               peer-[&:not(:placeholder-shown)]:top-5 peer-[&:not(:placeholder-shown)]:opacity-100 peer-[&:not(:placeholder-shown)]:text-xs"
-              >
-                Correo Electrónico
-              </label>
-            </div>
-
-            <div className="w-full flex text-lg mt-5 justify-between font-medium">
-              <p>Entrega</p>
-            </div>
-            <section className="grid grid-cols-2 gap-2 my-2">
-              {/* Input Nombre Completo */}
+              {/* Input Correo Electronico */}
               <div className="relative w-full">
                 <input
-                  type="text"
-                  id="nombre"
-                  className="peer w-full border-[1px] border-gray-300 text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-[2px] focus:border-blue-500 transition-transform duration-300"
-                  placeholder="Nombre Completo"
+                  type="email"
+                  id="email"
+                  className={`
+                    peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-[2px] focus:border-blue-500 transition-transform duration-300
+                    ${errors.email ? "border-red-600 border-2" : "border-[1px] border-gray-300"}
+                    `}
+                  placeholder="Correo Electrónico"
+                  {...register("email", { required: "Introduce un correo electrónico" })}
                 />
                 <label
-                  htmlFor="nombre"
+                  htmlFor="email"
                   className="absolute text-gray-500 text-sm transform opacity-0 -translate-y-1/2 top-7 left-3 transition-transform duration-300
                bg-[#39333300] px-1 pointer-events-none 
                peer-[&:not(:placeholder-shown)]:top-5 peer-[&:not(:placeholder-shown)]:opacity-100 peer-[&:not(:placeholder-shown)]:text-xs"
                 >
-                  Apellido Completo
+                  Correo Electrónico
                 </label>
+                {errors.email && <p className="text-[14px] text-red-500 my-2">{errors.email.message}</p>}
               </div>
 
-              {/* Input Apellido Completo */}
-              <div className="relative w-full">
-                <input
-                  type="text"
-                  id="apellido"
-                  className="peer w-full border-[1px] border-gray-300 text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-[2px] focus:border-blue-500 transition-transform duration-300"
-                  placeholder="Apellido Completo"
-                />
-                <label
-                  htmlFor="apellido"
-                  className="absolute text-gray-500 text-sm transform opacity-0 -translate-y-1/2 top-7 left-3 transition-transform duration-300
-               bg-[#39333300] px-1 pointer-events-none 
-               peer-[&:not(:placeholder-shown)]:top-5 peer-[&:not(:placeholder-shown)]:opacity-100 peer-[&:not(:placeholder-shown)]:text-xs"
-                >
-                  Apellido Completo
-                </label>
+              <div className="flex justify-between w-full mt-5 text-lg font-medium">
+                <p>Entrega</p>
               </div>
-            </section>
-
-            {/* Input DNI */}
-            <div className="relative w-full">
-              <input
-                type="text"
-                id="dni"
-                className="peer w-full border-[1px] border-gray-300 text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 focus:border-[2px] [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-blue-500 transition-transform duration-300"
-                placeholder="Dni"
-              />
-              <label
-                htmlFor="dni"
-                className="absolute text-gray-500 text-sm transform opacity-0 -translate-y-1/2 top-7 left-3 transition-transform duration-300
-               bg-[#39333300] px-1 pointer-events-none 
-               peer-[&:not(:placeholder-shown)]:top-5 peer-[&:not(:placeholder-shown)]:opacity-100 peer-[&:not(:placeholder-shown)]:text-xs"
-              >
-                Dni
-              </label>
-            </div>
-
-            {/* Input Departametos */}
-            <div className="relative w-full my-2">
-              <section>
-                <select
-                  id="departamento"
-                  className="peer w-full border-[1px] border-gray-300 text-sm text-gray-900 rounded-lg pl-3 pt-6 pb-2 focus:border-[2px] focus:outline-none focus:border-blue-500 transition-transform duration-300 appearance-none"
-                >
-                  <option value="">Seleccionar departamento</option>
-                  {departamentos.map((d) => (
-                    <option key={d.id} value={d.nombre}>
-                      {d.nombre}
-                    </option>
-                  ))}
-                </select>
-                {/* Icono personalizado */}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none"
-                  fill="none"
-                  viewBox="0 0 30 20"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M19 9l-7 7-7-7"
+              <section className="grid grid-cols-2 gap-2 my-2">
+                {/* Input Nombre Completo */}
+                <div className="relative w-full">
+                  <input
+                    type="text"
+                    id="nombre"
+                    className={`
+                      peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-[2px] focus:border-blue-500 transition-transform duration-300
+                      ${errors.nombre ? "border-red-600 border-2" : "border-[1px] border-gray-300"}
+                    `}
+                    placeholder="Nombre Completo"
+                    {...register("nombre", { required: "Introduce un nombre" })}
                   />
-                </svg>
+                  <label
+                    htmlFor="nombre"
+                    className="absolute text-gray-500 text-sm transform opacity-0 -translate-y-1/2 top-7 left-3 transition-transform duration-300
+               bg-[#39333300] px-1 pointer-events-none 
+               peer-[&:not(:placeholder-shown)]:top-5 peer-[&:not(:placeholder-shown)]:opacity-100 peer-[&:not(:placeholder-shown)]:text-xs"
+                  >
+                    Apellido Completo
+                  </label>
+                  {errors.nombre && <p className="text-[14px] text-red-500 my-2">{errors.nombre.message}</p>}
+                </div>
+
+                {/* Input Apellido Completo */}
+                <div className="relative w-full">
+                  <input
+                    type="text"
+                    id="apellido"
+                    className={`
+                      peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-[2px] focus:border-blue-500 transition-transform duration-300
+                      ${errors.apellido ? "border-red-600 border-2" : "border-[1px] border-gray-300"}
+                    `}
+                    placeholder="Apellido Completo"
+                    {...register("apellido", { required: "Introduce un apellido" })}
+                  />
+                  <label
+                    htmlFor="apellido"
+                    className="absolute text-gray-500 text-sm transform opacity-0 -translate-y-1/2 top-7 left-3 transition-transform duration-300
+               bg-[#39333300] px-1 pointer-events-none 
+               peer-[&:not(:placeholder-shown)]:top-5 peer-[&:not(:placeholder-shown)]:opacity-100 peer-[&:not(:placeholder-shown)]:text-xs"
+                  >
+                    Apellido Completo
+                  </label>
+                  {errors.apellido && <p className="text-[14px] text-red-500 my-2">{errors.apellido.message}</p>}
+                </div>
               </section>
 
-              <label
-                htmlFor="departamento"
-                className="absolute text-gray-500 text-xs transform -translate-y-1/2 top-4 left-3
-               bg-[#39333300] px-1 pointer-events-none"
-              >
-                Departamento
-              </label>
-            </div>
-
-            {/* Input Distrito */}
-            <div className="relative w-full">
-              <input
-                type="text"
-                id="distrito"
-                className="peer w-full border-[1px] border-gray-300 text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 focus:border-[2px] [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-blue-500 transition-transform duration-300"
-                placeholder="Distrito"
-              />
-              <label
-                htmlFor="distrito"
-                className="absolute text-gray-500 text-sm transform opacity-0 -translate-y-1/2 top-7 left-3 transition-transform duration-300
+              {/* Input DNI */}
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  id="dni"
+                  className={`
+                    peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 focus:border-[2px] [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-blue-500 transition-transform duration-300
+                    ${errors.dni ? "border-red-600 border-2" : "border-[1px] border-gray-300"}
+                    `}
+                  placeholder="Dni"
+                  {...register("dni", { required: "Introduce un dni" })}
+                />
+                <label
+                  htmlFor="dni"
+                  className="absolute text-gray-500 text-sm transform opacity-0 -translate-y-1/2 top-7 left-3 transition-transform duration-300
                bg-[#39333300] px-1 pointer-events-none 
                peer-[&:not(:placeholder-shown)]:top-5 peer-[&:not(:placeholder-shown)]:opacity-100 peer-[&:not(:placeholder-shown)]:text-xs"
-              >
-                Distrito
-              </label>
-            </div>
-
-            {/* Input Telefono */}
-            <div className="relative w-full mt-2">
-              <input
-                type="text"
-                id="phone"
-                className="peer w-full border-[1px] border-gray-300 text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 focus:border-[2px] [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-blue-500 transition-transform duration-300"
-                placeholder="Número Telefonico"
-              />
-              <label
-                htmlFor="phone"
-                className="absolute text-gray-500 text-sm transform opacity-0 -translate-y-1/2 top-7 left-3 transition-transform duration-300
-               bg-[#39333300] px-1 pointer-events-none 
-               peer-[&:not(:placeholder-shown)]:top-5 peer-[&:not(:placeholder-shown)]:opacity-100 peer-[&:not(:placeholder-shown)]:text-xs"
-              >
-                Número Telefonico
-              </label>
-            </div>
-
-            {/* METODO DE ENVIO */}
-            <p className="text-[16px] mt-5 font-medium">Método de envío</p>
-            <section className="w-full border-blue-500 border-[1px] bg-slate-50 rounded-lg p-4 text-[14px] my-3">
-              <div className="flex items-center justify-between">
-                <p>ENVIO ECOAMIGABLE</p>
-                <p className="font-medium">S/ 10.00</p>
+                >
+                  Dni
+                </label>
+                {errors.dni && <p className="text-[14px] text-red-500 my-2">{errors.dni.message}</p>}
               </div>
-              <p className="text-gray-500 mt-1">Precio de envio a todo Perú</p>
-            </section>
 
-            {/* PAGO */}
-            <div className="w-full mt-5 justify-between">
-              <p className="text-lg font-medium">Pago</p>
-              <p className="text-[14px] mt-1 text-gray-500">Todas las transacciones son seguras y están encriptadas.</p>
-            </div>
-            <section className="w-full flex justify-between text-[14px] items-center mt-5 border-blue-600 border-[1px] bg-slate-50 px-4 py-3 rounded-md rounded-b-none">
-              <p>Mercado Pago</p>
-              <section className="flex gap-1">
-                <div className="w-[40px] h-[25px] bg-white rounded-md border-[1px] border-gray-200 overflow-hidden px-1 flex justify-center items-center">
-                  <span className="pointer-events-none">
-                    <img src={icon_visa} alt="Visa" />
-                  </span>
-                </div>
-                <div className="w-[40px] h-[25px] bg-white rounded-md border-[1px] border-gray-200 overflow-hidden px-2 flex justify-center items-center">
-                  <span className="pointer-events-none">
-                    <img src={icon_mercadopago} alt="Visa" />
-                  </span>
-                </div>
-                <div className="w-[40px] h-[25px] bg-white rounded-[3px] border-[1px] border-gray-200 overflow-hidden px-1 flex justify-center items-center">
-                  <span className="pointer-events-none">
-                    <img src={icon_mastercard} alt="Visa" />
-                  </span>
-                </div>
+              {/* Input Departametos */}
+              <div className="relative w-full my-2">
+                <section>
+                  <select
+                    id="departamento"
+                    className={`
+                      peer w-full text-sm text-gray-900 rounded-lg pl-3 pt-6 pb-2 focus:border-[2px] focus:outline-none focus:border-blue-500 transition-transform duration-300 appearance-none
+                      ${errors.departamento ? "border-red-600 border-2" : "border-[1px] border-gray-300"}
+                    `}
+                    {...register("departamento", { required: "Introduce un departamento" })}
+                  >
+                    <option value="">Seleccionar departamento</option>
+                    {departamentos.map((d) => (
+                      <option key={d.id} value={d.nombre}>
+                        {d.nombre}
+                      </option>
+                    ))}
+                  </select>
+                  {/* Icono personalizado */}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="absolute w-5 h-5 text-gray-500 -translate-y-1/2 pointer-events-none right-3 top-1/2"
+                    fill="none"
+                    viewBox="0 0 30 20"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </section>
 
-                <div className="w-[40px] h-[25px] bg-white rounded-[3px] border-[1px] border-gray-200 px-2 flex justify-center items-center relative group">
-                  <span className="pointer-events-none">
-                    <p className="text-blue-700 text-[13px] font-medium">+3</p>
-                  </span>
+                <label
+                  htmlFor="departamento"
+                  className="absolute text-gray-500 text-xs transform -translate-y-1/2 top-4 left-3
+               bg-[#39333300] px-1 pointer-events-none"
+                >
+                  Departamento
+                </label>
+                {errors.departamento && <p className="text-[14px] text-red-500 my-2">{errors.departamento.message}</p>}
+              </div>
 
-                  <section className="flex gap-1 opacity-0 bg-black px-3 py-2 rounded-md absolute -top-[53px]  -right-4 group-hover:opacity-100 transition-opacity duration-700">
-                    <div className="w-[40px] h-[25px] bg-white rounded-[3px] border-[1px] border-gray-200 overflow-hidden px-2 flex justify-center items-center">
-                      <span className="pointer-events-none">
-                        <img src={icon_dinerclub} alt="Visa" />
-                      </span>
-                    </div>
-                    <div className="w-[40px] h-[25px] bg-[#006FCF] rounded-[3px] overflow-hidden pl-4 flex justify-center items-center">
-                      <span className="pointer-events-none">
-                        <img src={icon_americanexpress} alt="Visa" />
-                      </span>
-                    </div>
-                    <div className="w-[40px] h-[25px] bg-white rounded-[3px] border-[1px] border-gray-200 overflow-hidden px-2 flex justify-center items-center">
-                      <span className="pointer-events-none">
-                        <img src={icon_yape} alt="Visa" />
-                      </span>
-                    </div>
-                    <div class="w-0 h-0 absolute -bottom-2 right-7
+              {/* Input Distrito */}
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  id="distrito"
+                  className={`
+                    peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 focus:border-[2px] [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-blue-500 transition-transform duration-300
+                    ${errors.distrito ? "border-red-600 border-2" : "border-[1px] border-gray-300"}
+                    `}
+                  placeholder="Distrito"
+                  {...register("distrito", { required: "Introduce un distrito" })}
+                />
+                <label
+                  htmlFor="distrito"
+                  className="absolute text-gray-500 text-sm transform opacity-0 -translate-y-1/2 top-7 left-3 transition-transform duration-300
+               bg-[#39333300] px-1 pointer-events-none 
+               peer-[&:not(:placeholder-shown)]:top-5 peer-[&:not(:placeholder-shown)]:opacity-100 peer-[&:not(:placeholder-shown)]:text-xs"
+                >
+                  Distrito
+                </label>
+                {errors.distrito && <p className="text-[14px] text-red-500 my-2">{errors.distrito.message}</p>}
+              </div>
+
+              {/* Input Telefono */}
+              <div className="relative w-full mt-2">
+                <input
+                  type="text"
+                  id="phone"
+                  className={`
+                    peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 focus:border-[2px] [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-blue-500 transition-transform duration-300
+                    ${errors.email ? "border-red-600 border-2" : "border-[1px] border-gray-300"}
+                    `}
+                  placeholder="Número Telefonico"
+                  {...register("phone", { required: "Introduce un teléfono" })}
+                />
+                <label
+                  htmlFor="phone"
+                  className="absolute text-gray-500 text-sm transform opacity-0 -translate-y-1/2 top-7 left-3 transition-transform duration-300
+               bg-[#39333300] px-1 pointer-events-none 
+               peer-[&:not(:placeholder-shown)]:top-5 peer-[&:not(:placeholder-shown)]:opacity-100 peer-[&:not(:placeholder-shown)]:text-xs"
+                >
+                  Número Telefonico
+                </label>
+                {errors.phone && <p className="text-[14px] text-red-500 my-2">{errors.phone.message}</p>}
+              </div>
+
+              {/* METODO DE ENVIO */}
+              <p className="text-[16px] mt-5 font-medium">Método de envío</p>
+              <section className="w-full border-blue-500 border-[1px] bg-slate-50 rounded-lg p-4 text-[14px] my-3">
+                <div className="flex items-center justify-between">
+                  <p>ENVIO ECOAMIGABLE</p>
+                  <p className="font-medium">S/ 10.00</p>
+                </div>
+                <p className="mt-1 text-gray-500">Precio de envio a todo Perú</p>
+              </section>
+
+              {/* PAGO */}
+              <div className="justify-between w-full mt-5">
+                <p className="text-lg font-medium">Pago</p>
+                <p className="text-[14px] mt-1 text-gray-500">Todas las transacciones son seguras y están encriptadas.</p>
+              </div>
+              <section className="w-full flex justify-between text-[14px] items-center mt-5 border-blue-600 border-[1px] bg-slate-50 px-4 py-3 rounded-md rounded-b-none">
+                <p>Mercado Pago</p>
+                <section className="flex gap-1">
+                  <div className="w-[40px] h-[25px] bg-white rounded-md border-[1px] border-gray-200 overflow-hidden px-1 flex justify-center items-center">
+                    <span className="pointer-events-none">
+                      <img src={icon_visa} alt="Visa" />
+                    </span>
+                  </div>
+                  <div className="w-[40px] h-[25px] bg-white rounded-md border-[1px] border-gray-200 overflow-hidden px-2 flex justify-center items-center">
+                    <span className="pointer-events-none">
+                      <img src={icon_mercadopago} alt="Visa" />
+                    </span>
+                  </div>
+                  <div className="w-[40px] h-[25px] bg-white rounded-[3px] border-[1px] border-gray-200 overflow-hidden px-1 flex justify-center items-center">
+                    <span className="pointer-events-none">
+                      <img src={icon_mastercard} alt="Visa" />
+                    </span>
+                  </div>
+
+                  <div className="w-[40px] h-[25px] bg-white rounded-[3px] border-[1px] border-gray-200 px-2 flex justify-center items-center relative group">
+                    <span className="pointer-events-none">
+                      <p className="text-blue-700 text-[13px] font-medium">+3</p>
+                    </span>
+
+                    <section className="flex gap-1 opacity-0 bg-black px-3 py-2 rounded-md absolute -top-[53px]  -right-4 group-hover:opacity-100 transition-opacity duration-700">
+                      <div className="w-[40px] h-[25px] bg-white rounded-[3px] border-[1px] border-gray-200 overflow-hidden px-2 flex justify-center items-center">
+                        <span className="pointer-events-none">
+                          <img src={icon_dinerclub} alt="Visa" />
+                        </span>
+                      </div>
+                      <div className="w-[40px] h-[25px] bg-[#006FCF] rounded-[3px] overflow-hidden pl-4 flex justify-center items-center">
+                        <span className="pointer-events-none">
+                          <img src={icon_americanexpress} alt="Visa" />
+                        </span>
+                      </div>
+                      <div className="w-[40px] h-[25px] bg-white rounded-[3px] border-[1px] border-gray-200 overflow-hidden px-2 flex justify-center items-center">
+                        <span className="pointer-events-none">
+                          <img src={icon_yape} alt="Visa" />
+                        </span>
+                      </div>
+                      <div class="w-0 h-0 absolute -bottom-2 right-7
             border-l-[10px] border-l-transparent 
             border-r-[10px] border-r-transparent 
             border-b-[10px] border-b-[#000000] rotate-180"
-                    >
-                    </div>
-                  </section>
-                </div>
+                      >
+                      </div>
+                    </section>
+                  </div>
+                </section>
               </section>
-            </section>
-            <section className="w-full flex flex-col text-[14px] items-center mb-2 border-gray-300 border-[1px] border-t-0 bg-gray-50 p-5 rounded-b-md">
-              <div className="w-[100px]">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="-270.8 371 102 52"
-                  class="zjrzY"
+              <section className="w-full flex flex-col text-[14px] items-center mb-2 border-gray-300 border-[1px] border-t-0 bg-gray-50 p-5 rounded-b-md">
+                <div className="w-[100px]">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="-270.8 371 102 52"
+                    class="zjrzY"
+                  >
+                    <path
+                      fill="none"
+                      stroke="hsl(0, 0%, 44%)"
+                      stroke-miterlimit="10"
+                      stroke-width="2"
+                      d="M-182 404v16.8c0 .7-.4 1.2-1 1.2h-75.7c-.7 0-1.2-.6-1.2-1.2v-47.6c0-.7.6-1.2 1.2-1.2h75.7c.7 0 1 .6 1 1.2V395m-78-14h78m-17 18h27m-3.9-4.6 4.5 4.6-4.5 4.6"
+                    ></path>
+                    <circle
+                      cx="-255.5"
+                      cy="376.5"
+                      r="1.5"
+                      fill="hsl(0, 0%, 44%)"
+                    ></circle>
+                    <circle
+                      cx="-250.5"
+                      cy="376.5"
+                      r="1.5"
+                      fill="hsl(0, 0%, 44%)"
+                    ></circle>
+                    <circle
+                      cx="-245.5"
+                      cy="376.5"
+                      r="1.5"
+                      fill="hsl(0, 0%, 44%)"
+                    ></circle>
+                  </svg>
+                </div>
+                <p className="mx-3 my-3 text-center text-gray-700">
+                  Después de hacer clic en “Pagar ahora”, serás redirigido a
+                  Mercado Pago para completar tu compra de forma segura.
+                </p>
+              </section>
+
+              {/* BOTON PAGAR AHORA */}
+              <button type="submit" className="lg:block hidden w-full text-[15px] my-4 font-medium text-white rounded-lg py-4 bg-blue-700 hover:bg-blue-800 transition-colors duration-300">
+                Pagar Ahora
+              </button>
+
+              {/* POLITICA Y PRIVACIDAD */}
+              <section className="items-center hidden pt-2 my-3 text-blue-700 border-t pb-14 text-md lg:flex">
+                <a
+                  onClick={() => navigate("/politica-y-privacidad")}
+                  className="w-auto px-3 underline rounded-md"
                 >
-                  <path
-                    fill="none"
-                    stroke="hsl(0, 0%, 44%)"
-                    stroke-miterlimit="10"
-                    stroke-width="2"
-                    d="M-182 404v16.8c0 .7-.4 1.2-1 1.2h-75.7c-.7 0-1.2-.6-1.2-1.2v-47.6c0-.7.6-1.2 1.2-1.2h75.7c.7 0 1 .6 1 1.2V395m-78-14h78m-17 18h27m-3.9-4.6 4.5 4.6-4.5 4.6"
-                  ></path>
-                  <circle
-                    cx="-255.5"
-                    cy="376.5"
-                    r="1.5"
-                    fill="hsl(0, 0%, 44%)"
-                  ></circle>
-                  <circle
-                    cx="-250.5"
-                    cy="376.5"
-                    r="1.5"
-                    fill="hsl(0, 0%, 44%)"
-                  ></circle>
-                  <circle
-                    cx="-245.5"
-                    cy="376.5"
-                    r="1.5"
-                    fill="hsl(0, 0%, 44%)"
-                  ></circle>
-                </svg>
-              </div>
-              <p className="text-center my-3 mx-3 text-gray-700">
-                Después de hacer clic en “Pagar ahora”, serás redirigido a
-                Mercado Pago para completar tu compra de forma segura.
-              </p>
-            </section>
-
-            {/* BOTON PAGAR AHORA */}
-            <button className="lg:block hidden w-full text-[15px] my-4 font-medium text-white rounded-lg py-4 bg-blue-700 hover:bg-blue-800 transition-colors duration-300">
-              Pagar Ahora
-            </button>
-
-            {/* POLITICA Y PRIVACIDAD */}
-            <section className="my-3 border-t pt-2 pb-14 text-md text-blue-700 lg:flex hidden items-center">
-              <a
-                onClick={() => navigate("/politica-y-privacidad")}
-                className="w-auto px-3 underline rounded-md"
-              >
-                Política de privacidad
-              </a>
-              <a
-                onClick={() => navigate("/politica-y-privacidad")}
-                className="w-auto px-3 block underline"
-              >
-                Términos del Servicio
-              </a>
-            </section>
+                  Política de privacidad
+                </a>
+                <a
+                  onClick={() => navigate("/politica-y-privacidad")}
+                  className="block w-auto px-3 underline"
+                >
+                  Términos del Servicio
+                </a>
+              </section>
+            </form>
           </div>
         </div>
         {/* Seccion precio total */}
-        <div className="w-full md:h-full border-l flex justify-center lg:justify-start">
-          <div className="w-[65vh] md:w-[65vh] sticky top-0 lg:w-[65vh] h-full md:py-5 px-5 py-0 overflow-scroll">
-            <section className="h-full flex flex-col font-normal">
-              <div className="w-full flex md:hidden text-lg mb-3 justify-between font-medium">
+        <div className="sticky top-0 flex justify-center w-full border-l md:h-full lg:justify-start">
+          <div className="w-[65vh] h-full md:py-5 px-5 py-0 overflow-scroll">
+            <section className="flex flex-col h-full font-normal">
+              <div className="flex justify-between w-full mb-3 text-lg font-medium md:hidden">
                 <p>Resumen del pedido</p>
               </div>
               <ul className="w-full px-[10px] h-auto flex flex-col justify-start overflow-scroll">
@@ -363,7 +410,7 @@ function Checkout() {
                           </>
                         ) : (
                           <input
-                            className="w-full text-end bg-transparent"
+                            className="w-full bg-transparent text-end"
                             disabled
                             value={`S/ ${(
                               product.price * product.cantidad
@@ -376,23 +423,23 @@ function Checkout() {
                   : null}
               </ul>
 
-              <section className="w-full h-auto text-sm grid mt-5 p-5 border-t">
-                <div className="flex justify-between items-center">
+              <section className="grid w-full h-auto p-5 mt-5 text-sm border-t">
+                <div className="flex items-center justify-between">
                   <p>Subtotal</p>
                   <p>S/ 150.00</p>
                 </div>
-                <div className="flex justify-between items-center my-3">
+                <div className="flex items-center justify-between my-3">
                   <p>Envío</p>
                   <p>S/ 10.00</p>
                 </div>
 
-                <div className="flex justify-between items-center mt-2">
+                <div className="flex items-center justify-between mt-2">
                   <div>
-                    <p className="font-semibold text-lg">Total</p>
+                    <p className="text-lg font-semibold">Total</p>
                   </div>
                   <div className="flex items-end gap-2">
                     <p className="text-xs text-gray-400">PEN</p>
-                    <p className="font-semibold text-lg">S/ 160.00</p>
+                    <p className="text-lg font-semibold">S/ 160.00</p>
                   </div>
                 </div>
                 <p className="w-[150px] text-gray-400">
@@ -401,12 +448,12 @@ function Checkout() {
               </section>
 
               {/* BOTON PAGAR AHORA */}
-              <button className="block lg:hidden w-full text-[15px] mb-4 bt-2 font-medium text-white rounded-lg py-4 bg-blue-700 hover:bg-blue-800 transition-colors duration-300">
+              <button type="submit" className="block lg:hidden w-full text-[15px] mb-4 bt-2 font-medium text-white rounded-lg py-4 bg-blue-700 hover:bg-blue-800 transition-colors duration-300">
                 Pagar Ahora
               </button>
 
               {/* POLITICA Y PRIVACIDAD */}
-              <section className="my-3 border-t pt-2 pb-14 text-md text-blue-700 flex lg:hidden items-center">
+              <section className="flex items-center pt-2 my-3 text-blue-700 border-t pb-14 text-md lg:hidden">
                 <a
                   onClick={() => navigate("/politica-y-privacidad")}
                   className="w-auto px-3 underline rounded-md"
@@ -415,7 +462,7 @@ function Checkout() {
                 </a>
                 <a
                   onClick={() => navigate("/politica-y-privacidad")}
-                  className="w-auto px-3 block underline"
+                  className="block w-auto px-3 underline"
                 >
                   Términos del Servicio
                 </a>

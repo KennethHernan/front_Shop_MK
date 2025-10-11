@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import ImagenLogo from "../assets/LOGO TEXTO.svg";
 import ImagenLogo2 from "../assets/icon_marca_white.svg";
 import Profile from "../assets/Profile.svg";
 import Profile2 from "../assets/person_white.svg";
@@ -23,8 +24,8 @@ function CustomLink({ to, label, ...props }) {
       <p
         {...props}
         className={`text-[11px] md:text-xs hover:font-semibold 
-          ${isActive ? "font-semibold" : "font-medium"}
-          ${isHovered ? "font-semibold" : "font-medium"}
+          ${isActive ? "font-semibold" : "font-normal"}
+          ${isHovered ? "font-semibold" : "font-normal"}
         `}
       >
         {label}
@@ -34,7 +35,7 @@ function CustomLink({ to, label, ...props }) {
 }
 
 function Sidebar() {
-  const { navbar, openCart, setOpenCart, itemCarrito, cartIconRef } = useAuth();
+  const { navbar, setOpenCart, search, setSearch, itemCarrito, cartIconRef } = useAuth();
   const navigate = useNavigate();
   const [isHover, setIsHovered] = useState(false);
   const [active, setActive] = useState(false);
@@ -68,13 +69,23 @@ function Sidebar() {
           `}
         >
           <section className="flex gap-4">
+
+            {/* Header - INICIO */}
+            <div
+              className="hidden h-auto px-3 py-2 overflow-hidden rounded-md md:flex group">
+              <CustomLink
+                to="/"
+                label="INICIO"
+              />
+            </div>
+
             {/* Header - JOYERIA */}
             <div
-              className="hidden md:flex h-auto group px-3 py-2 rounded-md overflow-hidden"
+              className="hidden h-auto px-3 py-2 overflow-hidden rounded-md md:flex group"
               onMouseEnter={() => (setIsHovered(true), setActive(true))}
             >
               <CustomLink
-                to="/"
+                to=""
                 label="JOYERIA"
                 onMouseEnter={() => {
                   setIsHovered(true);
@@ -82,10 +93,10 @@ function Sidebar() {
                 }}
               />
               <section className="absolute w-screen flex flex-row gap-0 h-0 group-hover:h-[350px] overflow-hidden left-[0px] top-full transition-all duration-500 bg-gradient-to-br from-gray-50 to-white shadow-2xl z-50">
-                <div className="container text-xs mx-auto px-8 py-6 flex gap-8 h-full">
+                <div className="container flex h-full gap-8 px-8 py-6 mx-auto text-xs">
                   {/* Columna 1: ANILLOS */}
-                  <div className="flex-1 rounded-lg p-0">
-                    <div className="flex items-center mb-4 pb-3 border-b border-gray-200 text-gray-400">
+                  <div className="flex-1 p-0 rounded-lg">
+                    <div className="flex items-center pb-3 mb-4 text-gray-400 border-b border-gray-200">
                       <p>ANILLOS</p>
                     </div>
 
@@ -121,8 +132,8 @@ function Sidebar() {
                   </div>
 
                   {/* Columna 2: COLLARES */}
-                  <div className="flex-1 rounded-lg p-0">
-                    <div className="flex items-center mb-4 pb-3 border-b border-gray-200 text-gray-400">
+                  <div className="flex-1 p-0 rounded-lg">
+                    <div className="flex items-center pb-3 mb-4 text-gray-400 border-b border-gray-200">
                       <p>COLLARES</p>
                     </div>
 
@@ -158,8 +169,8 @@ function Sidebar() {
                   </div>
 
                   {/* Columna 3: PULSERAS */}
-                  <div className="flex-1 rounded-lg p-0">
-                    <div className="flex items-center mb-4 pb-3 border-b border-gray-200 text-gray-400">
+                  <div className="flex-1 p-0 rounded-lg">
+                    <div className="flex items-center pb-3 mb-4 text-gray-400 border-b border-gray-200">
                       <p>PULSERAS</p>
                     </div>
 
@@ -199,7 +210,7 @@ function Sidebar() {
 
             {/* Header - SOBRE MK */}
             <div
-              className="hidden md:flex h-auto group px-3 py-2 rounded-md"
+              className="hidden h-auto px-3 py-2 rounded-md md:flex group"
               onMouseEnter={() => (setIsHovered(true), setActive(true))}
             >
               <CustomLink
@@ -208,10 +219,10 @@ function Sidebar() {
                 onMouseEnter={() => (setIsHovered(true), setActive(true))}
               />
               <section className="absolute w-screen flex flex-row gap-0 h-0 group-hover:h-[350px] overflow-hidden left-[0px] top-full transition-all duration-500 bg-gradient-to-br from-gray-50 to-white shadow-2xl z-50">
-                <div className="container text-xs mx-auto px-8 py-6 flex gap-8 h-full">
+                <div className="container flex h-full gap-8 px-8 py-6 mx-auto text-xs">
                   {/* Columna 1: CONOCENOS */}
-                  <div className="flex-1 rounded-lg p-0">
-                    <div className="flex items-center mb-4 pb-3 border-b border-gray-200 text-gray-400">
+                  <div className="flex-1 p-0 rounded-lg">
+                    <div className="flex items-center pb-3 mb-4 text-gray-400 border-b border-gray-200">
                       <p>CONOCENOS</p>
                     </div>
 
@@ -226,8 +237,8 @@ function Sidebar() {
                   </div>
 
                   {/* Columna 2: ATENCIÓN AL CLIENTE */}
-                  <div className="flex-1 rounded-lg p-0">
-                    <div className="flex items-center mb-4 pb-3 border-b border-gray-200 text-gray-400">
+                  <div className="flex-1 p-0 rounded-lg">
+                    <div className="flex items-center pb-3 mb-4 text-gray-400 border-b border-gray-200">
                       <p>ATENCIÓN AL CLIENTE</p>
                     </div>
 
@@ -242,8 +253,8 @@ function Sidebar() {
                   </div>
 
                   {/* Columna 3: REDES SOCIALES */}
-                  <div className="flex-1 rounded-lg p-0">
-                    <div className="flex items-center mb-4 pb-3 border-b border-gray-200 text-gray-400">
+                  <div className="flex-1 p-0 rounded-lg">
+                    <div className="flex items-center pb-3 mb-4 text-gray-400 border-b border-gray-200">
                       <p>REDES SOCIALES</p>
                     </div>
 
@@ -279,15 +290,15 @@ function Sidebar() {
                   </div>
 
                   {/* Columna 4: LIBRO DE RECLAMACIONES */}
-                  <div className="flex-1 rounded-lg p-0">
-                    <div className="flex items-center mb-4 pb-3 border-b border-gray-200 text-gray-400">
+                  <div className="flex-1 p-0 rounded-lg">
+                    <div className="flex items-center pb-3 mb-4 text-gray-400 border-b border-gray-200">
                       <p>LIBRO DE RECLAMACIONES</p>
                     </div>
 
                     <div className="space-y-5">
                       <a
                         href="#"
-                        className="block hover:font-medium underline"
+                        className="block underline hover:font-medium"
                       >
                         Libro de reclamaciones
                       </a>
@@ -299,7 +310,7 @@ function Sidebar() {
 
             {/* Header - LO NUEVO */}
             <div
-              className="hidden md:flex h-auto group px-3 py-2 rounded-md"
+              className="hidden h-auto px-3 py-2 rounded-md md:flex group"
               onMouseEnter={() => (setIsHovered(true), setActive(true))}
             >
               <CustomLink
@@ -308,10 +319,10 @@ function Sidebar() {
                 onMouseEnter={() => (setIsHovered(true), setActive(true))}
               />
               <section className="absolute text-xs w-screen flex flex-row gap-0 h-0 group-hover:h-[350px] overflow-hidden left-[0px] top-full transition-all duration-500 bg-gradient-to-br from-gray-50 to-white shadow-2xl z-50">
-                <div className="container mx-auto px-8 py-6 flex gap-8 h-full">
+                <div className="container flex h-full gap-8 px-8 py-6 mx-auto">
                   {/* Columna 1: COLECCIONES 2025 */}
-                  <div className="flex-1 rounded-lg p-0">
-                    <div className="flex items-center mb-4 pb-3 border-b border-gray-200 text-gray-400">
+                  <div className="flex-1 p-0 rounded-lg">
+                    <div className="flex items-center pb-3 mb-4 text-gray-400 border-b border-gray-200">
                       <p>COLECCIONES 2025</p>
                     </div>
 
@@ -353,8 +364,8 @@ function Sidebar() {
                   </div>
 
                   {/* Columna 2: TENDENCIAS */}
-                  <div className="flex-1 rounded-lg p-0">
-                    <div className="flex items-center mb-4 pb-3 border-b border-gray-200 text-gray-400">
+                  <div className="flex-1 p-0 rounded-lg">
+                    <div className="flex items-center pb-3 mb-4 text-gray-400 border-b border-gray-200">
                       <p>TENDENCIAS</p>
                     </div>
 
@@ -390,8 +401,8 @@ function Sidebar() {
                   </div>
 
                   {/* Columna 3: INNOVACIONES */}
-                  <div className="flex-1 rounded-lg p-0">
-                    <div className="flex items-center mb-4 pb-3 border-b border-gray-200 text-gray-400">
+                  <div className="flex-1 p-0 rounded-lg">
+                    <div className="flex items-center pb-3 mb-4 text-gray-400 border-b border-gray-200">
                       <p>INNOVACIONES</p>
                     </div>
 
@@ -429,22 +440,28 @@ function Sidebar() {
               </section>
             </div>
           </section>
-
-          {navbar && (
-            <img
-              src={ImagenLogo2}
-              className="w-[45px] block transition-opacity absolute top-7 left-[50%] duration-300"
-            />
-          )}
+          <img
+            onClick={() => navigate("/")}
+            src={
+              navbar && !search && !isHover && !active
+                ? ImagenLogo2
+                : ImagenLogo
+            }
+            className="w-[45px] block transition-opacity absolute top-4 left-[50%] duration-300"
+          />
 
           <div className="flex justify-end">
-            <button onClick={Home} className="w-1/6 hover:w-1/5">
-              <img
-                src={navbar && !isHover && !active ? Seach2 : Seach}
-                alt="Boton Buscar"
-              />
+
+            <button onClick={() => setSearch(true)} className="w-1/6">
+              <span className="pointer-events-none">
+                <img
+                  src={navbar && !isHover && !active ? Seach2 : Seach}
+                  alt="Boton Buscar"
+                />
+              </span>
             </button>
-            <button onClick={Home} className="w-1/6 mx-5 hover:w-1/5">
+            
+            <button onClick={Home} className="w-1/6 mx-5">
               <img
                 src={navbar && !isHover && !active ? Profile2 : Profile}
                 alt="Boton Perfil"
@@ -452,7 +469,7 @@ function Sidebar() {
             </button>
             <button
               onClick={() => setOpenCart(true)}
-              className="w-1/6 hover:w-1/5 relative"
+              className="relative w-1/6 hover:w-1/5"
             >
               <img
                 src={navbar && !isHover && !active ? Shop2 : Shop}
@@ -463,11 +480,10 @@ function Sidebar() {
                 <div
                   className={`
                     rounded-[100px] text-[10px] w-[15px] h-[15px] absolute right-0 -mt-[10px]
-                  ${
-                    navbar && !isHover && !active
+                  ${navbar && !isHover && !active
                       ? "bg-[#fff] text-black"
                       : "bg-[#000000] text-white"
-                  } 
+                    } 
                   `}
                 >
                   {itemCarrito.length}

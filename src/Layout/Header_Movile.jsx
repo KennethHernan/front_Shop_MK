@@ -41,7 +41,6 @@ function Header_Movile() {
     search,
     setSearch,
     navbar,
-    openCart,
     setOpenCart,
     itemCarrito,
     cartIconRef,
@@ -94,11 +93,11 @@ function Header_Movile() {
         >
           <section className="flex gap-4 overflow-hidden">
             {/* Header - MENU ANDROID */}
-            <div className="h-auto rounded-md flex overflow-hidden">
+            <div className="flex h-auto overflow-hidden rounded-md">
               {/* Boton Menu */}
-              <section className="flex gap-2 items-center">
+              <section className="flex items-center gap-2">
                 <div onClick={() => ActiveMenu()}>
-                  <span className="pointer-events-none bg-black">
+                  <span className="bg-black pointer-events-none">
                     {isHover ? (
                       <img
                         src={isHover && !search && active ? Close : Menu2}
@@ -144,7 +143,7 @@ function Header_Movile() {
                 ${active ? "h-[100vh]" : "h-0"}
                 `}
               >
-                <div className="container text-xs mx-auto px-8 py-6 flex flex-col gap-5 h-full overflow-scroll">
+                <div className="container flex flex-col h-full gap-5 px-8 py-6 mx-auto overflow-scroll text-xs">
                   {/* Header - JOYERIA */}
                   <div className="h-auto px-3 py-2">
                     <button
@@ -168,9 +167,9 @@ function Header_Movile() {
                       ${activeItem1 ? "h-auto" : "h-[0vh]"}
                     `}
                     >
-                      <div className="container text-xs mx-auto py-6 flex flex-col gap-3">
+                      <div className="container flex flex-col gap-3 py-6 mx-auto text-xs">
                         {/* Columna 1: ANILLOS */}
-                        <div className="h-auto flex-1 p-0">
+                        <div className="flex-1 h-auto p-0">
                           <div className="flex items-start pb-2 text-gray-400">
                             <p>ANILLOS</p>
                           </div>
@@ -207,7 +206,7 @@ function Header_Movile() {
                         </div>
 
                         {/* Columna 2: COLLARES */}
-                        <div className="h-auto flex-1 p-0">
+                        <div className="flex-1 h-auto p-0">
                           <div className="flex items-start pb-2 text-gray-400">
                             <p>COLLARES</p>
                           </div>
@@ -244,7 +243,7 @@ function Header_Movile() {
                         </div>
 
                         {/* Columna 3: PULSERAS */}
-                        <div className="h-auto flex-1 p-0">
+                        <div className="flex-1 h-auto p-0">
                           <div className="flex items-start pb-2 text-gray-400">
                             <p>PULSERAS</p>
                           </div>
@@ -306,9 +305,9 @@ function Header_Movile() {
                       ${activeItem2 ? "h-auto" : "h-[0vh]"}
                     `}
                     >
-                      <div className="container text-xs mx-auto py-6 flex flex-col gap-3">
+                      <div className="container flex flex-col gap-3 py-6 mx-auto text-xs">
                         {/* Columna 1: CONOCENOS */}
-                        <div className="h-auto flex-1 p-0">
+                        <div className="flex-1 h-auto p-0">
                           <div className="flex items-start pb-2 text-gray-400">
                             <p>CONOCENOS</p>
                           </div>
@@ -324,7 +323,7 @@ function Header_Movile() {
                         </div>
 
                         {/* Columna 2: ATENCIÓN AL CLIENTE */}
-                        <div className="h-auto flex-1 p-0">
+                        <div className="flex-1 h-auto p-0">
                           <div className="flex items-start pb-2 text-gray-400">
                             <p>ATENCIÓN AL CLIENTE</p>
                           </div>
@@ -340,7 +339,7 @@ function Header_Movile() {
                         </div>
 
                         {/* Columna 3: REDES SOCIALES */}
-                        <div className="h-auto flex-1 p-0">
+                        <div className="flex-1 h-auto p-0">
                           <div className="flex items-start pb-2 text-gray-400">
                             <p>REDES SOCIALES</p>
                           </div>
@@ -363,7 +362,7 @@ function Header_Movile() {
                         </div>
 
                         {/* Columna 4: LIBRO DE RECLAMACIONES */}
-                        <div className="h-auto flex-1 p-0">
+                        <div className="flex-1 h-auto p-0">
                           <div className="flex items-start pb-2 text-gray-400">
                             <p>LIBRO DE RECLAMACIONES</p>
                           </div>
@@ -404,9 +403,9 @@ function Header_Movile() {
                       ${activeItem3 ? "h-auto" : "h-[0vh]"}
                     `}
                     >
-                      <div className="container text-xs mx-auto py-6 flex flex-col gap-3">
+                      <div className="container flex flex-col gap-3 py-6 mx-auto text-xs">
                         {/* Columna 1: COLECCIONES 2025 */}
-                        <div className="h-auto flex-1 p-0">
+                        <div className="flex-1 h-auto p-0">
                           <div className="flex items-start pb-2 text-gray-400">
                             <p>COLECCIONES 2025</p>
                           </div>
@@ -449,7 +448,7 @@ function Header_Movile() {
                         </div>
 
                         {/* Columna 2: TENDENCIAS */}
-                        <div className="h-auto flex-1 p-0">
+                        <div className="flex-1 h-auto p-0">
                           <div className="flex items-start pb-2 text-gray-400">
                             <p>TENDENCIAS</p>
                           </div>
@@ -486,7 +485,7 @@ function Header_Movile() {
                         </div>
 
                         {/* Columna 3: INNOVACIONES */}
-                        <div className="h-auto flex-1 p-0">
+                        <div className="flex-1 h-auto p-0">
                           <div className="flex items-start pb-2 text-gray-400">
                             <p>INNOVACIONES</p>
                           </div>
@@ -556,7 +555,7 @@ function Header_Movile() {
             </button>
             <button
               onClick={() => setOpenCart(true)}
-              className="w-1/6 relative"
+              className="relative w-1/6"
             >
               <span className="pointer-events-none">
                 <img

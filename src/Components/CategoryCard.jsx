@@ -2,7 +2,7 @@ import React from "react";
 import { useAuth } from "../context/authSingleton";
 
 function CategoryCard({ category, index }) {
-  const { search, setSearch, setItemSearch,  } = useAuth();
+  const { setSearch, setItemSearch, } = useAuth();
 
   const BuscarCategoria = () => {
     setSearch(true);
@@ -12,12 +12,12 @@ function CategoryCard({ category, index }) {
   return (
     <>
       {category ? (
-        <li className="w-full h-[40vh] hover:scale-95 bg-[#f0f0f0] overflow-hidden relative"
-        onClick={() => BuscarCategoria()}>
+        <li className="w-full h-[40vh] md:h-[60vh] hover:scale-95 bg-[#f0f0f0] overflow-hidden relative"
+          onClick={() => BuscarCategoria()}>
           <img
             src={category.url}
             alt="Imagen de Categoria"
-            className="h-[40vh] absolute -bottom-10 -rotate-12 right-0 object-cover object-top drop-shadow-custom"
+            className="h-[40vh] md:h-[60vh] absolute -bottom-10 -rotate-12 right-0 object-cover object-top drop-shadow-custom"
           />
           <div className="absolute top-1 px-3 py-2 m-5 text-[25px] text-[#000000] font-sans disabled">
             <button className="text-xs text-white bg-black py-1 px-2 rounded-[3px] font-sans">

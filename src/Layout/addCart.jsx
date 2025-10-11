@@ -2,23 +2,8 @@ import Close from "../assets/close_new.svg";
 import Check from "../assets/check-white.svg";
 import Add from "../assets/add_cart-white.svg";
 
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useAuth } from "../context/authSingleton";
-
-function CustomLink({ to, label, ...props }) {
-  return (
-    <button>
-      <p
-        {...props}
-        className={`font-light mr-5 text-[14px] hover:font-normal ${
-          isActive ? "font-normal" : isHovered ? "" : ""
-        }`}
-      >
-        {label}
-      </p>
-    </button>
-  );
-}
 
 const AddCart = ({ onAgregar, imgRef }) => {
   const { productoModal, openAddCart, setOpenAddCart, animarCarrito } = useAuth();
@@ -76,7 +61,7 @@ const AddCart = ({ onAgregar, imgRef }) => {
               <p className="font-black text-lg md:text-[30px]">
                 {productoModal.nameP}
               </p>
-              <section className="flex font-sans gap-2 text-md md:text-lg md:text-[20px] mb-2 text-[#a1a1a1]">
+              <section className="flex font-sans gap-2 text-md md:text-lg md:text-[20px] mb-2 md:mt-2 text-[#a1a1a1]">
                 {productoModal.discount <= 1 ? (
                   <p>S/{productoModal.price.toFixed(2)}</p>
                 ) : (
@@ -98,7 +83,7 @@ const AddCart = ({ onAgregar, imgRef }) => {
               {/* Seccion talla */}
               {productoModal.talla != null && (
                 <>
-                  <p className="font-medium border-t text-sm py-2 my-2">
+                  <p className="py-2 my-2 text-sm font-medium border-t">
                     Talla
                   </p>
                   <section className="flex text-white text-[15px] gap-2 mb-4">
@@ -120,10 +105,10 @@ const AddCart = ({ onAgregar, imgRef }) => {
               )}
 
               {/* Descripcion */}
-              <p className="font-medium border-t text-sm py-2 mt-2">
+              <p className="py-2 mt-2 text-sm font-medium border-t">
                 Descripción
               </p>
-              <p className="text-black text-sm mb-3 mt-2">
+              <p className="mt-2 mb-3 text-sm text-black">
                 {productoModal.description}
               </p>
 
