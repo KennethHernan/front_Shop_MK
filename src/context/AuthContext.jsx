@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import Cookies from "js-cookie";
 import { getProducts, getCategorys } from "../Services/firebaseFunction";
 import { getAuthContext } from "./authSingleton";
+import { v4 as uuidv4 } from "uuid";
 
 const AuthContext = getAuthContext();
 
@@ -20,23 +20,50 @@ export const AuthProvider = ({ children }) => {
   const [openCart, setOpenCart] = useState(false);
   const [itemCarrito, setItemCarrito] = useState([]);
   const [itemSearch, setItemSearch] = useState("");
+  const [userSave, setUserSave] = useState([]);
+  const [session, setSession] = useState("");
 
   // Actualizar Carrito
   const ActualizarCarrito = () => {
-    const carritoGuardado = Cookies.get("cart");
-    if (carritoGuardado) {
-      const productosCarrito = JSON.parse(carritoGuardado);
-      setItemCarrito(productosCarrito);
+    const productosCarrito = localStorage.getItem("cart");
+    if (productosCarrito) {
+      const carritoParseado = JSON.parse(productosCarrito);
+      setItemCarrito(carritoParseado);
     }
   };
+
+  // Actualizar productos recientes
   const ActualizarProductoReciente = () => {
-    const PRGuardado = Cookies.get("recently_viewed");    
+    const PRGuardado = localStorage.getItem("recently_viewed");
     if (PRGuardado) {
-      const productosReciente = JSON.parse(PRGuardado);
-      setProductReciente(productosReciente);
+      const productReciente = JSON.parse(PRGuardado);
+      setProductReciente(productReciente);
     } else {
-      setProductReciente([])
+      setProductReciente([]);
     }
+  };
+  // Validar si existe idSession
+  const VerificarSesion = () => {
+    const sessionExiste = localStorage.getItem("idSession");
+    if (sessionExiste) {
+      setSession(sessionExiste);
+    } else {
+      CrearSession();
+    }
+  };
+
+  // Crear idSession
+  const CrearSession = () => {
+    const idSesion = uuidv4();
+
+    setSession(idSesion);
+    localStorage.setItem("idSession", idSesion);
+  };
+
+  // Guardar usuarios - localstorage
+  const GuardarUser = (user) => {
+    setUserSave(user);
+    localStorage.setItem("userSave", JSON.stringify(user));
   };
 
   // Añadir al carrito
@@ -45,15 +72,20 @@ export const AuthProvider = ({ children }) => {
       (p) => p.idProduct === producto.idProduct
     );
 
+    let nuevoCarrito;
+
     if (productoExistente) {
-      productoExistente.cantidad += 1;
+      nuevoCarrito = itemCarrito.map((p) =>
+        p.idProduct === producto.idProduct
+          ? { ...p, cantidad: p.cantidad + 1 }
+          : p
+      );
     } else {
-      producto.cantidad = 1;
-      itemCarrito.push(producto);
+      nuevoCarrito = [...itemCarrito, { ...producto, cantidad: 1 }];
     }
 
-    Cookies.set("cart", JSON.stringify(itemCarrito), { expires: 14 });
-    ActualizarCarrito();
+    setItemCarrito(nuevoCarrito);
+    localStorage.setItem("cart", JSON.stringify(nuevoCarrito));
   };
 
   // Productos  Recientes Cokkie
@@ -62,17 +94,20 @@ export const AuthProvider = ({ children }) => {
       (p) => p.idProduct === producto.idProduct
     );
 
+    let newPReciente;
+
     if (pReciente) {
-      pReciente.cantidad += 1;
+      newPReciente = productReciente.map((p) =>
+        p.idProduct === producto.idProduct
+          ? { ...p, cantidad: p.cantidad + 1 }
+          : p
+      );
     } else {
-      producto.cantidad = 1;
-      productReciente.push(producto);
+      newPReciente = [...itemCarrito, { ...producto, cantidad: 1 }];
     }
 
-    Cookies.set("recently_viewed", JSON.stringify(productReciente), {
-      expires: 14,
-    });
-    ActualizarProductoReciente();
+    setProductReciente(newPReciente);
+    localStorage.setItem("recently_viewed", JSON.stringify(newPReciente));
   };
 
   // Animacion carrito
@@ -116,8 +151,7 @@ export const AuthProvider = ({ children }) => {
       .filter((p) => p.cantidad > 0);
 
     setItemCarrito(nuevoCarrito);
-    Cookies.set("cart", JSON.stringify(nuevoCarrito), { expires: 14 });
-    ActualizarCarrito();
+    localStorage.setItem("cart", JSON.stringify(nuevoCarrito));
   };
 
   // Boton aumentar item carrito
@@ -127,7 +161,7 @@ export const AuthProvider = ({ children }) => {
         if (p.cantidad < p.stock) {
           return { ...p, cantidad: p.cantidad + 1 };
         } else {
-          console.warn("❌ No puedes añadir más, stock máximo alcanzado");
+          console.warn("No puedes añadir más, stock máximo alcanzado");
           return p;
         }
       }
@@ -135,20 +169,19 @@ export const AuthProvider = ({ children }) => {
     });
 
     setItemCarrito(nuevoCarrito);
-    Cookies.set("cart", JSON.stringify(nuevoCarrito), { expires: 14 });
-    ActualizarCarrito();
+    localStorage.setItem("cart", JSON.stringify(nuevoCarrito));
   };
 
   // Eliminar Item de Carrito
   const eliminarDelCarrito = (idProducto) => {
     const nuevoCarrito = itemCarrito.filter((p) => p.idProduct !== idProducto);
-    Cookies.set("cart", JSON.stringify(nuevoCarrito), { expires: 14 });
+    localStorage.setItem("cart", JSON.stringify(nuevoCarrito));
     ActualizarCarrito();
   };
   // Eliminar Prodcutos Vistos Recientes
   const eliminarProducRecientes = () => {
-    Cookies.remove("recently_viewed");
-    ActualizarProductoReciente()
+    localStorage.removeItem("recently_viewed");
+    ActualizarProductoReciente();
   };
 
   // Abrir Modal Detalle Producto
@@ -157,15 +190,16 @@ export const AuthProvider = ({ children }) => {
     ProductosRecientesCokkie(product);
     setOpenAddCart(true);
   };
-
   useEffect(() => {
     getProducts().then((listProduct) => {
       setProductsAll(listProduct);
     });
+
     getCategorys().then((listCategory) => {
       setCategoryAll(listCategory);
     });
 
+    VerificarSesion();
     ActualizarCarrito();
     ActualizarProductoReciente();
   }, []);
@@ -173,6 +207,7 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
+        GuardarUser,
         abrirModalCart,
         eliminarProducRecientes,
         eliminarDelCarrito,
@@ -181,6 +216,7 @@ export const AuthProvider = ({ children }) => {
         animarCarrito,
         Disminuir,
         Aumentar,
+        userSave,
         productAll,
         categoryAll,
         search,
@@ -192,6 +228,7 @@ export const AuthProvider = ({ children }) => {
         itemSearch,
         cartIconRef,
         productReciente,
+        session,
         setSearch,
         setOpenAddCart,
         setProductoModal,

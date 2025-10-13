@@ -9,15 +9,41 @@ import icon_dinerclub from "../assets/dinerclub.svg";
 import icon_americanexpress from "../assets/americaexpres.svg";
 import icon_yape from "../assets/yape.svg";
 import { useForm } from "react-hook-form";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 function Checkout() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const [aceptaGuardar, setAceptaGuardar] = useState(false);
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [dni, setDni] = useState("");
+  const [departamento, setDepertamento] = useState("");
+  const [distrito, setDistrito] = useState("");
+  const [dirección, setDireccion] = useState("");
+  const [phone, setPhone] = useState("");
+
   const { itemCarrito } = useAuth();
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
     console.log(data);
   };
+
+  const params = useParams();
+
+  useEffect(() => {
+    if (params?.variable) {
+      console.log("Variable capturada:", params.variable);
+    } else {
+      console.warn("No se encontró variable en la URL");
+    }
+  }, [params]);
 
   return (
     <section className="font-sans lg:bg-[#0000000d] select-none flex flex-col justify-center z-50">
@@ -53,10 +79,17 @@ function Checkout() {
                   id="email"
                   className={`
                     peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-[2px] focus:border-blue-500 transition-transform duration-300
-                    ${errors.email ? "border-red-600 border-2" : "border-[1px] border-gray-300"}
+                    ${
+                      errors.email
+                        ? "border-red-600 border-2"
+                        : "border-[1px] border-gray-300"
+                    }
                     `}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="Correo Electrónico"
-                  {...register("email", { required: "Introduce un correo electrónico" })}
+                  {...register("email", {
+                    required: "Introduce un correo electrónico",
+                  })}
                 />
                 <label
                   htmlFor="email"
@@ -66,7 +99,11 @@ function Checkout() {
                 >
                   Correo Electrónico
                 </label>
-                {errors.email && <p className="text-[14px] text-red-500 my-2">{errors.email.message}</p>}
+                {errors.email && (
+                  <p className="text-[14px] text-red-500 my-2">
+                    {errors.email.message}
+                  </p>
+                )}
               </div>
 
               <div className="flex justify-between w-full mt-5 text-lg font-medium">
@@ -80,8 +117,13 @@ function Checkout() {
                     id="nombre"
                     className={`
                       peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-[2px] focus:border-blue-500 transition-transform duration-300
-                      ${errors.nombre ? "border-red-600 border-2" : "border-[1px] border-gray-300"}
+                      ${
+                        errors.nombre
+                          ? "border-red-600 border-2"
+                          : "border-[1px] border-gray-300"
+                      }
                     `}
+                    onChange={(e) => setName(e.target.value)}
                     placeholder="Nombre Completo"
                     {...register("nombre", { required: "Introduce un nombre" })}
                   />
@@ -91,9 +133,13 @@ function Checkout() {
                bg-[#39333300] px-1 pointer-events-none 
                peer-[&:not(:placeholder-shown)]:top-5 peer-[&:not(:placeholder-shown)]:opacity-100 peer-[&:not(:placeholder-shown)]:text-xs"
                   >
-                    Apellido Completo
+                    Nombre Completo
                   </label>
-                  {errors.nombre && <p className="text-[14px] text-red-500 my-2">{errors.nombre.message}</p>}
+                  {errors.nombre && (
+                    <p className="text-[14px] text-red-500 my-2">
+                      {errors.nombre.message}
+                    </p>
+                  )}
                 </div>
 
                 {/* Input Apellido Completo */}
@@ -103,10 +149,17 @@ function Checkout() {
                     id="apellido"
                     className={`
                       peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-[2px] focus:border-blue-500 transition-transform duration-300
-                      ${errors.apellido ? "border-red-600 border-2" : "border-[1px] border-gray-300"}
+                      ${
+                        errors.apellido
+                          ? "border-red-600 border-2"
+                          : "border-[1px] border-gray-300"
+                      }
                     `}
+                    onChange={(e) => setLastName(e.target.value)}
                     placeholder="Apellido Completo"
-                    {...register("apellido", { required: "Introduce un apellido" })}
+                    {...register("apellido", {
+                      required: "Introduce un apellido",
+                    })}
                   />
                   <label
                     htmlFor="apellido"
@@ -116,7 +169,11 @@ function Checkout() {
                   >
                     Apellido Completo
                   </label>
-                  {errors.apellido && <p className="text-[14px] text-red-500 my-2">{errors.apellido.message}</p>}
+                  {errors.apellido && (
+                    <p className="text-[14px] text-red-500 my-2">
+                      {errors.apellido.message}
+                    </p>
+                  )}
                 </div>
               </section>
 
@@ -127,8 +184,13 @@ function Checkout() {
                   id="dni"
                   className={`
                     peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 focus:border-[2px] [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-blue-500 transition-transform duration-300
-                    ${errors.dni ? "border-red-600 border-2" : "border-[1px] border-gray-300"}
+                    ${
+                      errors.dni
+                        ? "border-red-600 border-2"
+                        : "border-[1px] border-gray-300"
+                    }
                     `}
+                  onChange={(e) => setDni(e.target.value)}
                   placeholder="Dni"
                   {...register("dni", { required: "Introduce un dni" })}
                 />
@@ -140,7 +202,11 @@ function Checkout() {
                 >
                   Dni
                 </label>
-                {errors.dni && <p className="text-[14px] text-red-500 my-2">{errors.dni.message}</p>}
+                {errors.dni && (
+                  <p className="text-[14px] text-red-500 my-2">
+                    {errors.dni.message}
+                  </p>
+                )}
               </div>
 
               {/* Input Departametos */}
@@ -150,9 +216,16 @@ function Checkout() {
                     id="departamento"
                     className={`
                       peer w-full text-sm text-gray-900 rounded-lg pl-3 pt-6 pb-2 focus:border-[2px] focus:outline-none focus:border-blue-500 transition-transform duration-300 appearance-none
-                      ${errors.departamento ? "border-red-600 border-2" : "border-[1px] border-gray-300"}
+                      ${
+                        errors.departamento
+                          ? "border-red-600 border-2"
+                          : "border-[1px] border-gray-300"
+                      }
                     `}
-                    {...register("departamento", { required: "Introduce un departamento" })}
+                    onChange={(e) => setDepertamento(e.target.value)}
+                    {...register("departamento", {
+                      required: "Introduce un departamento",
+                    })}
                   >
                     <option value="">Seleccionar departamento</option>
                     {departamentos.map((d) => (
@@ -185,7 +258,11 @@ function Checkout() {
                 >
                   Departamento
                 </label>
-                {errors.departamento && <p className="text-[14px] text-red-500 my-2">{errors.departamento.message}</p>}
+                {errors.departamento && (
+                  <p className="text-[14px] text-red-500 my-2">
+                    {errors.departamento.message}
+                  </p>
+                )}
               </div>
 
               {/* Input Distrito */}
@@ -195,10 +272,17 @@ function Checkout() {
                   id="distrito"
                   className={`
                     peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 focus:border-[2px] [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-blue-500 transition-transform duration-300
-                    ${errors.distrito ? "border-red-600 border-2" : "border-[1px] border-gray-300"}
+                    ${
+                      errors.distrito
+                        ? "border-red-600 border-2"
+                        : "border-[1px] border-gray-300"
+                    }
                     `}
+                  onChange={(e) => setDistrito(e.target.value)}
                   placeholder="Distrito"
-                  {...register("distrito", { required: "Introduce un distrito" })}
+                  {...register("distrito", {
+                    required: "Introduce un distrito",
+                  })}
                 />
                 <label
                   htmlFor="distrito"
@@ -208,7 +292,45 @@ function Checkout() {
                 >
                   Distrito
                 </label>
-                {errors.distrito && <p className="text-[14px] text-red-500 my-2">{errors.distrito.message}</p>}
+                {errors.distrito && (
+                  <p className="text-[14px] text-red-500 my-2">
+                    {errors.distrito.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Input Dirección */}
+              <div className="relative w-full mt-2">
+                <input
+                  type="text"
+                  id="direccion"
+                  className={`
+                    peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 focus:border-[2px] [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-blue-500 transition-transform duration-300
+                    ${
+                      errors.distrito
+                        ? "border-red-600 border-2"
+                        : "border-[1px] border-gray-300"
+                    }
+                    `}
+                  onChange={(e) => setDireccion(e.target.value)}
+                  placeholder="Dirección"
+                  {...register("direccion", {
+                    required: "Introduce una dirección",
+                  })}
+                />
+                <label
+                  htmlFor="direccion"
+                  className="absolute text-gray-500 text-sm transform opacity-0 -translate-y-1/2 top-7 left-3 transition-transform duration-300
+               bg-[#39333300] px-1 pointer-events-none 
+               peer-[&:not(:placeholder-shown)]:top-5 peer-[&:not(:placeholder-shown)]:opacity-100 peer-[&:not(:placeholder-shown)]:text-xs"
+                >
+                  Dirección (Donde se enviará el pedido)
+                </label>
+                {errors.direccion && (
+                  <p className="text-[14px] text-red-500 my-2">
+                    {errors.direccion.message}
+                  </p>
+                )}
               </div>
 
               {/* Input Telefono */}
@@ -218,8 +340,13 @@ function Checkout() {
                   id="phone"
                   className={`
                     peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 focus:border-[2px] [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-blue-500 transition-transform duration-300
-                    ${errors.email ? "border-red-600 border-2" : "border-[1px] border-gray-300"}
+                    ${
+                      errors.email
+                        ? "border-red-600 border-2"
+                        : "border-[1px] border-gray-300"
+                    }
                     `}
+                  onChange={(e) => setPhone(e.target.value)}
                   placeholder="Número Telefonico"
                   {...register("phone", { required: "Introduce un teléfono" })}
                 />
@@ -231,8 +358,23 @@ function Checkout() {
                 >
                   Número Telefonico
                 </label>
-                {errors.phone && <p className="text-[14px] text-red-500 my-2">{errors.phone.message}</p>}
+                {errors.phone && (
+                  <p className="text-[14px] text-red-500 my-2">
+                    {errors.phone.message}
+                  </p>
+                )}
               </div>
+
+              {/* Check Guardar datos */}
+              <label className="text-[14px] my-2 flex justify-start gap-2 mt-5 mb-8 font-normal items-center">
+                <input
+                  type="checkbox"
+                  checked={aceptaGuardar}
+                  onChange={(e) => setAceptaGuardar(e.target.checked)}
+                />
+                Deseos guardar la información para autocompletar las proximas
+                compras.
+              </label>
 
               {/* METODO DE ENVIO */}
               <p className="text-[16px] mt-5 font-medium">Método de envío</p>
@@ -241,13 +383,17 @@ function Checkout() {
                   <p>ENVIO ECOAMIGABLE</p>
                   <p className="font-medium">S/ 10.00</p>
                 </div>
-                <p className="mt-1 text-gray-500">Precio de envio a todo Perú</p>
+                <p className="mt-1 text-gray-500">
+                  Precio de envio a todo Perú
+                </p>
               </section>
 
               {/* PAGO */}
               <div className="justify-between w-full mt-5">
                 <p className="text-lg font-medium">Pago</p>
-                <p className="text-[14px] mt-1 text-gray-500">Todas las transacciones son seguras y están encriptadas.</p>
+                <p className="text-[14px] mt-1 text-gray-500">
+                  Todas las transacciones son seguras y están encriptadas.
+                </p>
               </div>
               <section className="w-full flex justify-between text-[14px] items-center mt-5 border-blue-600 border-[1px] bg-slate-50 px-4 py-3 rounded-md rounded-b-none">
                 <p>Mercado Pago</p>
@@ -262,39 +408,49 @@ function Checkout() {
                       <img src={icon_mercadopago} alt="Visa" />
                     </span>
                   </div>
-                  <div className="w-[40px] h-[25px] bg-white rounded-[3px] border-[1px] border-gray-200 overflow-hidden px-1 flex justify-center items-center">
+                  <div className="w-[40px] h-[25px] bg-white rounded-[3px] border-[1px] border-gray-200 overflow-hidden px-2 flex justify-center items-center">
                     <span className="pointer-events-none">
-                      <img src={icon_mastercard} alt="Visa" />
+                      <img src={icon_yape} alt="Visa" />
                     </span>
                   </div>
 
                   <div className="w-[40px] h-[25px] bg-white rounded-[3px] border-[1px] border-gray-200 px-2 flex justify-center items-center relative group">
                     <span className="pointer-events-none">
-                      <p className="text-blue-700 text-[13px] font-medium">+3</p>
+                      <p className="text-blue-700 text-[13px] font-medium">
+                        +3
+                      </p>
                     </span>
 
                     <section className="flex gap-1 opacity-0 bg-black px-3 py-2 rounded-md absolute -top-[53px]  -right-4 group-hover:opacity-100 transition-opacity duration-700">
                       <div className="w-[40px] h-[25px] bg-white rounded-[3px] border-[1px] border-gray-200 overflow-hidden px-2 flex justify-center items-center">
                         <span className="pointer-events-none">
-                          <img src={icon_dinerclub} alt="Visa" />
+                          <img src={icon_dinerclub} loading="lazy" alt="Visa" />
                         </span>
                       </div>
                       <div className="w-[40px] h-[25px] bg-[#006FCF] rounded-[3px] overflow-hidden pl-4 flex justify-center items-center">
                         <span className="pointer-events-none">
-                          <img src={icon_americanexpress} alt="Visa" />
+                          <img
+                            src={icon_americanexpress}
+                            loading="lazy"
+                            alt="Visa"
+                          />
                         </span>
                       </div>
-                      <div className="w-[40px] h-[25px] bg-white rounded-[3px] border-[1px] border-gray-200 overflow-hidden px-2 flex justify-center items-center">
+                      <div className="w-[40px] h-[25px] bg-white rounded-[3px] border-[1px] border-gray-200 overflow-hidden px-1 flex justify-center items-center">
                         <span className="pointer-events-none">
-                          <img src={icon_yape} alt="Visa" />
+                          <img
+                            src={icon_mastercard}
+                            loading="lazy"
+                            alt="Visa"
+                          />
                         </span>
                       </div>
-                      <div class="w-0 h-0 absolute -bottom-2 right-7
+                      <div
+                        className="w-0 h-0 absolute -bottom-2 right-7
             border-l-[10px] border-l-transparent 
             border-r-[10px] border-r-transparent 
             border-b-[10px] border-b-[#000000] rotate-180"
-                      >
-                      </div>
+                      ></div>
                     </section>
                   </div>
                 </section>
@@ -304,13 +460,13 @@ function Checkout() {
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="-270.8 371 102 52"
-                    class="zjrzY"
+                    className="zjrzY"
                   >
                     <path
                       fill="none"
                       stroke="hsl(0, 0%, 44%)"
-                      stroke-miterlimit="10"
-                      stroke-width="2"
+                      strokeMiterlimit="10"
+                      strokeWidth="2"
                       d="M-182 404v16.8c0 .7-.4 1.2-1 1.2h-75.7c-.7 0-1.2-.6-1.2-1.2v-47.6c0-.7.6-1.2 1.2-1.2h75.7c.7 0 1 .6 1 1.2V395m-78-14h78m-17 18h27m-3.9-4.6 4.5 4.6-4.5 4.6"
                     ></path>
                     <circle
@@ -340,7 +496,10 @@ function Checkout() {
               </section>
 
               {/* BOTON PAGAR AHORA */}
-              <button type="submit" className="lg:block hidden w-full text-[15px] my-4 font-medium text-white rounded-lg py-4 bg-blue-700 hover:bg-blue-800 transition-colors duration-300">
+              <button
+                type="submit"
+                className="lg:block hidden w-full text-[15px] my-4 font-medium text-white rounded-lg py-4 bg-blue-700 hover:bg-blue-800 transition-colors duration-300"
+              >
                 Pagar Ahora
               </button>
 
@@ -372,54 +531,54 @@ function Checkout() {
               <ul className="w-full px-[10px] h-auto flex flex-col justify-start overflow-scroll">
                 {itemCarrito.length > 0
                   ? itemCarrito.map((product, index) => (
-                    <li
-                      className="w-auto p-2 grid grid-cols-[auto,auto] justify-between"
-                      key={index}
-                    >
-                      <section className="flex items-center">
-                        {/* Imagen Producto */}
-                        <section className="relative flex mr-[15px]">
-                          <div className="w-[63px] h-[60px] overflow-hidden border-[1px] shadow-md border-[#ffffff] rounded-md">
-                            <img
-                              src={product.urlP}
-                              className="w-full h-full object-cover bg-cover bg-center border-[2px] border-[#fff] flex rounded-md"
-                            />
-                          </div>
-                          <div className="absolute -top-2 -right-2 bg-black rounded-md border-2 border-white text-[#fff] px-[7px] py-[1px]">
-                            <p>{product.cantidad}</p>
+                      <li
+                        className="w-auto p-2 grid grid-cols-[auto,auto] justify-between"
+                        key={index}
+                      >
+                        <section className="flex items-center">
+                          {/* Imagen Producto */}
+                          <section className="relative flex mr-[15px]">
+                            <div className="w-[63px] h-[60px] overflow-hidden border-[1px] shadow-md border-[#ffffff] rounded-md">
+                              <img
+                                src={product.urlP}
+                                className="w-full h-full object-cover bg-cover bg-center border-[2px] border-[#fff] flex rounded-md"
+                              />
+                            </div>
+                            <div className="absolute -top-2 -right-2 bg-black rounded-md border-2 border-white text-[#fff] px-[7px] py-[1px]">
+                              <p>{product.cantidad}</p>
+                            </div>
+                          </section>
+
+                          <div>
+                            {/* Nombre Producto */}
+                            <p className="text-[14px]">{product.nameP}</p>
                           </div>
                         </section>
-
-                        <div>
-                          {/* Nombre Producto */}
-                          <p className="text-[14px]">{product.nameP}</p>
+                        {/* Precio Total  - poer 3 price*/}
+                        <div className="h-auto w-auto flex flex-col items-end justify-center text-[14px]">
+                          {product.discount >= 1 ? (
+                            <>
+                              <p className="w-full text-end">
+                                S/{" "}
+                                {(
+                                  (product.price -
+                                    (product.price * product.discount) / 100) *
+                                  product.cantidad
+                                ).toFixed(2)}
+                              </p>
+                            </>
+                          ) : (
+                            <input
+                              className="w-full bg-transparent text-end"
+                              disabled
+                              value={`S/ ${(
+                                product.price * product.cantidad
+                              ).toFixed(2)}`}
+                            />
+                          )}
                         </div>
-                      </section>
-                      {/* Precio Total  - poer 3 price*/}
-                      <div className="h-auto w-auto flex flex-col items-end justify-center text-[14px]">
-                        {product.discount >= 1 ? (
-                          <>
-                            <p className="w-full text-end">
-                              S/{" "}
-                              {(
-                                (product.price -
-                                  (product.price * product.discount) / 100) *
-                                product.cantidad
-                              ).toFixed(2)}
-                            </p>
-                          </>
-                        ) : (
-                          <input
-                            className="w-full bg-transparent text-end"
-                            disabled
-                            value={`S/ ${(
-                              product.price * product.cantidad
-                            ).toFixed(2)}`}
-                          />
-                        )}
-                      </div>
-                    </li>
-                  ))
+                      </li>
+                    ))
                   : null}
               </ul>
 
@@ -448,7 +607,10 @@ function Checkout() {
               </section>
 
               {/* BOTON PAGAR AHORA */}
-              <button type="submit" className="block lg:hidden w-full text-[15px] mb-4 bt-2 font-medium text-white rounded-lg py-4 bg-blue-700 hover:bg-blue-800 transition-colors duration-300">
+              <button
+                type="submit"
+                className="block lg:hidden w-full text-[15px] mb-4 bt-2 font-medium text-white rounded-lg py-4 bg-blue-700 hover:bg-blue-800 transition-colors duration-300"
+              >
                 Pagar Ahora
               </button>
 

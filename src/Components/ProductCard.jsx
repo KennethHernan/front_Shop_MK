@@ -44,7 +44,9 @@ function ProductCard({ product, abrirModalCart }) {
           {/* Producto Precios y Descuento */}
           <div className="flex gap-1">
             {product.discount <= 1 ? (
-              <p>S/ {product.price.toFixed(2)}</p>
+              <p>
+                S/ {product.price.toFixed(2)}
+              </p>
             ) : (
               <>
                 <p>
@@ -55,16 +57,15 @@ function ProductCard({ product, abrirModalCart }) {
                   ).toFixed(2)}
                 </p>
                 <p className="line-through text-[#ababab]">
-                  S/ {product.price.toFixed(2)}
+               S/ {Number(product.price || 0).toFixed(2)}
+
                 </p>
               </>
             )}
           </div>
         </li>
       ) : (
-        <li
-          className="w-auto mb-3 text-sm md:text-md animate-pulse"
-        >
+        <li className="w-auto mb-3 text-sm md:text-md animate-pulse">
           <div className="bg-[#e7e7e7] h-[25vh] group relative group/foto"></div>
           <p className="pt-1 bg-[#e7e7e7] rounded-[5px] w-[160px] h-[23px] my-[2px]"></p>
           <div className="flex gap-3">

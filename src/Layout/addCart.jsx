@@ -2,11 +2,12 @@ import Close from "../assets/close_new.svg";
 import Check from "../assets/check-white.svg";
 import Add from "../assets/add_cart-white.svg";
 
-import {  useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../context/authSingleton";
 
 const AddCart = ({ onAgregar, imgRef }) => {
-  const { productoModal, openAddCart, setOpenAddCart, animarCarrito } = useAuth();
+  const { productoModal, openAddCart, setOpenAddCart, animarCarrito } =
+    useAuth();
   const [añadirCart, setAñadirCart] = useState(false);
   const [tallaSeleccionada, setTallaSeleccionada] = useState(null);
   const tallas = ["7", "8", "9"];
@@ -17,7 +18,7 @@ const AddCart = ({ onAgregar, imgRef }) => {
       setAñadirCart(false);
     }, 2000);
   };
-  
+
   return (
     <>
       {/* Carrito */}
@@ -62,12 +63,15 @@ const AddCart = ({ onAgregar, imgRef }) => {
                 {productoModal.nameP}
               </p>
               <section className="flex font-sans gap-2 text-md md:text-lg md:text-[20px] mb-2 md:mt-2 text-[#a1a1a1]">
-                {productoModal.discount <= 1 ? (
+                {productoModal.discount <= 1 !== undefined ? (
                   <p>S/{productoModal.price.toFixed(2)}</p>
                 ) : (
                   <>
                     <p className="line-through text-[#ababab]">
-                      S/{productoModal.price.toFixed(2)}
+                      S/
+                      {productoModal.precio === "number"
+                        ? producto.precio.toFixed(2)
+                        : "0.00"}
                     </p>
                     <p className="text-black">
                       S/

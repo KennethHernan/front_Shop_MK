@@ -1,6 +1,5 @@
 import Close from "../assets/close_new.svg";
-import { useEffect, useState, useRef } from "react";
-import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
 import { useAuth } from "../context/authSingleton";
 import icon_eliminar from "../assets/icon_delete.svg";
 import { useNavigate } from "react-router-dom";
@@ -12,8 +11,8 @@ const Cart = ({ onAumentar, onDisminuir }) => {
     setOpenCart,
     itemCarrito,
     eliminarDelCarrito,
-    ActualizarCarrito,
     abrirModalCart,
+    session
   } = useAuth();
   const [totalprice, setTotalPrice] = useState("");
 
@@ -218,7 +217,7 @@ const Cart = ({ onAumentar, onDisminuir }) => {
               <button
                 onClick={() => (
                   setOpenCart(false),
-                  navigate("/checkout/Ab93xYt20FpQfD9xQa23LmZp")
+                  navigate(`/checkout/${session}/${session.slice(0,2)}`)
                 )}
                 className="w-full py-[15px] px-10 flex font-medium justify-center gap-2 rounded-none bg-black text-white text-xs hover:bg-[#2d2d2d] transition-colors duration-300"
               >

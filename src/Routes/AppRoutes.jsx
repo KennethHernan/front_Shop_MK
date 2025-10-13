@@ -16,7 +16,7 @@ export const AppRoutes = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/politica-y-privacidad" element={<PoliticaPrivacidad />} />
         <Route path="/sobre-nosotros" element={<Nosotros />} />
-        <Route path="/checkout/Ab93xYt20FpQfD9xQa23LmZp" element={<Checkout />} />
+        <Route path="/checkout/:session/:variable" element={<Checkout />} />
 
 
         <Route element={<ProtectedRouteAdmin />}>

@@ -96,7 +96,7 @@ function HomePage() {
   };
   const scrollIzquierda = () => {
     ulRef.current.scrollBy({ left: -600, behavior: "smooth" });
-  };
+  };  
 
   return (
     <div className="font-sans select-none">
