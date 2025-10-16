@@ -1,11 +1,8 @@
 import axios from "axios";
 const urlBase = import.meta.env.VITE_URL_BASE;
 
-export const getAllProduct = async () => {
-  const { data } = await axios.get(`${urlBase}/api/allProduct`);
+export const postCreatePreference = async () => {
+  const { data } = await axios.post(`${urlBase}/api/create_preference`);
   return data;
 };
-export const getAllCategory = async () => {
-  const { data } = await axios.get(`${urlBase}/api/category/allCategory`);
-  return data;
-};
+

@@ -1,6 +1,31 @@
-import { getDatabase, ref, get, child } from "firebase/database";
+import { getDatabase, ref, get, push, set, child } from "firebase/database";
 import { app } from "../firebase";
 const db = getDatabase(app);
+
+
+//======================= CREAR, ACTUALIZAR, ELIMINAR ===========================
+
+
+export const createNewOrder = async (orderData) => {
+  try {
+    // Crea una referencia a la tabla "newOrder"
+    const newOrderRef = ref(db, "orderMK");
+
+    // Genera un ID único para la orden
+    const orderId = push(newOrderRef).key;
+
+    // Guarda los datos en Firebase bajo ese ID
+    await set(ref(db, `orderMK/${orderId}`), {
+      id: orderId,
+      ...orderData,
+      createdAt: new Date().toISOString(),
+    });
+    return orderId;
+  } catch (error) {
+    console.error("Error al crear la orden:", error);
+    throw error;
+  }
+};
 
 //======================= Listar solo una tabla ===========================
 

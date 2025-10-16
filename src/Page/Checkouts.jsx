@@ -10,15 +10,18 @@ import icon_americanexpress from "../assets/americaexpres.svg";
 import icon_yape from "../assets/yape.svg";
 import { useForm } from "react-hook-form";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function Checkout() {
+  const { itemCarrito, CreatePreferences, CreateOrder } = useAuth();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const [aceptaGuardar, setAceptaGuardar] = useState(false);
+  const [cargando, setCargando] = useState(false);
+  const [totalPrecio, setTotalPrecio] = useState(0);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -27,15 +30,70 @@ function Checkout() {
   const [distrito, setDistrito] = useState("");
   const [dirección, setDireccion] = useState("");
   const [phone, setPhone] = useState("");
+  const formRef = useRef();
 
-  const { itemCarrito } = useAuth();
   const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    setCargando(true);
+
+    /*
+    {
+    "email": "kenetydelaceuz14@gmail.com",
+    "nombre": "KENNETH HERNAN",
+    "apellido": "DE LA CRUZ ROMERO",
+    "dni": "72974488",
+    "departamento": "Lima (Metropolitana)",
+    "distrito": "Punta Hermosa",
+    "direccion": "M D1 Lote 12",
+    "phone": "952304548"
+    }
+    
+    */
+    /*================= CREACION DE NUEVA ORDEN ======================= */
+
+    const nuevaOrden = {
+      email: data.email,
+      nombre: data.nombre,
+      apellido: data.apellido,
+      dni: data.dni,
+      departamento: data.departamento,
+      distrito: data.distrito,
+      direccion: data.direccion,
+      phone: data.phone,
+      items: itemCarrito,
+      total: totalPrecio,
+      status: "pendiente",
+      idPayment: "null",
+    };
+
+    const orderId = await CreateOrder(nuevaOrden);
+    if (!orderId) return console.log("orderId");
+
+    /*================= CREACION DE PREFERENCIA ======================= */
+    const dataAll = {
+      idOder: orderId,
+      userEmail: data.email,
+      items: itemCarrito,
+    };
+    const response = await CreatePreferences(dataAll);
+    setCargando(false);
+    if (response) {
+      const { preferenceId, init_point } = response.data;
+
+      console.log("✅ Preferencia creada:", preferenceId);
+      console.log("🔗 Ir a Mercado Pago:", init_point);
+      window.location.href = init_point;
+    } else {
+      console.error(response);
+    }
   };
 
   const params = useParams();
+
+  const handleSubmitDev = () => {
+    formRef.current.requestSubmit();
+  };
 
   useEffect(() => {
     if (params?.variable) {
@@ -43,7 +101,18 @@ function Checkout() {
     } else {
       console.warn("No se encontró variable en la URL");
     }
-  }, [params]);
+
+    const totalCarrito = itemCarrito.reduce((total, product) => {
+      const precioUnitario =
+        product.discount >= 1
+          ? product.price - (product.price * product.discount) / 100
+          : product.price;
+
+      return total + precioUnitario * product.cantidad;
+    }, 0);
+
+    setTotalPrecio(totalCarrito);
+  }, [itemCarrito]);
 
   return (
     <section className="font-sans lg:bg-[#0000000d] select-none flex flex-col justify-center z-50">
@@ -64,7 +133,11 @@ function Checkout() {
         {/* Seccion información */}
         <div className="flex justify-center w-full h-auto bg-white md:h-full lg:justify-end">
           <div className="w-[65vh] md:w-[80vh] lg:w-[75vh] h-auto md:h-full p-5">
-            <form onSubmit={handleSubmit(onSubmit)} className="w-full h-full">
+            <form
+              ref={formRef}
+              onSubmit={handleSubmit(onSubmit)}
+              className="w-full h-full"
+            >
               <div className="flex justify-between w-full mb-2 text-lg">
                 <p className="font-medium">Contacto</p>
                 <button className="text-xs hover:underline font-medium text-[#2d5bd0]">
@@ -498,6 +571,7 @@ function Checkout() {
               {/* BOTON PAGAR AHORA */}
               <button
                 type="submit"
+                disabled={cargando}
                 className="lg:block hidden w-full text-[15px] my-4 font-medium text-white rounded-lg py-4 bg-blue-700 hover:bg-blue-800 transition-colors duration-300"
               >
                 Pagar Ahora
@@ -554,7 +628,7 @@ function Checkout() {
                             <p className="text-[14px]">{product.nameP}</p>
                           </div>
                         </section>
-                        {/* Precio Total  - poer 3 price*/}
+                        {/* Precio Total*/}
                         <div className="h-auto w-auto flex flex-col items-end justify-center text-[14px]">
                           {product.discount >= 1 ? (
                             <>
@@ -585,7 +659,7 @@ function Checkout() {
               <section className="grid w-full h-auto p-5 mt-5 text-sm border-t">
                 <div className="flex items-center justify-between">
                   <p>Subtotal</p>
-                  <p>S/ 150.00</p>
+                  <p>S/ {totalPrecio.toFixed(2)}</p>
                 </div>
                 <div className="flex items-center justify-between my-3">
                   <p>Envío</p>
@@ -598,7 +672,9 @@ function Checkout() {
                   </div>
                   <div className="flex items-end gap-2">
                     <p className="text-xs text-gray-400">PEN</p>
-                    <p className="text-lg font-semibold">S/ 160.00</p>
+                    <p className="text-lg font-semibold">
+                      S/ {(totalPrecio + 10).toFixed(2)}
+                    </p>
                   </div>
                 </div>
                 <p className="w-[150px] text-gray-400">
@@ -608,6 +684,7 @@ function Checkout() {
 
               {/* BOTON PAGAR AHORA */}
               <button
+                onClick={handleSubmitDev}
                 type="submit"
                 className="block lg:hidden w-full text-[15px] mb-4 bt-2 font-medium text-white rounded-lg py-4 bg-blue-700 hover:bg-blue-800 transition-colors duration-300"
               >

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { getProducts, getCategorys } from "../Services/firebaseFunction";
+import { getProducts, getCategorys, createNewOrder } from "../Services/firebaseFunction";
+import { postCreatePreference } from "../Services/auth";
 import { getAuthContext } from "./authSingleton";
 import { v4 as uuidv4 } from "uuid";
 
@@ -42,6 +43,7 @@ export const AuthProvider = ({ children }) => {
       setProductReciente([]);
     }
   };
+
   // Validar si existe idSession
   const VerificarSesion = () => {
     const sessionExiste = localStorage.getItem("idSession");
@@ -178,6 +180,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("cart", JSON.stringify(nuevoCarrito));
     ActualizarCarrito();
   };
+
   // Eliminar Prodcutos Vistos Recientes
   const eliminarProducRecientes = () => {
     localStorage.removeItem("recently_viewed");
@@ -190,6 +193,26 @@ export const AuthProvider = ({ children }) => {
     ProductosRecientesCokkie(product);
     setOpenAddCart(true);
   };
+  
+  // Crear Nueva Orden
+  const CreateOrder = async (data) => {
+    try {
+      const response = await createNewOrder(data);
+      return response;
+    } catch (error) {
+      return console.error("Error al crear orden:", error);
+    }
+  }
+  //Crear Preferencia - MERCADO PAGO
+  const CreatePreferences = async (data) => {
+    try {
+      const response = await postCreatePreference(data);
+      return response;
+    } catch (error) {
+      return console.error("Error al crear preferencia:", error);
+    }
+  };
+
   useEffect(() => {
     getProducts().then((listProduct) => {
       setProductsAll(listProduct);
@@ -207,6 +230,8 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
+        CreateOrder,
+        CreatePreferences,
         GuardarUser,
         abrirModalCart,
         eliminarProducRecientes,
