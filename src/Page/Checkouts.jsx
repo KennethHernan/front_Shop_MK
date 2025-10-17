@@ -62,11 +62,10 @@ function Checkout() {
     const response = await CreatePreferences(idOrder, userEmail, items);
     if (response) {
       const { init_point } = response;
-      setCargando(false);
       window.location.href = init_point;
     } else {
-      setCargando(false);
       console.error(response);
+      setCargando(false);
     }
   };
 
@@ -91,6 +90,8 @@ function Checkout() {
 
       return total + precioUnitario * product.cantidad;
     }, 0);
+    
+    setCargando(false);
 
     setTotalPrecio(totalCarrito);
   }, [itemCarrito]);
@@ -562,7 +563,7 @@ function Checkout() {
                 disabled={cargando}
                 className={`
                   lg:block hidden w-full text-[15px] my-4 font-medium text-white rounded-lg py-4 bg-blue-700 hover:bg-blue-800 transition-colors duration-300
-                  ${cargando && "bg-opacity-80 animate-pulse"}
+                  ${cargando && "animate-pulse"}
                   `}
               >
                 {!cargando ? "Pagar Ahora" : "Procesando..."}
@@ -680,7 +681,7 @@ function Checkout() {
                 onChange={() => handleSubmitDev}
                 className={`
                   lg:hidden block w-full text-[15px] my-4 font-medium text-white rounded-lg py-4 bg-blue-700 hover:bg-blue-800 transition-colors duration-300
-                  ${cargando && "bg-opacity-80 animate-pulse"}
+                  ${cargando && "animate-pulse"}
                   `}
               >
                 {!cargando ? "Pagar Ahora" : "Procesando..."}
