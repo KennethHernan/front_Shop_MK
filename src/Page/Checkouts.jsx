@@ -7,14 +7,21 @@ import icon_mercadopago from "../assets/mercadopago.svg";
 import icon_mastercard from "../assets/mastercard.svg";
 import icon_dinerclub from "../assets/dinerclub.svg";
 import icon_americanexpress from "../assets/americaexpres.svg";
+import Shop from "../assets/Shop.svg";
 import icon_yape from "../assets/yape.svg";
 import { useForm } from "react-hook-form";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 function Checkout() {
-  const { itemCarrito, CreatePreferences, CreateOrder, GuardarUser, userSave } =
-    useAuth();
+  const {
+    itemCarrito,
+    CreatePreferences,
+    CreateOrder,
+    GuardarUser,
+    userSave,
+    setOpenCart,
+  } = useAuth();
   const {
     register,
     handleSubmit,
@@ -24,6 +31,8 @@ function Checkout() {
   const [aceptaGuardar, setAceptaGuardar] = useState(false);
   const [cargando, setCargando] = useState(false);
   const [totalPrecio, setTotalPrecio] = useState(0);
+  const [priceDelivery, setPriceDelivery] = useState(0);
+  
   const formRef = useRef();
 
   const navigate = useNavigate();
@@ -58,8 +67,9 @@ function Checkout() {
     const idOrder = orderId;
     const userEmail = data.email;
     const items = itemCarrito;
-
-    const response = await CreatePreferences(idOrder, userEmail, items);
+    const delivery = priceDelivery; 
+    
+    const response = await CreatePreferences(idOrder, userEmail, items, delivery);
     if (response) {
       const { init_point } = response;
       window.location.href = init_point;
@@ -73,6 +83,10 @@ function Checkout() {
 
   const handleSubmitDev = () => {
     formRef.current.requestSubmit();
+  };
+  const Regresar = () => {
+    navigate(-1);
+    setOpenCart(true);
   };
 
   useEffect(() => {
@@ -114,14 +128,26 @@ function Checkout() {
   return (
     <section className="font-sans lg:bg-[#0000000d] select-none flex flex-col justify-center z-50">
       {/* Titulo */}
-      <section className="w-full h-[65px] bg-white border-b flex justify-center font-light font-sans lg:justify-end">
-        <div className="flex justify-center w-full h-auto bg-white lg:justify-end">
-          <div className="w-[65vh] md:w-[80vh] lg:w-[75vh] h-full text-[25px] flex items-center text-start pl-5">
+      <section className="w-full h-[65px] bg-white border-b grid grid-cols-1 lg:grid-cols-2 font-light font-sans lg:justify-end">
+        <div className="w-auto flex justify-center h-auto bg-white lg:justify-end px-5">
+          <div className="w-[65vh] md:w-[80vh] lg:w-[75vh] h-full text-[25px] flex items-center text-start">
             MAYIKH STYLE
           </div>
+
+          <button className="w-[30px] lg:hidden block" onClick={Regresar}>
+            <span className="pointer-events-none">
+              <img src={Shop} alt="Icono Carrrito" />
+            </span>
+          </button>
         </div>
         <div className="justify-center hidden w-full h-full lg:justify-start lg:flex">
-          <div className="w-[65vh] h-full"></div>
+          <div className="w-[65vh] px-5 h-full text-[25px] flex items-center justify-end text-start">
+            <button className="w-[30px]" onClick={Regresar}>
+              <span className="pointer-events-none">
+                <img src={Shop} alt="Icono Carrrito" />
+              </span>
+            </button>
+          </div>
         </div>
       </section>
 
@@ -655,7 +681,8 @@ function Checkout() {
                 </div>
                 <div className="flex items-center justify-between my-3">
                   <p>Envío</p>
-                  <p>S/ 10.00</p>
+                  {/* <p>S/ 10.00</p> */}
+                  <p>Gratis</p>
                 </div>
 
                 <div className="flex items-center justify-between mt-2">
@@ -665,7 +692,7 @@ function Checkout() {
                   <div className="flex items-end gap-2">
                     <p className="text-xs text-gray-400">PEN</p>
                     <p className="text-lg font-semibold">
-                      S/ {(totalPrecio + 10).toFixed(2)}
+                      S/ {(totalPrecio + delivery).toFixed(2)}
                     </p>
                   </div>
                 </div>
