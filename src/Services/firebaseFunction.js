@@ -1,22 +1,15 @@
 import { getDatabase, ref, get, push, set, child } from "firebase/database";
 import { app } from "../firebase";
+import { v4 as uuidv4 } from "uuid";
 const db = getDatabase(app);
-
 
 //======================= CREAR, ACTUALIZAR, ELIMINAR ===========================
 
-
 export const createNewOrder = async (orderData) => {
   try {
-    // Crea una referencia a la tabla "newOrder"
-    const newOrderRef = ref(db, "orderMK");
-
-    // Genera un ID único para la orden
-    const orderId = push(newOrderRef).key;
-
-    // Guarda los datos en Firebase bajo ese ID
+    const orderId = uuidv4();
     await set(ref(db, `orderMK/${orderId}`), {
-      id: orderId,
+      idOrder: orderId,
       ...orderData,
       createdAt: new Date().toISOString(),
     });
@@ -58,7 +51,6 @@ export const getCategorys = async () => {
   }
 };
 
-
 //======================= Listar varias tablas relacionadas ===========================
 export const getCategories = async () => {
   const snapshot = await get(child(ref(db), "category"));
@@ -76,13 +68,12 @@ export const getOffers = async () => {
   if (snapshot.exists()) {
     const data = snapshot.val();
     return Object.entries(data).reduce((acc, [id, value]) => {
-      acc[id] = value.discount || 0; 
+      acc[id] = value.discount || 0;
       return acc;
     }, {});
   }
   return {};
 };
-
 
 export const getProducts = async () => {
   const [categories, offers] = await Promise.all([
