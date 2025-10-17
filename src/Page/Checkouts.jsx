@@ -64,11 +64,13 @@ function Checkout() {
     if (!orderId) return console.error("Error create OrderId");
 
     /*================= CREACION DE PREFERENCIA ======================= */
+    // Precio de Delivery = 0
+    setPriceDelivery(0)
     const idOrder = orderId;
     const userEmail = data.email;
     const items = itemCarrito;
     const delivery = priceDelivery; 
-    
+
     const response = await CreatePreferences(idOrder, userEmail, items, delivery);
     if (response) {
       const { init_point } = response;
@@ -692,7 +694,7 @@ function Checkout() {
                   <div className="flex items-end gap-2">
                     <p className="text-xs text-gray-400">PEN</p>
                     <p className="text-lg font-semibold">
-                      S/ {(totalPrecio + delivery).toFixed(2)}
+                      S/ {(totalPrecio + priceDelivery).toFixed(2)}
                     </p>
                   </div>
                 </div>
