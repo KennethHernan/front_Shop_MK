@@ -65,7 +65,7 @@ function Checkout() {
     };
 
     const orderId = await CreateOrder(nuevaOrden);
-    if (!orderId) return console.log("orderId");
+    if (!orderId) return console.error("Error create OrderId");
 
     /*================= CREACION DE PREFERENCIA ======================= */
     const dataAll = {
@@ -73,6 +73,10 @@ function Checkout() {
       userEmail: data.email,
       items: itemCarrito,
     };
+    console.log(JSON.stringify(dataAll));
+    console.log(dataAll);
+    
+    
     const response = await CreatePreferences(dataAll);
     setCargando(false);
     if (response) {
