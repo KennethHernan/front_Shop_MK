@@ -27,6 +27,7 @@ export const AuthProvider = ({ children }) => {
   const [itemSearch, setItemSearch] = useState("");
   const [userSave, setUserSave] = useState([]);
   const [session, setSession] = useState("");
+  const [priceDelivery, setPriceDelivery] = useState(0);
 
   // Actualizar Carrito
   const ActualizarCarrito = () => {
@@ -258,6 +259,7 @@ export const AuthProvider = ({ children }) => {
         Disminuir,
         Aumentar,
         userSave,
+        priceDelivery,
         productAll,
         categoryAll,
         search,
@@ -270,6 +272,7 @@ export const AuthProvider = ({ children }) => {
         cartIconRef,
         productReciente,
         session,
+        setPriceDelivery,
         setSearch,
         setOpenAddCart,
         setProductoModal,

@@ -21,6 +21,8 @@ function Checkout() {
     GuardarUser,
     userSave,
     setOpenCart,
+    priceDelivery,
+    setPriceDelivery,
   } = useAuth();
   const {
     register,
@@ -31,8 +33,7 @@ function Checkout() {
   const [aceptaGuardar, setAceptaGuardar] = useState(false);
   const [cargando, setCargando] = useState(false);
   const [totalPrecio, setTotalPrecio] = useState(0);
-  const [priceDelivery, setPriceDelivery] = useState(0);
-  
+
   const formRef = useRef();
 
   const navigate = useNavigate();
@@ -65,13 +66,18 @@ function Checkout() {
 
     /*================= CREACION DE PREFERENCIA ======================= */
     // Precio de Delivery = 0
-    setPriceDelivery(0)
+    setPriceDelivery(0);
     const idOrder = orderId;
     const userEmail = data.email;
     const items = itemCarrito;
-    const delivery = priceDelivery; 
+    const delivery = priceDelivery;
 
-    const response = await CreatePreferences(idOrder, userEmail, items, delivery);
+    const response = await CreatePreferences(
+      idOrder,
+      userEmail,
+      items,
+      delivery
+    );
     if (response) {
       const { init_point } = response;
       window.location.href = init_point;
@@ -471,7 +477,7 @@ function Checkout() {
               <section className="w-full border-blue-500 border-[1px] bg-slate-50 rounded-lg p-4 text-[14px] my-3">
                 <div className="flex items-center justify-between">
                   <p>ENVIO ECOAMIGABLE</p>
-                  <p className="font-medium">S/ 10.00</p>
+                  <p className="font-medium">S/ {priceDelivery.toFixed(2)}</p>
                 </div>
                 <p className="mt-1 text-gray-500">
                   Precio de envio a todo Perú
