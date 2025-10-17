@@ -222,6 +222,9 @@ export const AuthProvider = ({ children }) => {
   const CreatePreferences = async (idOrder, userEmail, items) => {
     try {
       const response = await postCreatePreference(idOrder, userEmail, items);
+      console.log("response:");
+      console.log(response);
+
       return response;
     } catch (error) {
       return console.error("Error al crear preferencia:", error);
