@@ -90,7 +90,7 @@ function Checkout() {
 
       return total + precioUnitario * product.cantidad;
     }, 0);
-    
+
     setCargando(false);
 
     setTotalPrecio(totalCarrito);
@@ -669,7 +669,7 @@ function Checkout() {
                     </p>
                   </div>
                 </div>
-                <p className="w-[150px] text-gray-400">
+                <p className="w-[150px] text-gray-400 hidden">
                   Incluye más el 18% de impuestos
                 </p>
               </section>
