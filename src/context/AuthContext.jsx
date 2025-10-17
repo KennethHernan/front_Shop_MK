@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { getProducts, getCategorys, createNewOrder } from "../Services/firebaseFunction";
+import {
+  getProducts,
+  getCategorys,
+  createNewOrder,
+} from "../Services/firebaseFunction";
 import { postCreatePreference } from "../Services/auth";
 import { getAuthContext } from "./authSingleton";
 import { v4 as uuidv4 } from "uuid";
@@ -51,6 +55,17 @@ export const AuthProvider = ({ children }) => {
       setSession(sessionExiste);
     } else {
       CrearSession();
+    }
+  };
+
+  // Validar si existe idSession
+  const VerificarUser = () => {
+    const userExiste = JSON.parse(localStorage.getItem("userSave"));
+
+    if (userExiste) {
+      setUserSave(userExiste);
+    } else {
+      setUserSave([]);
     }
   };
 
@@ -193,7 +208,7 @@ export const AuthProvider = ({ children }) => {
     ProductosRecientesCokkie(product);
     setOpenAddCart(true);
   };
-  
+
   // Crear Nueva Orden
   const CreateOrder = async (data) => {
     try {
@@ -202,7 +217,7 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       return console.error("Error al crear orden:", error);
     }
-  }
+  };
   //Crear Preferencia - MERCADO PAGO
   const CreatePreferences = async (data) => {
     try {
@@ -222,6 +237,7 @@ export const AuthProvider = ({ children }) => {
       setCategoryAll(listCategory);
     });
 
+    VerificarUser();
     VerificarSesion();
     ActualizarCarrito();
     ActualizarProductoReciente();

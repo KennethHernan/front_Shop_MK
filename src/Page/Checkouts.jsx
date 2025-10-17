@@ -13,23 +13,17 @@ import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 function Checkout() {
-  const { itemCarrito, CreatePreferences, CreateOrder } = useAuth();
+  const { itemCarrito, CreatePreferences, CreateOrder, GuardarUser, userSave } =
+    useAuth();
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm();
   const [aceptaGuardar, setAceptaGuardar] = useState(false);
   const [cargando, setCargando] = useState(false);
   const [totalPrecio, setTotalPrecio] = useState(0);
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [dni, setDni] = useState("");
-  const [departamento, setDepertamento] = useState("");
-  const [distrito, setDistrito] = useState("");
-  const [dirección, setDireccion] = useState("");
-  const [phone, setPhone] = useState("");
   const formRef = useRef();
 
   const navigate = useNavigate();
@@ -37,6 +31,9 @@ function Checkout() {
   const onSubmit = async (data) => {
     setCargando(true);
 
+    if (aceptaGuardar) {
+      GuardarUser(data);
+    }
     /*
     {
     "email": "kenetydelaceuz14@gmail.com",
@@ -114,6 +111,21 @@ function Checkout() {
     setTotalPrecio(totalCarrito);
   }, [itemCarrito]);
 
+  // Autocompletar Usurario
+  useEffect(() => {
+    if (userSave) {
+      setValue("email", userSave.email);
+      setValue("nombre", userSave.nombre);
+      setValue("apellido", userSave.apellido);
+      setValue("dni", userSave.dni);
+      setValue("departamento", userSave.departamento);
+      setValue("distrito", userSave.distrito);
+      setValue("direccion", userSave.direccion);
+      setValue("phone", userSave.phone)
+      setAceptaGuardar(true);
+    }
+  }, [userSave]);
+
   return (
     <section className="font-sans lg:bg-[#0000000d] select-none flex flex-col justify-center z-50">
       {/* Titulo */}
@@ -158,7 +170,6 @@ function Checkout() {
                         : "border-[1px] border-gray-300"
                     }
                     `}
-                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="Correo Electrónico"
                   {...register("email", {
                     required: "Introduce un correo electrónico",
@@ -196,7 +207,6 @@ function Checkout() {
                           : "border-[1px] border-gray-300"
                       }
                     `}
-                    onChange={(e) => setName(e.target.value)}
                     placeholder="Nombre Completo"
                     {...register("nombre", { required: "Introduce un nombre" })}
                   />
@@ -228,7 +238,6 @@ function Checkout() {
                           : "border-[1px] border-gray-300"
                       }
                     `}
-                    onChange={(e) => setLastName(e.target.value)}
                     placeholder="Apellido Completo"
                     {...register("apellido", {
                       required: "Introduce un apellido",
@@ -263,7 +272,6 @@ function Checkout() {
                         : "border-[1px] border-gray-300"
                     }
                     `}
-                  onChange={(e) => setDni(e.target.value)}
                   placeholder="Dni"
                   {...register("dni", { required: "Introduce un dni" })}
                 />
@@ -295,7 +303,6 @@ function Checkout() {
                           : "border-[1px] border-gray-300"
                       }
                     `}
-                    onChange={(e) => setDepertamento(e.target.value)}
                     {...register("departamento", {
                       required: "Introduce un departamento",
                     })}
@@ -351,7 +358,6 @@ function Checkout() {
                         : "border-[1px] border-gray-300"
                     }
                     `}
-                  onChange={(e) => setDistrito(e.target.value)}
                   placeholder="Distrito"
                   {...register("distrito", {
                     required: "Introduce un distrito",
@@ -385,7 +391,6 @@ function Checkout() {
                         : "border-[1px] border-gray-300"
                     }
                     `}
-                  onChange={(e) => setDireccion(e.target.value)}
                   placeholder="Dirección"
                   {...register("direccion", {
                     required: "Introduce una dirección",
@@ -419,7 +424,6 @@ function Checkout() {
                         : "border-[1px] border-gray-300"
                     }
                     `}
-                  onChange={(e) => setPhone(e.target.value)}
                   placeholder="Número Telefonico"
                   {...register("phone", { required: "Introduce un teléfono" })}
                 />
