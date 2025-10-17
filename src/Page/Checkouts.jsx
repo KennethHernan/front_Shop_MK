@@ -69,7 +69,7 @@ function Checkout() {
 
     /*================= CREACION DE PREFERENCIA ======================= */
     const dataAll = {
-      idOder: orderId,
+      idOrder: orderId,
       userEmail: data.email,
       items: itemCarrito,
     };
