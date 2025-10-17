@@ -71,16 +71,17 @@ function Checkout() {
     const idOrder = orderId;
     const userEmail = data.email;
     const items = itemCarrito;
-    
+
     const response = await CreatePreferences(idOrder, userEmail, items);
-    setCargando(false);
     if (response) {
-      const { preferenceId, init_point } = response.data;
+      const { preferenceId, init_point } = response;
 
       console.log("✅ Preferencia creada:", preferenceId);
       console.log("🔗 Ir a Mercado Pago:", init_point);
+      setCargando(false);
       window.location.href = init_point;
     } else {
+      setCargando(false);
       console.error(response);
     }
   };
@@ -575,9 +576,12 @@ function Checkout() {
               <button
                 type="submit"
                 disabled={cargando}
-                className="lg:block hidden w-full text-[15px] my-4 font-medium text-white rounded-lg py-4 bg-blue-700 hover:bg-blue-800 transition-colors duration-300"
+                className={`
+                  lg:block hidden w-full text-[15px] my-4 font-medium text-white rounded-lg py-4 bg-blue-700 hover:bg-blue-800 transition-colors duration-300
+                  ${cargando && "bg-blue-800 animate-pulse"}
+                  `}
               >
-                Pagar Ahora
+                {cargando ? "Pagar Ahora" : "Procesando..."}
               </button>
 
               {/* POLITICA Y PRIVACIDAD */}
