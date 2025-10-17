@@ -68,16 +68,11 @@ function Checkout() {
     if (!orderId) return console.error("Error create OrderId");
 
     /*================= CREACION DE PREFERENCIA ======================= */
-    const dataAll = {
-      idOrder: orderId,
-      userEmail: data.email,
-      items: itemCarrito,
-    };
-    console.log(JSON.stringify(dataAll));
-    console.log(dataAll);
+    const idOrder = orderId;
+    const userEmail = data.email;
+    const items = itemCarrito;
     
-    
-    const response = await CreatePreferences(dataAll);
+    const response = await CreatePreferences(idOrder, userEmail, items);
     setCargando(false);
     if (response) {
       const { preferenceId, init_point } = response.data;
@@ -125,7 +120,7 @@ function Checkout() {
       setValue("departamento", userSave.departamento);
       setValue("distrito", userSave.distrito);
       setValue("direccion", userSave.direccion);
-      setValue("phone", userSave.phone)
+      setValue("phone", userSave.phone);
       setAceptaGuardar(true);
     }
   }, [userSave]);
