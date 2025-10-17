@@ -61,11 +61,8 @@ function Checkout() {
 
     const response = await CreatePreferences(idOrder, userEmail, items);
     if (response) {
-      const { preferenceId, init_point } = response;
+      const { init_point } = response;
       setCargando(false);
-
-      console.log("✅ Preferencia creada:", preferenceId);
-      console.log("🔗 Ir a Mercado Pago:", init_point);
       window.location.href = init_point;
     } else {
       setCargando(false);
@@ -680,6 +677,7 @@ function Checkout() {
               <button
                 type="submit"
                 disabled={cargando}
+                onChange={() => handleSubmitDev}
                 className={`
                   lg:hidden block w-full text-[15px] my-4 font-medium text-white rounded-lg py-4 bg-blue-700 hover:bg-blue-800 transition-colors duration-300
                   ${cargando && "bg-opacity-80 animate-pulse"}
