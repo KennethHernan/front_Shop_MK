@@ -568,7 +568,7 @@ function Checkout() {
                   ${cargando && "bg-opacity-80 animate-pulse"}
                   `}
               >
-                {cargando ? "Pagar Ahora" : "Procesando..."}
+                {!cargando ? "Pagar Ahora" : "Procesando..."}
               </button>
 
               {/* POLITICA Y PRIVACIDAD */}
@@ -685,7 +685,7 @@ function Checkout() {
                   ${cargando && "bg-opacity-80 animate-pulse"}
                   `}
               >
-                Pagar Ahora
+                {!cargando ? "Pagar Ahora" : "Procesando..."}
               </button>
 
               {/* POLITICA Y PRIVACIDAD */}
