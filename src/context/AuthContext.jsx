@@ -229,11 +229,9 @@ export const AuthProvider = ({ children }) => {
   const CreatePreferences = async (idOrder, items, delivery) => {
     try {
       const response = await postCreatePreference(idOrder, items, delivery, session);
-      console.log(response);
-      console.log(response.data);
+      console.log(response.preferenceId);
       
-      //const { preferenceId } = response;
-      localStorage.setItem("preference_id", JSON.stringify(response.data.preference_id ));
+      localStorage.setItem("preference_id", JSON.stringify(response.preferenceId));
       setPreferenceId(response.data.preferenceId);
       return response;
     } catch (error) {
