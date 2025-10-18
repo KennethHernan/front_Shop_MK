@@ -80,10 +80,11 @@ function Checkout() {
 
     const response = await CreatePreferences(idOrder, items, delivery, userData);
     console.log(response);
-    
+
     if (response) {
       const { init_point } = response;
-      window.location.href = init_point;
+      //window.location.href = init_point;
+      window.open(init_point, '_blank');
     } else {
       console.error(response);
       setCargando(false);
