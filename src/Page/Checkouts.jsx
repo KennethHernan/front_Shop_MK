@@ -708,7 +708,7 @@ function Checkout() {
               <button
                 type="submit"
                 disabled={cargando}
-                onChange={() => handleSubmitDev}
+                onClick={handleSubmitDev}
                 className={`
                   lg:hidden block w-full text-[15px] my-4 font-medium text-white rounded-lg py-4 bg-blue-700 hover:bg-blue-800 transition-colors duration-300
                   ${cargando && "animate-pulse"}
