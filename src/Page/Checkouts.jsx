@@ -25,6 +25,7 @@ function Checkout() {
     setOpenCart,
     priceDelivery,
     setPriceDelivery,
+    preferenceId,
   } = useAuth();
   const {
     register,
@@ -40,13 +41,16 @@ function Checkout() {
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
+    console.log(params);
+    
     const status = params.get("status");
-    const collectionStatus = params.get("collection_status");
+    const collectionStatus = params.get("collection_status"); 
+    const preference_id = params.get("preference_id");
 
-    if (location.pathname.includes("failure") && status === "null" || collectionStatus !== "approved") {
+    if (location.pathname.includes("failure") && status === "null" && collectionStatus !== "approved" && preference_id == preferenceId) {
       setFailure(true);
     }
-  }, [location]);
+  }, [location, preferenceId]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -97,6 +101,7 @@ function Checkout() {
       setCargando(false);
     }
   };
+  
 
   const params = useParams();
 

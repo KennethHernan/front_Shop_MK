@@ -28,6 +28,7 @@ export const AuthProvider = ({ children }) => {
   const [userSave, setUserSave] = useState([]);
   const [session, setSession] = useState("");
   const [priceDelivery, setPriceDelivery] = useState(0);
+  const [preferenceId, setPreferenceId] = useState("");
 
   // Actualizar Carrito
   const ActualizarCarrito = () => {
@@ -49,11 +50,17 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Validar si existe idSession
+  // Validar si existe idSession y preference_id
   const VerificarSesion = () => {
     const sessionExiste = localStorage.getItem("idSession");
+    const sessionPreference = localStorage.getItem("preference_id");
     if (sessionExiste) {
       setSession(sessionExiste);
+    } else {
+      CrearSession();
+    }
+    if (sessionPreference) {
+      setPreferenceId(sessionPreference);
     } else {
       CrearSession();
     }
@@ -151,9 +158,8 @@ export const AuthProvider = ({ children }) => {
     document.body.appendChild(clone);
 
     requestAnimationFrame(() => {
-      clone.style.transform = `translate(${cartRect.left - imgRect.left}px, ${
-        cartRect.top - imgRect.top
-      }px) scale(0.1)`;
+      clone.style.transform = `translate(${cartRect.left - imgRect.left}px, ${cartRect.top - imgRect.top
+        }px) scale(0.1)`;
       clone.style.opacity = "0";
     });
 
@@ -223,6 +229,9 @@ export const AuthProvider = ({ children }) => {
   const CreatePreferences = async (idOrder, items, delivery) => {
     try {
       const response = await postCreatePreference(idOrder, items, delivery, session);
+      const { preferenceId } = response;
+      localStorage.setItem("preference_id", JSON.stringify(preferenceId));
+      setPreferenceId(preferenceId);
       return response;
     } catch (error) {
       return console.error("Error al crear preferencia:", error);
@@ -259,6 +268,7 @@ export const AuthProvider = ({ children }) => {
         Disminuir,
         Aumentar,
         userSave,
+        preferenceId,
         priceDelivery,
         productAll,
         categoryAll,
