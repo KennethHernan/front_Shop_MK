@@ -11,7 +11,6 @@ import icon_alertFailure from "../assets/alert_failure.svg"
 import Shop from "../assets/Shop.svg";
 import icon_yape from "../assets/yape.svg";
 import { useForm } from "react-hook-form";
-import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -45,7 +44,10 @@ function Checkout() {
     const status = params.get("status");
     const collectionStatus = params.get("collection_status"); 
     const preference_id = params.get("preference_id");
-
+    console.log("preference_id:"+preference_id);
+    console.log("preferenceId:"+preferenceId);
+    
+    
     if (location.pathname.includes("failure") && status === "null" && collectionStatus !== "approved" && preference_id === preferenceId) {
       setFailure(true);
     }
@@ -101,9 +103,6 @@ function Checkout() {
     }
   };
   
-
-  const params = useParams();
-
   const handleSubmitDev = () => {
     formRef.current.requestSubmit();
   };
@@ -113,12 +112,6 @@ function Checkout() {
   };
 
   useEffect(() => {
-    if (params?.variable) {
-      console.log("Variable capturada:", params.variable);
-    } else {
-      console.warn("No se encontró variable en la URL");
-    }
-
     const totalCarrito = itemCarrito.reduce((total, product) => {
       const precioUnitario =
         product.discount >= 1
@@ -131,7 +124,7 @@ function Checkout() {
     setCargando(false);
 
     setTotalPrecio(totalCarrito);
-  }, [itemCarrito, params]);
+  }, [itemCarrito]);
 
   // Autocompletar Usurario
   useEffect(() => {
