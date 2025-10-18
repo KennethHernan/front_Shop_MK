@@ -83,7 +83,7 @@ function Checkout() {
     
     if (response) {
       const { init_point } = response;
-      //window.location.href = init_point;
+      window.location.href = init_point;
     } else {
       console.error(response);
       setCargando(false);
