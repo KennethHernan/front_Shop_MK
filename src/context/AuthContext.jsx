@@ -229,9 +229,9 @@ export const AuthProvider = ({ children }) => {
   const CreatePreferences = async (idOrder, items, delivery) => {
     try {
       const response = await postCreatePreference(idOrder, items, delivery, session);
-      const { preferenceId } = response;
-      localStorage.setItem("preference_id", JSON.stringify(preferenceId));
-      setPreferenceId(preferenceId);
+      //const { preferenceId } = response;
+      localStorage.setItem("preference_id", JSON.stringify(response.data.preferenceId));
+      setPreferenceId(response.data.preferenceId);
       return response;
     } catch (error) {
       return console.error("Error al crear preferencia:", error);

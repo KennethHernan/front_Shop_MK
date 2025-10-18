@@ -47,11 +47,17 @@ function Checkout() {
     console.log("preference_id:"+preference_id);
     console.log("preferenceId:"+preferenceId);
     
-    
+    if (preference_id.trim() === preferenceId.trim()) {
+      console.log("son iguales");
+      
+    } else {
+      console.log("no igauoes");
+      
+    }
     if (location.pathname.includes("failure") && status === "null" && collectionStatus !== "approved" && preference_id && preference_id.trim() === preferenceId.trim()) {
       setFailure(true);
     }
-  }, [location, preferenceId]);
+  }, [preferenceId]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
