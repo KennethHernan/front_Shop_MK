@@ -7,6 +7,7 @@ import icon_mercadopago from "../assets/mercadopago.svg";
 import icon_mastercard from "../assets/mastercard.svg";
 import icon_dinerclub from "../assets/dinerclub.svg";
 import icon_americanexpress from "../assets/americaexpres.svg";
+import icon_alertFailure from "../assets/alert_failure.svg"
 import Shop from "../assets/Shop.svg";
 import icon_yape from "../assets/yape.svg";
 import { useForm } from "react-hook-form";
@@ -34,12 +35,22 @@ function Checkout() {
   const [aceptaGuardar, setAceptaGuardar] = useState(false);
   const [cargando, setCargando] = useState(false);
   const [totalPrecio, setTotalPrecio] = useState(0);
+  const location = useLocation();
+  const [failure, setFailure] = useState(false);
 
-  const { pathname } = useLocation();
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const status = params.get("status");
+    const collectionStatus = params.get("collection_status");
+
+    if (location.pathname.includes("failure") && status === "null" || collectionStatus !== "approved") {
+      setFailure(true);
+    }
+  }, [location]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [pathname]);
+  }, []);
   const formRef = useRef();
 
   const navigate = useNavigate();
@@ -78,8 +89,6 @@ function Checkout() {
     const delivery = priceDelivery;
 
     const response = await CreatePreferences(idOrder, items, delivery);
-    console.log(response);
-
     if (response) {
       const { init_point } = response;
       window.location.href = init_point;
@@ -137,6 +146,20 @@ function Checkout() {
 
   return (
     <section className="font-sans lg:bg-[#0000000d] select-none flex flex-col justify-center z-50">
+
+      {failure && (
+        <section className=" absolute top-0 h-[100vh] w-screen bg-[#00000084] z-50 flex justify-center items-center" onClick={() => setFailure(false)}>
+          <div className="flex flex-col items-center justify-center w-auto h-auto px-20 py-5 bg-white"
+            onClick={(e) => e.stopPropagation()}>
+            <span className="pointer-events-none">
+              <img src={icon_alertFailure} alt="Icono Pago Failured" />
+            </span>
+            <p className="mt-3 text-sm font-normal">Algo salió mal...</p>
+            <p className="font-medium">Tu transacción no pudo completarse.</p>
+            <p className="mt-3 text-sm font-normal text-[#3e3e3e] underline" onClick={() => setFailure(false)}>Intentar nuevamente</p>
+          </div>
+        </section>
+      )}
       {/* Titulo */}
       <section className="w-full h-[65px] bg-white border-b grid grid-cols-1 lg:grid-cols-2 font-light font-sans lg:justify-end">
         <div className="flex justify-center w-auto h-auto px-5 bg-white lg:justify-end">
@@ -462,7 +485,7 @@ function Checkout() {
                   checked={aceptaGuardar}
                   onChange={(e) => setAceptaGuardar(e.target.checked)}
                 />
-                Deseos guardar la información para autocompletar las proximas
+                Deseas guardar la información para autocompletar las proximas
                 compras.
               </label>
 
