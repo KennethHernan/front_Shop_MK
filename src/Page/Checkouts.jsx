@@ -48,7 +48,7 @@ function Checkout() {
     console.log("preferenceId:"+preferenceId);
     
     
-    if (location.pathname.includes("failure") && status === "null" && collectionStatus !== "approved" && preference_id === preferenceId) {
+    if (location.pathname.includes("failure") && status === "null" && collectionStatus !== "approved" && preference_id && preference_id.trim() === preferenceId.trim()) {
       setFailure(true);
     }
   }, [location, preferenceId]);
