@@ -220,9 +220,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
   //Crear Preferencia - MERCADO PAGO
-  const CreatePreferences = async (idOrder, userEmail, items, delivery) => {
+  const CreatePreferences = async (idOrder, items, delivery, userData) => {
     try {
-      const response = await postCreatePreference(idOrder, userEmail, items, delivery);
+      const response = await postCreatePreference(idOrder, items, delivery, userData);
       return response;
     } catch (error) {
       return console.error("Error al crear preferencia:", error);

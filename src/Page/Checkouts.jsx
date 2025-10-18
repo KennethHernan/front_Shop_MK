@@ -12,6 +12,7 @@ import icon_yape from "../assets/yape.svg";
 import { useForm } from "react-hook-form";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 function Checkout() {
   const {
@@ -34,6 +35,11 @@ function Checkout() {
   const [cargando, setCargando] = useState(false);
   const [totalPrecio, setTotalPrecio] = useState(0);
 
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
   const formRef = useRef();
 
   const navigate = useNavigate();
@@ -68,16 +74,13 @@ function Checkout() {
     // Precio de Delivery = 0
     setPriceDelivery(0);
     const idOrder = orderId;
-    const userEmail = data.email;
+    const userData = data;
     const items = itemCarrito;
     const delivery = priceDelivery;
 
-    const response = await CreatePreferences(
-      idOrder,
-      userEmail,
-      items,
-      delivery
-    );
+    const response = await CreatePreferences(idOrder, items, delivery, userData);
+    console.log(response);
+    
     if (response) {
       const { init_point } = response;
       window.location.href = init_point;
@@ -116,7 +119,7 @@ function Checkout() {
     setCargando(false);
 
     setTotalPrecio(totalCarrito);
-  }, [itemCarrito]);
+  }, [itemCarrito, params]);
 
   // Autocompletar Usurario
   useEffect(() => {
@@ -131,13 +134,13 @@ function Checkout() {
       setValue("phone", userSave.phone);
       setAceptaGuardar(true);
     }
-  }, [userSave]);
+  }, [userSave, setValue]);
 
   return (
     <section className="font-sans lg:bg-[#0000000d] select-none flex flex-col justify-center z-50">
       {/* Titulo */}
       <section className="w-full h-[65px] bg-white border-b grid grid-cols-1 lg:grid-cols-2 font-light font-sans lg:justify-end">
-        <div className="w-auto flex justify-center h-auto bg-white lg:justify-end px-5">
+        <div className="flex justify-center w-auto h-auto px-5 bg-white lg:justify-end">
           <div className="w-[65vh] md:w-[80vh] lg:w-[75vh] h-full text-[25px] flex items-center text-start">
             MAYIKH STYLE
           </div>
@@ -183,10 +186,9 @@ function Checkout() {
                   id="email"
                   className={`
                     peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-[2px] focus:border-blue-500 transition-transform duration-300
-                    ${
-                      errors.email
-                        ? "border-red-600 border-2"
-                        : "border-[1px] border-gray-300"
+                    ${errors.email
+                      ? "border-red-600 border-2"
+                      : "border-[1px] border-gray-300"
                     }
                     `}
                   placeholder="Correo Electrónico"
@@ -220,10 +222,9 @@ function Checkout() {
                     id="nombre"
                     className={`
                       peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-[2px] focus:border-blue-500 transition-transform duration-300
-                      ${
-                        errors.nombre
-                          ? "border-red-600 border-2"
-                          : "border-[1px] border-gray-300"
+                      ${errors.nombre
+                        ? "border-red-600 border-2"
+                        : "border-[1px] border-gray-300"
                       }
                     `}
                     placeholder="Nombre Completo"
@@ -251,10 +252,9 @@ function Checkout() {
                     id="apellido"
                     className={`
                       peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-[2px] focus:border-blue-500 transition-transform duration-300
-                      ${
-                        errors.apellido
-                          ? "border-red-600 border-2"
-                          : "border-[1px] border-gray-300"
+                      ${errors.apellido
+                        ? "border-red-600 border-2"
+                        : "border-[1px] border-gray-300"
                       }
                     `}
                     placeholder="Apellido Completo"
@@ -285,10 +285,9 @@ function Checkout() {
                   id="dni"
                   className={`
                     peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 focus:border-[2px] [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-blue-500 transition-transform duration-300
-                    ${
-                      errors.dni
-                        ? "border-red-600 border-2"
-                        : "border-[1px] border-gray-300"
+                    ${errors.dni
+                      ? "border-red-600 border-2"
+                      : "border-[1px] border-gray-300"
                     }
                     `}
                   placeholder="Dni"
@@ -316,10 +315,9 @@ function Checkout() {
                     id="departamento"
                     className={`
                       peer w-full text-sm text-gray-900 rounded-lg pl-3 pt-6 pb-2 focus:border-[2px] focus:outline-none focus:border-blue-500 transition-transform duration-300 appearance-none
-                      ${
-                        errors.departamento
-                          ? "border-red-600 border-2"
-                          : "border-[1px] border-gray-300"
+                      ${errors.departamento
+                        ? "border-red-600 border-2"
+                        : "border-[1px] border-gray-300"
                       }
                     `}
                     {...register("departamento", {
@@ -371,10 +369,9 @@ function Checkout() {
                   id="distrito"
                   className={`
                     peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 focus:border-[2px] [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-blue-500 transition-transform duration-300
-                    ${
-                      errors.distrito
-                        ? "border-red-600 border-2"
-                        : "border-[1px] border-gray-300"
+                    ${errors.distrito
+                      ? "border-red-600 border-2"
+                      : "border-[1px] border-gray-300"
                     }
                     `}
                   placeholder="Distrito"
@@ -404,10 +401,9 @@ function Checkout() {
                   id="direccion"
                   className={`
                     peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 focus:border-[2px] [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-blue-500 transition-transform duration-300
-                    ${
-                      errors.distrito
-                        ? "border-red-600 border-2"
-                        : "border-[1px] border-gray-300"
+                    ${errors.distrito
+                      ? "border-red-600 border-2"
+                      : "border-[1px] border-gray-300"
                     }
                     `}
                   placeholder="Dirección"
@@ -437,10 +433,9 @@ function Checkout() {
                   id="phone"
                   className={`
                     peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 focus:border-[2px] [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-blue-500 transition-transform duration-300
-                    ${
-                      errors.email
-                        ? "border-red-600 border-2"
-                        : "border-[1px] border-gray-300"
+                    ${errors.email
+                      ? "border-red-600 border-2"
+                      : "border-[1px] border-gray-300"
                     }
                     `}
                   placeholder="Número Telefonico"
@@ -623,7 +618,7 @@ function Checkout() {
         </div>
         {/* Seccion precio total */}
         <div className="sticky top-0 flex justify-center w-full border-l md:h-full lg:justify-start">
-          <div className="w-[65vh] h-full md:py-5 px-5 py-0 overflow-scroll">
+          <div className="w-[65vh] h-full md:py-5 px-5 py-0 overflow-auto">
             <section className="flex flex-col h-full font-normal">
               <div className="flex justify-between w-full mb-3 text-lg font-medium md:hidden">
                 <p>Resumen del pedido</p>
@@ -631,54 +626,54 @@ function Checkout() {
               <ul className="w-full px-[10px] h-auto flex flex-col justify-start overflow-scroll">
                 {itemCarrito.length > 0
                   ? itemCarrito.map((product, index) => (
-                      <li
-                        className="w-auto p-2 grid grid-cols-[auto,auto] justify-between"
-                        key={index}
-                      >
-                        <section className="flex items-center">
-                          {/* Imagen Producto */}
-                          <section className="relative flex mr-[15px]">
-                            <div className="w-[63px] h-[60px] overflow-hidden border-[1px] shadow-md border-[#ffffff] rounded-md">
-                              <img
-                                src={product.urlP}
-                                className="w-full h-full object-cover bg-cover bg-center border-[2px] border-[#fff] flex rounded-md"
-                              />
-                            </div>
-                            <div className="absolute -top-2 -right-2 bg-black rounded-md border-2 border-white text-[#fff] px-[7px] py-[1px]">
-                              <p>{product.cantidad}</p>
-                            </div>
-                          </section>
-
-                          <div>
-                            {/* Nombre Producto */}
-                            <p className="text-[14px]">{product.nameP}</p>
+                    <li
+                      className="w-auto p-2 grid grid-cols-[auto,auto] justify-between"
+                      key={index}
+                    >
+                      <section className="flex items-center">
+                        {/* Imagen Producto */}
+                        <section className="relative flex mr-[15px]">
+                          <div className="w-[63px] h-[60px] overflow-hidden border-[1px] shadow-md border-[#ffffff] rounded-md">
+                            <img
+                              src={product.urlP}
+                              className="w-full h-full object-cover bg-cover bg-center border-[2px] border-[#fff] flex rounded-md"
+                            />
+                          </div>
+                          <div className="absolute -top-2 -right-2 bg-black rounded-md border-2 border-white text-[#fff] px-[7px] py-[1px]">
+                            <p>{product.cantidad}</p>
                           </div>
                         </section>
-                        {/* Precio Total*/}
-                        <div className="h-auto w-auto flex flex-col items-end justify-center text-[14px]">
-                          {product.discount >= 1 ? (
-                            <>
-                              <p className="w-full text-end">
-                                S/{" "}
-                                {(
-                                  (product.price -
-                                    (product.price * product.discount) / 100) *
-                                  product.cantidad
-                                ).toFixed(2)}
-                              </p>
-                            </>
-                          ) : (
-                            <input
-                              className="w-full bg-transparent text-end"
-                              disabled
-                              value={`S/ ${(
-                                product.price * product.cantidad
-                              ).toFixed(2)}`}
-                            />
-                          )}
+
+                        <div>
+                          {/* Nombre Producto */}
+                          <p className="text-[14px]">{product.nameP}</p>
                         </div>
-                      </li>
-                    ))
+                      </section>
+                      {/* Precio Total*/}
+                      <div className="h-auto w-auto flex flex-col items-end justify-center text-[14px]">
+                        {product.discount >= 1 ? (
+                          <>
+                            <p className="w-full text-end">
+                              S/{" "}
+                              {(
+                                (product.price -
+                                  (product.price * product.discount) / 100) *
+                                product.cantidad
+                              ).toFixed(2)}
+                            </p>
+                          </>
+                        ) : (
+                          <input
+                            className="w-full bg-transparent text-end"
+                            disabled
+                            value={`S/ ${(
+                              product.price * product.cantidad
+                            ).toFixed(2)}`}
+                          />
+                        )}
+                      </div>
+                    </li>
+                  ))
                   : null}
               </ul>
 

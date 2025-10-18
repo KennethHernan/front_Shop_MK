@@ -43,7 +43,7 @@ function Search() {
       );
       setResultado(productosFiltrados);
     }, 300);
-  }, [itemSearch]);
+  }, [itemSearch,productAll]);
 
   return (
     <div
