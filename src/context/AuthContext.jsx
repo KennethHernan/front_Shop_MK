@@ -7,6 +7,7 @@ import {
 import { postCreatePreference } from "../Services/auth";
 import { getAuthContext } from "./authSingleton";
 import { v4 as uuidv4 } from "uuid";
+import { log } from "console";
 
 const AuthContext = getAuthContext();
 
@@ -229,10 +230,12 @@ export const AuthProvider = ({ children }) => {
   const CreatePreferences = async (idOrder, items, delivery) => {
     try {
       const response = await postCreatePreference(idOrder, items, delivery, session);
-      console.log(response.preferenceId);
+      const { preferenceId } = response;
+      console.log(preferenceId);
+      console.log(JSON.stringify(preferenceId));
       
-      localStorage.setItem("preference_id", JSON.stringify(response.preferenceId));
-      setPreferenceId(response.data.preferenceId);
+      localStorage.setItem("preference_id", JSON.stringify(preferenceId));
+      setPreferenceId(JSON.stringify(preferenceId));
       return response;
     } catch (error) {
       return console.error("Error al crear preferencia:", error);
