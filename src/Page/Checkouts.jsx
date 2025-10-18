@@ -74,17 +74,15 @@ function Checkout() {
     // Precio de Delivery = 0
     setPriceDelivery(0);
     const idOrder = orderId;
-    const userData = data;
     const items = itemCarrito;
     const delivery = priceDelivery;
 
-    const response = await CreatePreferences(idOrder, items, delivery, userData);
+    const response = await CreatePreferences(idOrder, items, delivery);
     console.log(response);
 
     if (response) {
       const { init_point } = response;
-      //window.location.href = init_point;
-      window.open(init_point, '_blank');
+      window.location.href = init_point;
     } else {
       console.error(response);
       setCargando(false);
