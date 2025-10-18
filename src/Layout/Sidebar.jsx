@@ -452,7 +452,7 @@ function Sidebar() {
 
           <div className="flex justify-end">
 
-            <button onClick={() => setSearch(true)} className="w-1/6">
+            <button onClick={() => setSearch(true)} className="w-1/6 hover:w-[28px]">
               <span className="pointer-events-none">
                 <img
                   src={navbar && !isHover && !active ? Seach2 : Seach}
@@ -469,7 +469,7 @@ function Sidebar() {
             </button>
             <button
               onClick={() => setOpenCart(true)}
-              className="relative w-1/6 hover:w-1/5"
+              className="relative w-1/6 hover:w-[28px]"
             >
               <img
                 src={navbar && !isHover && !active ? Shop2 : Shop}

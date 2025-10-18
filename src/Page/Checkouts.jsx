@@ -44,20 +44,11 @@ function Checkout() {
     const status = params.get("status");
     const collectionStatus = params.get("collection_status"); 
     const preference_id = params.get("preference_id");
-    console.log("preference_id:"+preference_id);
-    console.log("preferenceId:"+preferenceId);
     
-    if (preference_id.trim() === preferenceId.trim()) {
-      console.log("son iguales");
-      
-    } else {
-      console.log("no igauoes");
-      
-    }
-    if (location.pathname.includes("failure") && status === "null" && collectionStatus !== "approved" && preference_id && preference_id.trim() === preferenceId.trim()) {
+    if (location.pathname.includes("failure") && status === "null" && collectionStatus !== "approved" && preference_id && preference_id === preferenceId) {
       setFailure(true);
     }
-  }, [preferenceId]);
+  }, [location]);
 
   useEffect(() => {
     window.scrollTo(0, 0);

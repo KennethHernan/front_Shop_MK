@@ -1,5 +1,4 @@
-import Sidebar from "../Layout/Sidebar";
-import Header_Movile from "../Layout/Header_Movile";
+import Header from "../Components/Header";
 import Navbar from "../Layout/Navbar";
 import Cart from "../Layout/Cart";
 import icon_logo from "../assets/icon_logotexto_white.svg";
@@ -55,7 +54,7 @@ function HomePage() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [setNavbar]);
 
   // Boton desplazamiento lista de Productos 1
   useEffect(() => {
@@ -96,7 +95,7 @@ function HomePage() {
   };
   const scrollIzquierda = () => {
     ulRef.current.scrollBy({ left: -600, behavior: "smooth" });
-  };  
+  };
 
   return (
     <div className="font-sans select-none">
@@ -105,7 +104,6 @@ function HomePage() {
         onDisminuir={(id) => Disminuir(id)}
       />
       <AddCart onAgregar={(p) => añadirAlCarrito(p)} imgRef={imgRef} />
-
       <Search
         onModalCart={(p) => abrirModalCart(p)}
       />
@@ -116,21 +114,16 @@ function HomePage() {
           <Navbar />
         </div>
 
-        {/* Header Desktop */}
-        <div className="sticky top-0 left-0 z-30 hidden w-full md:block">
-          <Sidebar />
-        </div>
-
-        {/* Header Movile */}
-        <div className="sticky top-0 left-0 z-30 block w-full md:hidden">
-          <Header_Movile />
-        </div>
-
+        {/* Header */}
+        < Header />
+        
         {/* Portada 1 */}
         <div className="w-full h-[60vh] overflow-hidden -mt-[60px] bg-[#c5c5c5] flex justify-center items-center">
           <img
             src={Fondo}
             alt="Fondo"
+            width="full"
+            height="60vh"
             loading="eager"
             className="object-cover w-full h-full"
           />
@@ -138,9 +131,7 @@ function HomePage() {
 
         {/* Titulo */}
         <p
-          className="mt-10 mb-5 text-[30px] md:text-[35px] font-light px-5 md:px-10 font-sans overflow-hidden"
-          data-aos="fade-up"
-          data-aos-duration="1000"
+          className="mt-20 mb-5 text-[30px] md:text-[35px] font-light px-5 md:px-10 font-sans overflow-hidden"
         >
           NOVEDADES
         </p>
@@ -267,8 +258,6 @@ function HomePage() {
         {/* Titulo 2 */}
         <p
           className="my-5 text-[30px] md:text-[35px] font-light px-5 md:px-10 font-sans overflow-hidden"
-          data-aos="fade-up"
-          data-aos-duration="1000"
         >
           CATEGORÍAS
         </p>
@@ -281,10 +270,10 @@ function HomePage() {
           <ul className="w-full h-auto flex md:hidden mx-5 flex-col space-y-4 justify-start font-light text-[16px]">
             {categoryAll.length > 0
               ? categoryAll.map((category, index) => (
-                < CategoryCard key={index} index={index} category={category} />
+                < CategoryCard key={index} category={category} />
               ))
               : Array.from({ length: 2 }).map((_, i) => (
-                < CategoryCard key={i} index={null} category={false} />
+                < CategoryCard key={i} category={false} />
               ))}
           </ul>
 

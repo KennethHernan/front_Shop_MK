@@ -17,6 +17,7 @@ function Search() {
     eliminarProducRecientes,
   } = useAuth();
   const [resultado, setResultado] = useState([]);
+  const [mounted, setMounted] = useState(false);
 
   const BorrarItemSearch = () => {
     setItemSearch("");
@@ -24,6 +25,11 @@ function Search() {
       setResultado([]);
     }, 1500);
   };
+
+
+  useEffect(() => {
+      setMounted(true);      
+  }, []);
 
   useEffect(() => {
     if (itemSearch.length === 0) {
@@ -43,13 +49,13 @@ function Search() {
       );
       setResultado(productosFiltrados);
     }, 300);
-  }, [itemSearch,productAll]);
+  }, [itemSearch, productAll]);
 
   return (
     <div
       className={`
-        fixed w-full h-[0vh] top-0 left-0 md:flex justify-center items-center bg-[#ffffff] md:bg-[#00000091] z-40 transition-all md:transition-transform duration-200 ease-linear overflow-hidden
-        ${search && "h-[100vh] py-2"}
+        fixed w-full top-0 left-0 md:flex justify-center items-center z-40 bg-[#ffffff] md:bg-[#00000091] md:transition-transform md:duration-200 md:ease-linear overflow-hidden
+        ${mounted && search ? "h-[100vh] py-2" : "h-[0vh]"}
         `}
     >
       <section className="md:w-[100vh] md:h-[80vh] md:overflow-hidden md:m-5 bg-white md:relative">
@@ -105,7 +111,7 @@ function Search() {
         {/* Contenido busqueda */}
         <section
           className={`
-        w-full h-screen absolute px-5 py-3 bg-white overflow-y-auto snap-y
+        w-full h-screen absolute px-5 py-3 bg-white overflow-auto
         ${itemSearch.length > 0 ? "hidden" : "block"}
         `}
         >
@@ -206,7 +212,7 @@ function Search() {
         {/* Contenido "RESULTADO" busqueda */}
         <section
           className={`
-        w-full h-auto absolute px-5 overflow-y-auto
+        w-full h-auto absolute px-5 overflow-auto
         ${itemSearch.length > 0 ? "block py-3 mt-2" : "hidden"}`}
         >
           <section className="relative w-full h-screen">

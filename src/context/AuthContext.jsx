@@ -18,10 +18,10 @@ export const AuthProvider = ({ children }) => {
 
   // Estados de componentes
   const [navbar, setNavbar] = useState(true);
-  const [search, setSearch] = useState(false);
   const [productoModal, setProductoModal] = useState([]);
   const [productReciente, setProductReciente] = useState([]);
   const [openAddCart, setOpenAddCart] = useState(false);
+  const [search, setSearch] = useState(false);
   const [openCart, setOpenCart] = useState(false);
   const [itemCarrito, setItemCarrito] = useState([]);
   const [itemSearch, setItemSearch] = useState("");
