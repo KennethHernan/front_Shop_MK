@@ -41,13 +41,12 @@ function Checkout() {
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    console.log(params);
     
     const status = params.get("status");
     const collectionStatus = params.get("collection_status"); 
     const preference_id = params.get("preference_id");
 
-    if (location.pathname.includes("failure") && status === "null" && collectionStatus !== "approved" && preference_id == preferenceId) {
+    if (location.pathname.includes("failure") && status === "null" && collectionStatus !== "approved" && preference_id === preferenceId) {
       setFailure(true);
     }
   }, [location, preferenceId]);
