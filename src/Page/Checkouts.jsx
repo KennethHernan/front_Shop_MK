@@ -90,7 +90,7 @@ function Checkout() {
     const items = itemCarrito;
     const delivery = priceDelivery;
 
-    const response = await CreatePreferences(idOrder, items, delivery);
+    const response = await CreatePreferences(idOrder, items, delivery, data);
     if (response) {
       const { init_point } = response;
       window.location.href = init_point;

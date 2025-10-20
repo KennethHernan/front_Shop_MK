@@ -226,9 +226,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
   //Crear Preferencia - MERCADO PAGO
-  const CreatePreferences = async (idOrder, items, delivery) => {
+  const CreatePreferences = async (idOrder, items, delivery, userData) => {
     try {
-      const response = await postCreatePreference(idOrder, items, delivery, session);
+      const response = await postCreatePreference(idOrder, items, delivery, session, userData);
       const { preferenceId } = response;
       console.log(preferenceId);
       console.log(JSON.stringify(preferenceId));
