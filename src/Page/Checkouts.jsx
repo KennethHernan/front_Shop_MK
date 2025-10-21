@@ -94,6 +94,9 @@ function Checkout() {
     if (response) {
       const { init_point, sandbox_init_point } = response;
       console.log(response);
+      console.log(init_point);
+      console.log(sandbox_init_point);
+      
       
       //window.location.href = init_point;
     } else {

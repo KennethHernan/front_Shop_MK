@@ -7,7 +7,6 @@ import {
 import { postCreatePreference } from "../Services/auth";
 import { getAuthContext } from "./authSingleton";
 import { v4 as uuidv4 } from "uuid";
-import nodemailer from "nodemailer";
 
 const AuthContext = getAuthContext();
 
@@ -255,41 +254,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const sendVerificationCode = async (email, code) => {
-    let transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER || "kenetydelaceuz14@gmail.com",
-        pass: process.env.EMAIL_PASS || "Muni2003!",
-      },
-    });
-
-    // Cuerpo del correo
-    let mailOptions = {
-      from: '"Tu App" <no-reply@tuapp.com>',
-      to: email,
-      subject: "Tu código de seguridad",
-      html: `
-      <div style="background:#FFD600;padding:20px;text-align:center;">
-        <h2 style="color:#000;">Ingresa a tu cuenta con tu código de seguridad</h2>
-      </div>
-      <div style="padding:20px;font-family:sans-serif;">
-        <p>¡No compartas este código!</p>
-        <h1>${code}</h1>
-        <small>Ten en cuenta que vence en 30 minutos.</small>
-      </div>
-    `,
-    };
-
-    // Enviar correo
-    try {
-      await transporter.sendMail(mailOptions);
-      console.log("Correo enviado a:", email);
-    } catch (error) {
-      console.error("Error enviando correo:", error);
-    }
-  }
-
   useEffect(() => {
     getProducts().then((listProduct) => {
       setProductsAll(listProduct);
@@ -320,7 +284,6 @@ export const AuthProvider = ({ children }) => {
         Disminuir,
         Aumentar,
         Home,
-        sendVerificationCode,
         userSave,
         preferenceId,
         priceDelivery,
