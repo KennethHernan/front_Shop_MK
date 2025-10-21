@@ -28,7 +28,6 @@ export const AuthProvider = ({ children }) => {
   const [userSave, setUserSave] = useState([]);
   const [session, setSession] = useState("");
   const [priceDelivery, setPriceDelivery] = useState(0);
-  const [preferenceId, setPreferenceId] = useState("");
 
   const Home = () => {
     setNavbar(false);
@@ -242,9 +241,6 @@ export const AuthProvider = ({ children }) => {
         session,
         userData
       );
-      const { preferenceId } = response;
-      localStorage.setItem("preference_id", preferenceId);
-      setPreferenceId(preferenceId);
       return response;
     } catch (error) {
       return console.error("Error al crear preferencia:", error);
@@ -292,7 +288,6 @@ export const AuthProvider = ({ children }) => {
         Home,
         VerificarPayment,
         userSave,
-        preferenceId,
         priceDelivery,
         productAll,
         categoryAll,

@@ -61,9 +61,7 @@ function Checkout() {
   useEffect(() => {
     async function checkPayment() {
       const params = new URLSearchParams(location.search);
-      const status = params.get("status");
       const collectionStatus = params.get("collection_status");
-      const preference_id = params.get("preference_id");
       const paymentId = params.get("payment_id");
 
       if (!collectionStatus) return;
@@ -124,8 +122,8 @@ function Checkout() {
     if (response) {
       const { init_point, preference } = response;
       // Variable URL SANDBOX MERCADO PAGO
-      console.log(preference.body.sandbox_init_point);
-      //window.location.href = init_point;
+      //console.log(preference.body.sandbox_init_point);
+      window.location.href = init_point;
     } else {
       console.error(response);
       setCargando(false);
