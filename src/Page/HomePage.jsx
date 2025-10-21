@@ -96,6 +96,9 @@ function HomePage() {
   const scrollIzquierda = () => {
     ulRef.current.scrollBy({ left: -600, behavior: "smooth" });
   };
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="font-sans select-none">
@@ -104,19 +107,17 @@ function HomePage() {
         onDisminuir={(id) => Disminuir(id)}
       />
       <AddCart onAgregar={(p) => añadirAlCarrito(p)} imgRef={imgRef} />
-      <Search
-        onModalCart={(p) => abrirModalCart(p)}
-      />
+      <Search onModalCart={(p) => abrirModalCart(p)} />
       {/* Body */}
-      <div className="w-[100wh] z-0">
+      <div id="Home" className="w-[100wh] z-0">
         {/* Anuncion informativo */}
         <div className="bg-transparent">
           <Navbar />
         </div>
 
         {/* Header */}
-        < Header />
-        
+        <Header />
+
         {/* Portada 1 */}
         <div className="w-full h-[60vh] overflow-hidden -mt-[60px] bg-[#c5c5c5] flex justify-center items-center">
           <img
@@ -130,9 +131,7 @@ function HomePage() {
         </div>
 
         {/* Titulo */}
-        <p
-          className="mt-20 mb-5 text-[30px] md:text-[35px] font-light px-5 md:px-10 font-sans overflow-hidden"
-        >
+        <p className="mt-20 mb-5 text-[30px] md:text-[35px] font-light px-5 md:px-10 font-sans overflow-hidden">
           NOVEDADES
         </p>
 
@@ -146,10 +145,7 @@ function HomePage() {
               className="bg-[#ffffff] z-20 absolute left-[20px] w-[45px] h-[45px] rounded-[50px] justify-center items-center shadow-md hover:scale-105 transition-transform duration-300 flex"
               onClick={scrollIzquierda}
             >
-              <img
-                src={ArrowLeft}
-                className="w-[6px] rotate-180"
-              />
+              <img src={ArrowLeft} className="w-[6px] rotate-180" />
             </button>
           )}
           <ul
@@ -163,78 +159,78 @@ function HomePage() {
           >
             {productAll.length > 0
               ? productAll.map((product, index) => (
-                <li
-                  className="hover:mt-[10px] w-[300px] min-w-[350px] text-md transition-transform duration-300 first:pl-5 last:pr-5"
-                  onClick={() => abrirModalCart(product)}
-                  key={index}
-                >
-                  <div className="h-[50vh] group relative">
-                    {/* Juego de imagenes - Max 2 img */}
-                    <img
-                      src={product.urlP}
-                      alt="producto"
-                      className="absolute top-0 object-cover w-full h-full"
-                    />
-                    {product.stock <= 0 && (
-                      <button className="bg-[#000000] absolute bottom-1 px-3 py-2 m-2 rounded-[5px] text-[#fff] text-[14px] disabled">
-                        Agotado
-                      </button>
-                    )}
-
-                    {product.stock > 0 && (
-                      <div className="absolute hidden bottom-1 right-1 md:block">
-                        <button
-                          onClick={() => abrirModalCart(product)}
-                          className="shadow-md hidden group-hover:flex group/sub relative h-[30px] overflow-hidden items-center bg-[#ffffff] p-2 m-2 rounded-[200px] text-[#000] font-normal text-[10px]"
-                        >
-                          <img
-                            src={Add}
-                            alt="Boton Añadir al carrito"
-                            className="w-[13px] h-[13px]"
-                            loading="eager"
-                          />
-                          <p className="w-0 text-white transition-all duration-300 group-hover/sub:w-10 group-hover/sub:ml-2 group-hover/sub:text-black">
-                            AÑADIR
-                          </p>
+                  <li
+                    className="hover:mt-[10px] w-[300px] min-w-[350px] text-md transition-transform duration-300 first:pl-5 last:pr-5"
+                    onClick={() => abrirModalCart(product)}
+                    key={index}
+                  >
+                    <div className="h-[50vh] group relative">
+                      {/* Juego de imagenes - Max 2 img */}
+                      <img
+                        src={product.urlP}
+                        alt="producto"
+                        className="absolute top-0 object-cover w-full h-full"
+                      />
+                      {product.stock <= 0 && (
+                        <button className="bg-[#000000] absolute bottom-1 px-3 py-2 m-2 rounded-[5px] text-[#fff] text-[14px] disabled">
+                          Agotado
                         </button>
-                      </div>
-                    )}
-                  </div>
+                      )}
 
-                  {/* Nombre Producto */}
-                  <p className="pt-1">{product.nameP}</p>
-                  <div className="flex gap-1">
-                    {product.discount <= 1 ? (
-                      <p>S/ {product.price.toFixed(2)}</p>
-                    ) : (
-                      <>
-                        <p>
-                          S/{" "}
-                          {(
-                            product.price -
-                            (product.discount / 100) * product.price
-                          ).toFixed(2)}
-                        </p>
-                        <p className="line-through text-[#ababab]">
-                          S/ {product.price.toFixed(2)}
-                        </p>
-                      </>
-                    )}
-                  </div>
-                </li>
-              ))
+                      {product.stock > 0 && (
+                        <div className="absolute hidden bottom-1 right-1 md:block">
+                          <button
+                            onClick={() => abrirModalCart(product)}
+                            className="shadow-md hidden group-hover:flex group/sub relative h-[30px] overflow-hidden items-center bg-[#ffffff] p-2 m-2 rounded-[200px] text-[#000] font-normal text-[10px]"
+                          >
+                            <img
+                              src={Add}
+                              alt="Boton Añadir al carrito"
+                              className="w-[13px] h-[13px]"
+                              loading="eager"
+                            />
+                            <p className="w-0 text-white transition-all duration-300 group-hover/sub:w-10 group-hover/sub:ml-2 group-hover/sub:text-black">
+                              AÑADIR
+                            </p>
+                          </button>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Nombre Producto */}
+                    <p className="pt-1">{product.nameP}</p>
+                    <div className="flex gap-1">
+                      {product.discount <= 1 ? (
+                        <p>S/ {product.price.toFixed(2)}</p>
+                      ) : (
+                        <>
+                          <p>
+                            S/{" "}
+                            {(
+                              product.price -
+                              (product.discount / 100) * product.price
+                            ).toFixed(2)}
+                          </p>
+                          <p className="line-through text-[#ababab]">
+                            S/ {product.price.toFixed(2)}
+                          </p>
+                        </>
+                      )}
+                    </div>
+                  </li>
+                ))
               : Array.from({ length: 5 }).map((_, i) => (
-                <li
-                  className="w-[300px] min-w-[350px] text-md animate-pulse first:pl-5 last:pr-5"
-                  key={i}
-                >
-                  <div className="bg-[#e7e7e7] h-[50vh] group relative group/foto"></div>
-                  <p className="pt-1 bg-[#e7e7e7] rounded-[5px] w-[160px] h-[23px] my-[2px]"></p>
-                  <div className="flex gap-3">
-                    <p className="bg-[#e7e7e7] rounded-[5px] w-[60px] h-[23px]"></p>
-                  </div>
-                </li>
-              ))}
+                  <li
+                    className="w-[300px] min-w-[350px] text-md animate-pulse first:pl-5 last:pr-5"
+                    key={i}
+                  >
+                    <div className="bg-[#e7e7e7] h-[50vh] group relative group/foto"></div>
+                    <p className="pt-1 bg-[#e7e7e7] rounded-[5px] w-[160px] h-[23px] my-[2px]"></p>
+                    <div className="flex gap-3">
+                      <p className="bg-[#e7e7e7] rounded-[5px] w-[60px] h-[23px]"></p>
+                    </div>
+                  </li>
+                ))}
           </ul>
           {MostrarBotonDerecho && productAll.length > 0 && (
             <button
@@ -256,9 +252,7 @@ function HomePage() {
         </div>
 
         {/* Titulo 2 */}
-        <p
-          className="my-5 text-[30px] md:text-[35px] font-light px-5 md:px-10 font-sans overflow-hidden"
-        >
+        <p className="my-5 text-[30px] md:text-[35px] font-light px-5 md:px-10 font-sans overflow-hidden">
           CATEGORÍAS
         </p>
 
@@ -270,21 +264,21 @@ function HomePage() {
           <ul className="w-full h-auto flex md:hidden mx-5 flex-col space-y-4 justify-start font-light text-[16px]">
             {categoryAll.length > 0
               ? categoryAll.map((category, index) => (
-                < CategoryCard key={index} category={category} />
-              ))
+                  <CategoryCard key={index} category={category} />
+                ))
               : Array.from({ length: 2 }).map((_, i) => (
-                < CategoryCard key={i} category={false} />
-              ))}
+                  <CategoryCard key={i} category={false} />
+                ))}
           </ul>
 
           <ul className="w-full h-auto hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-3 mx-10 justify-start font-light text-[16px]">
             {categoryAll.length > 0
               ? categoryAll.map((category, index) => (
-                < CategoryCard key={index} index={index} category={category} />
-              ))
+                  <CategoryCard key={index} index={index} category={category} />
+                ))
               : Array.from({ length: 2 }).map((_, i) => (
-                < CategoryCard key={i} index={null} category={false} />
-              ))}
+                  <CategoryCard key={i} index={null} category={false} />
+                ))}
           </ul>
         </section>
 
@@ -329,19 +323,19 @@ function HomePage() {
           <ul className="grid w-full h-auto grid-cols-2 gap-2 px-5 font-light md:grid-cols-3">
             {productAll.length > 0
               ? productAll.map((product, index) => (
-                <ProductCard
-                  key={index}
-                  product={product}
-                  abrirModalCart={abrirModalCart}
-                />
-              ))
+                  <ProductCard
+                    key={index}
+                    product={product}
+                    abrirModalCart={abrirModalCart}
+                  />
+                ))
               : Array.from({ length: 4 }).map((_, i) => (
-                <ProductCard
-                  key={i}
-                  onProdut={null}
-                  OnAbrirModalCart={null}
-                />
-              ))}
+                  <ProductCard
+                    key={i}
+                    onProdut={null}
+                    OnAbrirModalCart={null}
+                  />
+                ))}
           </ul>
         </section>
 

@@ -10,19 +10,15 @@ import { useAuth } from "../context/authSingleton";
 import "aos/dist/aos.css";
 
 function PoliticaPrivacidad() {
-  const {
-    Disminuir,
-    Aumentar,
-    abrirModalCart,
-    añadirAlCarrito,
-    setNavbar,
-  } = useAuth();
+  const { Disminuir, Aumentar, abrirModalCart, añadirAlCarrito, setNavbar } =
+    useAuth();
 
   const [añadirCart, setAñadirCart] = useState(false);
   const imgRef = useRef(null);
 
   useEffect(() => {
     setNavbar(false);
+    window.scrollTo(0, 0);
   }, []);
 
   return (

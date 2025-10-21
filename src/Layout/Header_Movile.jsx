@@ -13,6 +13,7 @@ import Menu from "../assets/icon_menu.svg";
 import Menu2 from "../assets/icon_menu_black.svg";
 import Close from "../assets/close_new.svg";
 import { useAuth } from "../context/authSingleton";
+import { useEffect } from "react";
 
 function Header_Movile() {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ function Header_Movile() {
     setOpenCart,
     itemCarrito,
     cartIconRef,
+    Home,
   } = useAuth();
   const [active, setActive] = useState(false);
   const [activeItem1, setActiveItem1] = useState(false);
@@ -42,11 +44,12 @@ function Header_Movile() {
       }, 500);
     }
   };
-
-  const Home = () => {
-    console.log("Click");
-    navigate("/");
-  };
+  useEffect(() => {
+    setActive(false);
+    setTimeout(() => {
+      setIsHover(false);
+    }, 500);
+  }, [Home]);
 
   return (
     <>
@@ -88,7 +91,7 @@ function Header_Movile() {
                   </span>
                 </div>
 
-                <div onClick={() => navigate("/")}>
+                <div onClick={() => Home()}>
                   <span className="pointer-events-none">
                     <img
                       src={

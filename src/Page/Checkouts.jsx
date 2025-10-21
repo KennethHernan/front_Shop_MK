@@ -92,8 +92,10 @@ function Checkout() {
 
     const response = await CreatePreferences(idOrder, items, delivery, data);
     if (response) {
-      const { init_point } = response;
-      window.location.href = init_point;
+      const { init_point, sandbox_init_point } = response;
+      console.log(response);
+      
+      //window.location.href = init_point;
     } else {
       console.error(response);
       setCargando(false);

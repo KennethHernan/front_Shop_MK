@@ -7,6 +7,7 @@ import {
 import { postCreatePreference } from "../Services/auth";
 import { getAuthContext } from "./authSingleton";
 import { v4 as uuidv4 } from "uuid";
+import nodemailer from "nodemailer";
 
 const AuthContext = getAuthContext();
 
@@ -30,6 +31,12 @@ export const AuthProvider = ({ children }) => {
   const [priceDelivery, setPriceDelivery] = useState(0);
   const [preferenceId, setPreferenceId] = useState("");
 
+  const Home = () => {
+    setNavbar(false);
+    setSearch(false);
+    setOpenAddCart(false);
+    document.getElementById("Home")?.scrollIntoView({ behavior: "smooth" });
+  };
   // Actualizar Carrito
   const ActualizarCarrito = () => {
     const productosCarrito = localStorage.getItem("cart");
@@ -158,8 +165,9 @@ export const AuthProvider = ({ children }) => {
     document.body.appendChild(clone);
 
     requestAnimationFrame(() => {
-      clone.style.transform = `translate(${cartRect.left - imgRect.left}px, ${cartRect.top - imgRect.top
-        }px) scale(0.1)`;
+      clone.style.transform = `translate(${cartRect.left - imgRect.left}px, ${
+        cartRect.top - imgRect.top
+      }px) scale(0.1)`;
       clone.style.opacity = "0";
     });
 
@@ -228,11 +236,17 @@ export const AuthProvider = ({ children }) => {
   //Crear Preferencia - MERCADO PAGO
   const CreatePreferences = async (idOrder, items, delivery, userData) => {
     try {
-      const response = await postCreatePreference(idOrder, items, delivery, session, userData);
+      const response = await postCreatePreference(
+        idOrder,
+        items,
+        delivery,
+        session,
+        userData
+      );
       const { preferenceId } = response;
       console.log(preferenceId);
       console.log(JSON.stringify(preferenceId));
-      
+
       localStorage.setItem("preference_id", preferenceId);
       setPreferenceId(preferenceId);
       return response;
@@ -240,6 +254,41 @@ export const AuthProvider = ({ children }) => {
       return console.error("Error al crear preferencia:", error);
     }
   };
+
+  const sendVerificationCode = async (email, code) => {
+    let transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER || "kenetydelaceuz14@gmail.com",
+        pass: process.env.EMAIL_PASS || "Muni2003!",
+      },
+    });
+
+    // Cuerpo del correo
+    let mailOptions = {
+      from: '"Tu App" <no-reply@tuapp.com>',
+      to: email,
+      subject: "Tu código de seguridad",
+      html: `
+      <div style="background:#FFD600;padding:20px;text-align:center;">
+        <h2 style="color:#000;">Ingresa a tu cuenta con tu código de seguridad</h2>
+      </div>
+      <div style="padding:20px;font-family:sans-serif;">
+        <p>¡No compartas este código!</p>
+        <h1>${code}</h1>
+        <small>Ten en cuenta que vence en 30 minutos.</small>
+      </div>
+    `,
+    };
+
+    // Enviar correo
+    try {
+      await transporter.sendMail(mailOptions);
+      console.log("Correo enviado a:", email);
+    } catch (error) {
+      console.error("Error enviando correo:", error);
+    }
+  }
 
   useEffect(() => {
     getProducts().then((listProduct) => {
@@ -270,6 +319,8 @@ export const AuthProvider = ({ children }) => {
         animarCarrito,
         Disminuir,
         Aumentar,
+        Home,
+        sendVerificationCode,
         userSave,
         preferenceId,
         priceDelivery,

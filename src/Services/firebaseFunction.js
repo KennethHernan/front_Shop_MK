@@ -1,7 +1,38 @@
 import { getDatabase, ref, get, push, set, child } from "firebase/database";
-import { app } from "../firebase";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { app, auth } from "../firebase";
 import { v4 as uuidv4 } from "uuid";
 const db = getDatabase(app);
+
+//======================= SINGIN / LOGIN / LOGOUT ===========================
+
+export const crearUser = async (email, password) => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
+    console.log("Cuenta creada:", user);
+  } catch (error) {
+    console.error("Error al crear la cuenta:", error.code, error.message);
+  }
+};
+
+export const cerrarSesion = async () => {
+  await signOut(auth);
+  console.log("Sesión cerrada");
+};
+
+export const iniciarSesion = async (auth, email, password) => {
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    console.log("Sesión iniciada");
+  } catch (error) {
+    console.error("Eror: " + error.message);
+  }
+};
 
 //======================= CREAR, ACTUALIZAR, ELIMINAR ===========================
 
