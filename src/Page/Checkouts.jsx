@@ -123,13 +123,9 @@ function Checkout() {
     const response = await CreatePreferences(idOrder, items, delivery, data);
     if (response) {
       const { init_point, preference } = response;
-      console.log(response);
-      console.log(init_point);
-      console.log("preference.body.sandbox_init_point:");
-
-      console.log(preference.body.sandbox_init_point);
-
-      //window.location.href = init_point;
+      // Variable URL SANDBOX MERCADO PAGO
+      //console.log(preference.body.sandbox_init_point);
+      window.location.href = init_point;
     } else {
       console.error(response);
       setCargando(false);
