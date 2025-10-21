@@ -12,10 +12,12 @@
   "dependencies": {
     "@dataconnect/generated": "file:src/dataconnect-generated",
     "@radix-ui/react-navigation-menu": "^1.2.14",
+    "@react-email/components": "^0.5.7",
     "aos": "^2.3.4",
     "axios": "^1.10.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "crypto": "^1.0.1",
     "firebase": "^12.3.0",
     "framer-motion": "^12.23.13",
     "js-cookie": "^3.0.5",

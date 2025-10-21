@@ -44,6 +44,7 @@ function Header_Movile() {
       }, 500);
     }
   };
+
   useEffect(() => {
     setActive(false);
     setTimeout(() => {
@@ -51,6 +52,9 @@ function Header_Movile() {
     }, 500);
   }, [Home]);
 
+  const Perfil = () => {
+    navigate("/log-in")
+  }
   return (
     <>
       <div className="font-sans select-none">
@@ -510,7 +514,7 @@ function Header_Movile() {
                 />
               </span>
             </button>
-            <button onClick={Home} className="w-1/6 mx-5 overflow-hidden">
+            <button onClick={Perfil} className="w-1/6 mx-5 overflow-hidden">
               <span className="pointer-events-none">
                 <img
                   src={

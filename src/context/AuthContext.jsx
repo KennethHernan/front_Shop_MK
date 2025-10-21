@@ -7,7 +7,7 @@ import {
 import { postCreatePreference, getVerifyPayment } from "../Services/auth";
 import { getAuthContext } from "./authSingleton";
 import { v4 as uuidv4 } from "uuid";
-
+const urlBase = import.meta.env.VITE_URL_BASE;
 const AuthContext = getAuthContext();
 
 export const AuthProvider = ({ children }) => {
@@ -250,6 +250,27 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const enviarCodigo = async (email) => {
+    try {
+      const res = await fetch(`${urlBase}/api/enviar-code`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+
+      if (data.ok) {
+        console.log("Código enviado:", data.code);
+      } else {
+        console.error("Error al enviar código:", data.message);
+      }
+    } catch (error) {
+      console.error("Error en fetch:", error);
+    }
+  };
+
   useEffect(() => {
     getProducts().then((listProduct) => {
       setProductsAll(listProduct);
@@ -268,6 +289,7 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
+        enviarCodigo,
         CreateOrder,
         CreatePreferences,
         GuardarUser,

@@ -59,6 +59,9 @@ function Sidebar() {
     }
   };
 
+  const Perfil = () => {
+    navigate("/log-in")
+  }
   return (
     <>
       <div className="font-sans select-none">
@@ -365,7 +368,7 @@ function Sidebar() {
               </span>
             </button>
 
-            <button onClick={""} className="w-1/6 mx-5">
+            <button onClick={Perfil} className="w-1/6 mx-5">
               <img
                 src={navbar && !isHover && !active ? Profile2 : Profile}
                 alt="Boton Perfil"

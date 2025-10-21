@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/authSingleton";
+import { useState } from "react";
 
 function Login() {
-  const { sendVerificationCode } = useAuth();
   const {
     register,
     handleSubmit,
@@ -12,10 +12,32 @@ function Login() {
   const [cargando, setCargando] = useState(false);
 
   const onSubmit = async (data) => {
-    setCargando(true)
+    setCargando(true);
+    enviarCodigo(data.email);
+
     console.log("sesion iniciada");
-    sendVerificationCode(data.email, "ASDOEA");
   };
+
+  async function enviarCodigo(email) {
+    try {
+      const res = await fetch("/api/enviarCode", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+
+      if (data.ok) {
+        console.log("Código enviado:", data.code);
+      } else {
+        console.error("Error al enviar código:", data.message);
+      }
+    } catch (error) {
+      console.error("Error en fetch:", error);
+    }
+  }
 
   return (
     <div className="bg-[#F2D0BD] text-[#000] h-[100vh] w-full flex justify-center items-center">
