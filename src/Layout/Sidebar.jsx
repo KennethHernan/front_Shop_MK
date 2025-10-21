@@ -35,7 +35,15 @@ function CustomLink({ to, label, ...props }) {
 }
 
 function Sidebar() {
-  const { navbar, setOpenCart, search, setSearch, itemCarrito, cartIconRef } = useAuth();
+  const {
+    navbar,
+    setOpenCart,
+    search,
+    setSearch,
+    itemCarrito,
+    cartIconRef,
+    Home,
+  } = useAuth();
   const navigate = useNavigate();
   const [isHover, setIsHovered] = useState(false);
   const [active, setActive] = useState(false);
@@ -51,11 +59,6 @@ function Sidebar() {
     }
   };
 
-  const Home = () => {
-    console.log("Click");
-    navigate("/");
-  };
-
   return (
     <>
       <div className="font-sans select-none">
@@ -69,14 +72,9 @@ function Sidebar() {
           `}
         >
           <section className="flex gap-4">
-
             {/* Header - INICIO */}
-            <div
-              className="hidden h-auto px-3 py-2 overflow-hidden rounded-md md:flex group">
-              <CustomLink
-                to="/"
-                label="INICIO"
-              />
+            <div className="hidden h-auto px-3 py-2 overflow-hidden rounded-md md:flex group">
+              <CustomLink to="/" label="INICIO" />
             </div>
 
             {/* Header - JOYERIA */}
@@ -101,31 +99,19 @@ function Sidebar() {
                     </div>
 
                     <div className="space-y-5">
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Anillos de Compromiso
                       </a>
 
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Anillos de Matrimonio
                       </a>
 
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Anillos de Oro
                       </a>
 
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Anillos de Plata
                       </a>
                     </div>
@@ -138,31 +124,19 @@ function Sidebar() {
                     </div>
 
                     <div className="space-y-5">
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Collares de Oro
                       </a>
 
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Collares de Plata
                       </a>
 
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Cadenas
                       </a>
 
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Dijes
                       </a>
                     </div>
@@ -175,31 +149,19 @@ function Sidebar() {
                     </div>
 
                     <div className="space-y-5">
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Pulseras de Oro
                       </a>
 
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Pulseras de Plata
                       </a>
 
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Brazaletes
                       </a>
 
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Pulseras con Dijes
                       </a>
                     </div>
@@ -227,10 +189,7 @@ function Sidebar() {
                     </div>
 
                     <div className="space-y-5">
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Nosotros
                       </a>
                     </div>
@@ -243,10 +202,7 @@ function Sidebar() {
                     </div>
 
                     <div className="space-y-5">
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Política de privacidad
                       </a>
                     </div>
@@ -259,31 +215,19 @@ function Sidebar() {
                     </div>
 
                     <div className="space-y-5">
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Facebook
                       </a>
 
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Instagram
                       </a>
 
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         WhatsApp
                       </a>
 
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Tiktok
                       </a>
                     </div>
@@ -296,10 +240,7 @@ function Sidebar() {
                     </div>
 
                     <div className="space-y-5">
-                      <a
-                        href="#"
-                        className="block underline hover:font-medium"
-                      >
+                      <a href="#" className="block underline hover:font-medium">
                         Libro de reclamaciones
                       </a>
                     </div>
@@ -327,37 +268,22 @@ function Sidebar() {
                     </div>
 
                     <div className="space-y-5">
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Primavera-Verano 2025
                       </a>
 
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Colección San Valentín
                       </a>
 
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Edición Día de la Madre
                       </a>
 
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Línea Elegancia
                       </a>
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Colección Minimalista
                       </a>
                     </div>
@@ -370,31 +296,19 @@ function Sidebar() {
                     </div>
 
                     <div className="space-y-5">
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Joyas Vintage Revival
                       </a>
 
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Estilo Boho Chic
                       </a>
 
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Diseños Geométricos
                       </a>
 
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Acabados Mate
                       </a>
                     </div>
@@ -407,31 +321,19 @@ function Sidebar() {
                     </div>
 
                     <div className="space-y-5">
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Nuevos Materiales
                       </a>
 
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Piedras Sintéticas
                       </a>
 
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Acabados Especiales
                       </a>
 
-                      <a
-                        href="#"
-                        className="block hover:font-medium"
-                      >
+                      <a href="#" className="block hover:font-medium">
                         Diseño Sostenible
                       </a>
                     </div>
@@ -441,7 +343,7 @@ function Sidebar() {
             </div>
           </section>
           <img
-            onClick={() => navigate("/")}
+            onClick={() => Home()}
             src={
               navbar && !search && !isHover && !active
                 ? ImagenLogo2
@@ -451,8 +353,10 @@ function Sidebar() {
           />
 
           <div className="flex justify-end">
-
-            <button onClick={() => setSearch(true)} className="w-1/6 hover:w-[28px]">
+            <button
+              onClick={() => setSearch(true)}
+              className="w-1/6 hover:w-[28px]"
+            >
               <span className="pointer-events-none">
                 <img
                   src={navbar && !isHover && !active ? Seach2 : Seach}
@@ -460,8 +364,8 @@ function Sidebar() {
                 />
               </span>
             </button>
-            
-            <button onClick={Home} className="w-1/6 mx-5">
+
+            <button onClick={""} className="w-1/6 mx-5">
               <img
                 src={navbar && !isHover && !active ? Profile2 : Profile}
                 alt="Boton Perfil"
@@ -480,10 +384,11 @@ function Sidebar() {
                 <div
                   className={`
                     rounded-[100px] text-[10px] w-[15px] h-[15px] absolute right-0 -mt-[10px]
-                  ${navbar && !isHover && !active
+                  ${
+                    navbar && !isHover && !active
                       ? "bg-[#fff] text-black"
                       : "bg-[#000000] text-white"
-                    } 
+                  } 
                   `}
                 >
                   {itemCarrito.length}

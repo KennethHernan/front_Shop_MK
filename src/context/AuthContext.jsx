@@ -256,7 +256,7 @@ export const AuthProvider = ({ children }) => {
       const response = await getVerifyPayment(paymentId);
       return response;
     } catch (error) {
-      return console.error("Error al crear preferencia:", error);
+      return console.error("Error al VerificarPayment:", error);
     }
   }
 
