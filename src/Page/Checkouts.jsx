@@ -61,10 +61,10 @@ function Checkout() {
   useEffect(() => {
     async function checkPayment() {
       const params = new URLSearchParams(location.search);
-      const collectionStatus = params.get("collection_status");
+      const externalReference = params.get("external_reference");
       const paymentId = params.get("payment_id");
 
-      if (!collectionStatus) return;
+      if (!externalReference) return;
       if (paymentId) {
         const response = await VerificarPayment(paymentId);
         if (response.status === "approved") {
@@ -110,7 +110,6 @@ function Checkout() {
     };
     const orderId = await CreateOrder(nuevaOrden);
     if (!orderId) return console.error("Error create OrderId");
-
     /*================= CREACION DE PREFERENCIA ======================= */
     // Precio de Delivery = 0
     setPriceDelivery(0);
