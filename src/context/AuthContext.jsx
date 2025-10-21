@@ -58,14 +58,8 @@ export const AuthProvider = ({ children }) => {
   // Validar si existe idSession y preference_id
   const VerificarSesion = () => {
     const sessionExiste = localStorage.getItem("idSession");
-    const sessionPreference = localStorage.getItem("preference_id");
     if (sessionExiste) {
       setSession(sessionExiste);
-    } else {
-      CrearSession();
-    }
-    if (sessionPreference) {
-      setPreferenceId(sessionPreference);
     } else {
       CrearSession();
     }
@@ -247,14 +241,14 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const VerificarPayment = async (paymentId)  => {
-        try {
+  const VerificarPayment = async (paymentId) => {
+    try {
       const response = await getVerifyPayment(paymentId);
       return response;
     } catch (error) {
       return console.error("Error al VerificarPayment:", error);
     }
-  }
+  };
 
   useEffect(() => {
     getProducts().then((listProduct) => {
