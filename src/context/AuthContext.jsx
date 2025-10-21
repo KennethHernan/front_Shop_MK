@@ -4,7 +4,7 @@ import {
   getCategorys,
   createNewOrder,
 } from "../Services/firebaseFunction";
-import { postCreatePreference } from "../Services/auth";
+import { postCreatePreference, getVerifyPayment } from "../Services/auth";
 import { getAuthContext } from "./authSingleton";
 import { v4 as uuidv4 } from "uuid";
 
@@ -243,9 +243,6 @@ export const AuthProvider = ({ children }) => {
         userData
       );
       const { preferenceId } = response;
-      console.log(preferenceId);
-      console.log(JSON.stringify(preferenceId));
-
       localStorage.setItem("preference_id", preferenceId);
       setPreferenceId(preferenceId);
       return response;
@@ -253,6 +250,15 @@ export const AuthProvider = ({ children }) => {
       return console.error("Error al crear preferencia:", error);
     }
   };
+
+  const VerificarPayment = async (paymentId)  => {
+        try {
+      const response = await getVerifyPayment(paymentId);
+      return response;
+    } catch (error) {
+      return console.error("Error al crear preferencia:", error);
+    }
+  }
 
   useEffect(() => {
     getProducts().then((listProduct) => {
@@ -284,6 +290,7 @@ export const AuthProvider = ({ children }) => {
         Disminuir,
         Aumentar,
         Home,
+        VerificarPayment,
         userSave,
         preferenceId,
         priceDelivery,

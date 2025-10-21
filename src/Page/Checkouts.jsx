@@ -7,7 +7,9 @@ import icon_mercadopago from "../assets/mercadopago.svg";
 import icon_mastercard from "../assets/mastercard.svg";
 import icon_dinerclub from "../assets/dinerclub.svg";
 import icon_americanexpress from "../assets/americaexpres.svg";
-import icon_alertFailure from "../assets/alert_failure.svg"
+import icon_alertFailure from "../assets/alert_failure.svg";
+import icon_pending from "../assets/pending.svg";
+import icon_success from "../assets/success.svg";
 import Shop from "../assets/Shop.svg";
 import icon_yape from "../assets/yape.svg";
 import { useForm } from "react-hook-form";
@@ -25,6 +27,7 @@ function Checkout() {
     priceDelivery,
     setPriceDelivery,
     preferenceId,
+    VerificarPayment,
   } = useAuth();
   const {
     register,
@@ -36,26 +39,53 @@ function Checkout() {
   const [cargando, setCargando] = useState(false);
   const [totalPrecio, setTotalPrecio] = useState(0);
   const location = useLocation();
+  const [success, setSuccess] = useState(false);
+  const [pending, setPending] = useState(false);
   const [failure, setFailure] = useState(false);
+  const formRef = useRef();
+  const navigate = useNavigate();
+
+  // https://mayikh.vercel.app/checkout/347b702e-670b-4bf2-85ea-db6651ffef65/success?
+  // collection_id=1341859723
+  // collection_status=approved
+  // payment_id=1341859723
+  // status=approved
+  // external_reference=b994c699-c64a-4504-850a-1515c98aecaf
+  // payment_type=account_money
+  // merchant_order_id=34916389643
+  // preference_id=2057040234-bb7d217d-f950-48bb-88a3-869519381c55
+  // site_id=MPE
+  // processing_mode=aggregator
+  // merchant_account_id=null
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    
-    const status = params.get("status");
-    const collectionStatus = params.get("collection_status"); 
-    const preference_id = params.get("preference_id");
-    
-    if (location.pathname.includes("failure") && status === "null" && collectionStatus !== "approved" && preference_id && preference_id === preferenceId) {
-      setFailure(true);
+    async function checkPayment() {
+      const params = new URLSearchParams(location.search);
+      const status = params.get("status");
+      const collectionStatus = params.get("collection_status");
+      const preference_id = params.get("preference_id");
+      const paymentId = params.get("payment_id");
+
+      if (!collectionStatus) return;
+      if (paymentId) {
+        const response = await VerificarPayment(paymentId);
+        if (response.status === "approved") {
+          setSuccess(true);
+        } else if (response.status === "pending") {
+          setPending(true);
+        } else {
+          setFailure(true);
+        }
+      } else {
+        setFailure(true);
+      }
     }
+    checkPayment();
   }, [location]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  const formRef = useRef();
-
-  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     setCargando(true);
@@ -92,24 +122,25 @@ function Checkout() {
 
     const response = await CreatePreferences(idOrder, items, delivery, data);
     if (response) {
-      const { init_point, sandbox_init_point } = response;
+      const { init_point, preference } = response;
       console.log(response);
       console.log(init_point);
-      console.log(sandbox_init_point);
-      
-      
+      console.log("preference.body.sandbox_init_point:");
+
+      console.log(preference.body.sandbox_init_point);
+
       //window.location.href = init_point;
     } else {
       console.error(response);
       setCargando(false);
     }
   };
-  
+
   const handleSubmitDev = () => {
     formRef.current.requestSubmit();
   };
   const Regresar = () => {
-    navigate(-1);
+    navigate("/#Home");
     setOpenCart(true);
   };
 
@@ -145,17 +176,64 @@ function Checkout() {
 
   return (
     <section className="font-sans lg:bg-[#0000000d] select-none flex flex-col justify-center z-50">
-
       {failure && (
-        <section className=" absolute top-0 h-[100vh] w-screen bg-[#00000084] z-50 flex justify-center items-center" onClick={() => setFailure(false)}>
-          <div className="flex flex-col items-center justify-center w-auto h-auto px-20 py-5 bg-white"
-            onClick={(e) => e.stopPropagation()}>
+        <section
+          className=" absolute top-0 h-[100vh] w-screen bg-[#00000084] z-50 flex justify-center items-center"
+          onClick={() => setFailure(false)}
+        >
+          <div
+            className="flex flex-col items-center justify-center w-auto h-auto px-20 py-5 bg-white"
+            onClick={(e) => e.stopPropagation()}
+          >
             <span className="pointer-events-none">
               <img src={icon_alertFailure} alt="Icono Pago Failured" />
             </span>
             <p className="mt-3 text-sm font-normal">Algo salió mal...</p>
-            <p className="font-medium">Tu transacción no pudo completarse.</p>
-            <p className="mt-3 text-sm font-normal text-[#3e3e3e] underline" onClick={() => setFailure(false)}>Intentar nuevamente</p>
+            <p className="font-medium">Su transacción no pudo completarse.</p>
+            <p
+              className="mt-3 text-sm font-normal text-[#3e3e3e] underline"
+              onClick={() => setFailure(false)}
+            >
+              Intentar nuevamente
+            </p>
+          </div>
+        </section>
+      )}
+
+      {pending && (
+        <section className=" absolute top-0 h-[100vh] w-screen bg-[#00000084] z-50 flex justify-center items-center">
+          <div
+            className="flex flex-col items-center justify-center w-auto h-auto px-20 py-5 bg-white"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <span className="pointer-events-none">
+              <img src={icon_pending} alt="Icono Pago Pending" />
+            </span>
+            <p className="mt-3 text-sm font-normal">En Proceso...</p>
+            <p className="font-medium">
+              No salga de este sitio hasta que el proceso del pago culmine.
+            </p>
+          </div>
+        </section>
+      )}
+
+      {success && (
+        <section className=" absolute top-0 h-[100vh] w-screen bg-[#00000084] z-50 flex justify-center items-center">
+          <div
+            className="flex flex-col items-center justify-center w-auto h-auto px-20 py-5 bg-white"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <span className="pointer-events-none">
+              <img src={icon_success} alt="Icono Pago Success" />
+            </span>
+            <p className="mt-3 text-sm font-normal">Pago exitoso</p>
+            <p className="font-medium">Su transacción a sido completada</p>
+            <p
+              className="mt-3 text-sm font-normal text-[#3e3e3e] underline"
+              onClick={() => setFailure(false)}
+            >
+              Ver Orden de Pago
+            </p>
           </div>
         </section>
       )}
@@ -207,9 +285,10 @@ function Checkout() {
                   id="email"
                   className={`
                     peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-[2px] focus:border-blue-500 transition-transform duration-300
-                    ${errors.email
-                      ? "border-red-600 border-2"
-                      : "border-[1px] border-gray-300"
+                    ${
+                      errors.email
+                        ? "border-red-600 border-2"
+                        : "border-[1px] border-gray-300"
                     }
                     `}
                   placeholder="Correo Electrónico"
@@ -243,9 +322,10 @@ function Checkout() {
                     id="nombre"
                     className={`
                       peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-[2px] focus:border-blue-500 transition-transform duration-300
-                      ${errors.nombre
-                        ? "border-red-600 border-2"
-                        : "border-[1px] border-gray-300"
+                      ${
+                        errors.nombre
+                          ? "border-red-600 border-2"
+                          : "border-[1px] border-gray-300"
                       }
                     `}
                     placeholder="Nombre Completo"
@@ -273,9 +353,10 @@ function Checkout() {
                     id="apellido"
                     className={`
                       peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-[2px] focus:border-blue-500 transition-transform duration-300
-                      ${errors.apellido
-                        ? "border-red-600 border-2"
-                        : "border-[1px] border-gray-300"
+                      ${
+                        errors.apellido
+                          ? "border-red-600 border-2"
+                          : "border-[1px] border-gray-300"
                       }
                     `}
                     placeholder="Apellido Completo"
@@ -306,9 +387,10 @@ function Checkout() {
                   id="dni"
                   className={`
                     peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 focus:border-[2px] [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-blue-500 transition-transform duration-300
-                    ${errors.dni
-                      ? "border-red-600 border-2"
-                      : "border-[1px] border-gray-300"
+                    ${
+                      errors.dni
+                        ? "border-red-600 border-2"
+                        : "border-[1px] border-gray-300"
                     }
                     `}
                   placeholder="Dni"
@@ -336,9 +418,10 @@ function Checkout() {
                     id="departamento"
                     className={`
                       peer w-full text-sm text-gray-900 rounded-lg pl-3 pt-6 pb-2 focus:border-[2px] focus:outline-none focus:border-blue-500 transition-transform duration-300 appearance-none
-                      ${errors.departamento
-                        ? "border-red-600 border-2"
-                        : "border-[1px] border-gray-300"
+                      ${
+                        errors.departamento
+                          ? "border-red-600 border-2"
+                          : "border-[1px] border-gray-300"
                       }
                     `}
                     {...register("departamento", {
@@ -390,9 +473,10 @@ function Checkout() {
                   id="distrito"
                   className={`
                     peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 focus:border-[2px] [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-blue-500 transition-transform duration-300
-                    ${errors.distrito
-                      ? "border-red-600 border-2"
-                      : "border-[1px] border-gray-300"
+                    ${
+                      errors.distrito
+                        ? "border-red-600 border-2"
+                        : "border-[1px] border-gray-300"
                     }
                     `}
                   placeholder="Distrito"
@@ -422,9 +506,10 @@ function Checkout() {
                   id="direccion"
                   className={`
                     peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 focus:border-[2px] [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-blue-500 transition-transform duration-300
-                    ${errors.distrito
-                      ? "border-red-600 border-2"
-                      : "border-[1px] border-gray-300"
+                    ${
+                      errors.distrito
+                        ? "border-red-600 border-2"
+                        : "border-[1px] border-gray-300"
                     }
                     `}
                   placeholder="Dirección"
@@ -454,9 +539,10 @@ function Checkout() {
                   id="phone"
                   className={`
                     peer w-full text-sm text-gray-900 rounded-lg px-4 pt-4 pb-4 focus:border-[2px] [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 focus:outline-none focus:border-blue-500 transition-transform duration-300
-                    ${errors.email
-                      ? "border-red-600 border-2"
-                      : "border-[1px] border-gray-300"
+                    ${
+                      errors.email
+                        ? "border-red-600 border-2"
+                        : "border-[1px] border-gray-300"
                     }
                     `}
                   placeholder="Número Telefonico"
@@ -647,54 +733,54 @@ function Checkout() {
               <ul className="w-full px-[10px] h-auto flex flex-col justify-start overflow-scroll">
                 {itemCarrito.length > 0
                   ? itemCarrito.map((product, index) => (
-                    <li
-                      className="w-auto p-2 grid grid-cols-[auto,auto] justify-between"
-                      key={index}
-                    >
-                      <section className="flex items-center">
-                        {/* Imagen Producto */}
-                        <section className="relative flex mr-[15px]">
-                          <div className="w-[63px] h-[60px] overflow-hidden border-[1px] shadow-md border-[#ffffff] rounded-md">
-                            <img
-                              src={product.urlP}
-                              className="w-full h-full object-cover bg-cover bg-center border-[2px] border-[#fff] flex rounded-md"
-                            />
-                          </div>
-                          <div className="absolute -top-2 -right-2 bg-black rounded-md border-2 border-white text-[#fff] px-[7px] py-[1px]">
-                            <p>{product.cantidad}</p>
+                      <li
+                        className="w-auto p-2 grid grid-cols-[auto,auto] justify-between"
+                        key={index}
+                      >
+                        <section className="flex items-center">
+                          {/* Imagen Producto */}
+                          <section className="relative flex mr-[15px]">
+                            <div className="w-[63px] h-[60px] overflow-hidden border-[1px] shadow-md border-[#ffffff] rounded-md">
+                              <img
+                                src={product.urlP}
+                                className="w-full h-full object-cover bg-cover bg-center border-[2px] border-[#fff] flex rounded-md"
+                              />
+                            </div>
+                            <div className="absolute -top-2 -right-2 bg-black rounded-md border-2 border-white text-[#fff] px-[7px] py-[1px]">
+                              <p>{product.cantidad}</p>
+                            </div>
+                          </section>
+
+                          <div>
+                            {/* Nombre Producto */}
+                            <p className="text-[14px]">{product.nameP}</p>
                           </div>
                         </section>
-
-                        <div>
-                          {/* Nombre Producto */}
-                          <p className="text-[14px]">{product.nameP}</p>
+                        {/* Precio Total*/}
+                        <div className="h-auto w-auto flex flex-col items-end justify-center text-[14px]">
+                          {product.discount >= 1 ? (
+                            <>
+                              <p className="w-full text-end">
+                                S/{" "}
+                                {(
+                                  (product.price -
+                                    (product.price * product.discount) / 100) *
+                                  product.cantidad
+                                ).toFixed(2)}
+                              </p>
+                            </>
+                          ) : (
+                            <input
+                              className="w-full bg-transparent text-end"
+                              disabled
+                              value={`S/ ${(
+                                product.price * product.cantidad
+                              ).toFixed(2)}`}
+                            />
+                          )}
                         </div>
-                      </section>
-                      {/* Precio Total*/}
-                      <div className="h-auto w-auto flex flex-col items-end justify-center text-[14px]">
-                        {product.discount >= 1 ? (
-                          <>
-                            <p className="w-full text-end">
-                              S/{" "}
-                              {(
-                                (product.price -
-                                  (product.price * product.discount) / 100) *
-                                product.cantidad
-                              ).toFixed(2)}
-                            </p>
-                          </>
-                        ) : (
-                          <input
-                            className="w-full bg-transparent text-end"
-                            disabled
-                            value={`S/ ${(
-                              product.price * product.cantidad
-                            ).toFixed(2)}`}
-                          />
-                        )}
-                      </div>
-                    </li>
-                  ))
+                      </li>
+                    ))
                   : null}
               </ul>
 
