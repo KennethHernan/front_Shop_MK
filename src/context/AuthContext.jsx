@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   getProducts,
   getCategorys,
@@ -15,6 +16,9 @@ export const AuthProvider = ({ children }) => {
   const [categoryAll, setCategoryAll] = useState([]);
 
   const cartIconRef = useRef(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const shouldScrollRef = useRef(false);
 
   // Estados de componentes
   const [navbar, setNavbar] = useState(true);
@@ -28,13 +32,31 @@ export const AuthProvider = ({ children }) => {
   const [userSave, setUserSave] = useState([]);
   const [session, setSession] = useState("");
   const [priceDelivery, setPriceDelivery] = useState(0);
+  
+  const waitAndScroll = (id, attempt = 0) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+      return;
+    }
+    if (attempt < 20) {
+      setTimeout(() => waitAndScroll(id, attempt + 1), 50);
+    }
+  };
 
   const Home = () => {
     setNavbar(false);
     setSearch(false);
     setOpenAddCart(false);
-    document.getElementById("Home")?.scrollIntoView({ behavior: "smooth" });
+
+    if (location.pathname !== "/") {
+      shouldScrollRef.current = true;
+      navigate("/");
+      return;
+    }
+    waitAndScroll("Home");
   };
+
   // Actualizar Carrito
   const ActualizarCarrito = () => {
     const productosCarrito = localStorage.getItem("cart");
@@ -285,6 +307,14 @@ export const AuthProvider = ({ children }) => {
     ActualizarCarrito();
     ActualizarProductoReciente();
   }, []);
+
+  // When location changes to home and a scroll was requested, perform the scroll
+  useEffect(() => {
+    if (location.pathname === "/" && shouldScrollRef.current) {
+      shouldScrollRef.current = false;
+      waitAndScroll("Home");
+    }
+  }, [location.pathname]);
 
   return (
     <AuthContext.Provider
