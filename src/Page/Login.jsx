@@ -19,25 +19,22 @@ function Login() {
   };
 
   async function enviarCodigo(email) {
-    try {
-      const res = await fetch("https://checkoutmk.vercel.app/api/enviar-code", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
-      console.log(res);
-      
-      const data =  res;
+    const resp = await fetch("https://checkoutmk.vercel.app/api/enviar-code", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+      mode: "cors",
+    });
 
-      if (data.ok) {
-        console.log("Código enviado:", data.code);
-      } else {
-        console.error("Error al enviar código:", data.message);
-      }
-    } catch (error) {
-      console.error("Error en fetch:", error);
+    console.log("HTTP status:", resp.status, "ok?", resp.ok); // ver status
+
+    const data = await resp.json(); // <-- aquí consumes el body
+    console.log("response body:", data);
+
+    if (data.ok) {
+      console.log("Código recibido:", data.code);
+    } else {
+      console.error("Error del servidor:", data.message || data);
     }
   }
 
