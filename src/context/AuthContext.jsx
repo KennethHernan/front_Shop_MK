@@ -8,6 +8,7 @@ import {
 import { postCreatePreference, getVerifyPayment } from "../Services/auth";
 import { getAuthContext } from "./authSingleton";
 import { v4 as uuidv4 } from "uuid";
+import Cookies from "js-cookie";
 const urlBase = import.meta.env.VITE_URL_BASE;
 const AuthContext = getAuthContext();
 
@@ -32,7 +33,8 @@ export const AuthProvider = ({ children }) => {
   const [userSave, setUserSave] = useState([]);
   const [session, setSession] = useState("");
   const [priceDelivery, setPriceDelivery] = useState(0);
-  
+  const [autentication, setAutentication] = useState(false);
+
   const waitAndScroll = (id, attempt = 0) => {
     const el = document.getElementById(id);
     if (el) {
@@ -56,7 +58,10 @@ export const AuthProvider = ({ children }) => {
     }
     waitAndScroll("Home");
   };
-
+  /*
+      const token = userResponse.token;
+      Cookies.set("token", token, { expires: 1 });
+*/
   // Actualizar Carrito
   const ActualizarCarrito = () => {
     const productosCarrito = localStorage.getItem("cart");
@@ -347,6 +352,7 @@ export const AuthProvider = ({ children }) => {
         cartIconRef,
         productReciente,
         session,
+        autentication,
         setPriceDelivery,
         setSearch,
         setOpenAddCart,
@@ -355,6 +361,7 @@ export const AuthProvider = ({ children }) => {
         setNavbar,
         setItemSearch,
         setItemCarrito,
+        setAutentication,
       }}
     >
       {children}
