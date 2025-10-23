@@ -8,7 +8,6 @@ import Seach2 from "../assets/seach_white.svg";
 import Shop from "../assets/Shop.svg";
 import Shop2 from "../assets/shop_white.svg";
 import { useState } from "react";
-import "aos/dist/aos.css";
 import Menu from "../assets/icon_menu.svg";
 import Menu2 from "../assets/icon_menu_black.svg";
 import Close from "../assets/close_new.svg";

@@ -13,8 +13,6 @@ import { useAuth } from "../context/authSingleton";
 import Fondo from "../assets/fondo_portada-1.webp";
 import Fondo2 from "../assets/fondo_portada2.webp";
 import Fondo3 from "../assets/Frame 38.jpg"
-import AOS from "aos";
-import "aos/dist/aos.css";
 import ProductCard from "../Components/ProductCard";
 import CategoryCard from "../Components/CategoryCard";
 

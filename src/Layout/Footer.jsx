@@ -2,12 +2,9 @@ import icon_tiktok from "../assets/icon_tiktok_white.svg";
 import icon_wsp from "../assets/icon_whatsapp_white.svg";
 import icon_ig from "../assets/icon_instagram_white.svg";
 import icon_fb from "../assets/icon_facebook_white.svg";
-import AOS from "aos";
-import "aos/dist/aos.css";
 import { useNavigate } from "react-router-dom";
 const Footer = () => {
   const navigate = useNavigate();
-  AOS.init();
 
   return (
     <>

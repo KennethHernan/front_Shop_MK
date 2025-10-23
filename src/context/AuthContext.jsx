@@ -33,7 +33,29 @@ export const AuthProvider = ({ children }) => {
   const [userSave, setUserSave] = useState([]);
   const [session, setSession] = useState("");
   const [priceDelivery, setPriceDelivery] = useState(0);
+  const [emailLogin, setEmailLogin] = useState("");
   const [autentication, setAutentication] = useState(false);
+  const [loading, setLoanding] = useState(false);
+  const [codigoEnviado, setCodigoEnviado] = useState(false);
+  const [codeOrigin, setCodeOrigin] = useState(false);
+  const [messageCode, setMessageCode] = useState("");
+
+  const Login = (data) => {
+    setCargando(true);
+    enviarCodigo(data.code);
+    if (data.code === codeOrigin) {
+      // Codigo valido
+      setAutentication(true);
+      Home();
+    } else {
+      setMessageCode("Código inválido");
+    }
+  };
+
+  const CerraSesion = () => {
+    setAutentication(false);
+    setEmailLogin("");
+  };
 
   const waitAndScroll = (id, attempt = 0) => {
     const el = document.getElementById(id);
@@ -58,10 +80,7 @@ export const AuthProvider = ({ children }) => {
     }
     waitAndScroll("Home");
   };
-  /*
-      const token = userResponse.token;
-      Cookies.set("token", token, { expires: 1 });
-*/
+
   // Actualizar Carrito
   const ActualizarCarrito = () => {
     const productosCarrito = localStorage.getItem("cart");
@@ -212,7 +231,7 @@ export const AuthProvider = ({ children }) => {
         if (p.cantidad < p.stock) {
           return { ...p, cantidad: p.cantidad + 1 };
         } else {
-          console.warn("No puedes añadir más, stock máximo alcanzado");
+          //console.warn("No puedes añadir más, stock máximo alcanzado");
           return p;
         }
       }
@@ -277,26 +296,22 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const enviarCodigo = async (email) => {
-    try {
-      const res = await fetch(`${urlBase}/api/enviar-code`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
-      const data = await res.json();
+  async function enviarCodigo(email) {
+    const resp = await fetch("https://checkoutmk.vercel.app/api/enviar-code", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+      mode: "cors",
+    });
 
-      if (data.ok) {
-        console.log("Código enviado:", data.code);
-      } else {
-        console.error("Error al enviar código:", data.message);
-      }
-    } catch (error) {
-      console.error("Error en fetch:", error);
+    const data = await resp.json();
+    if (data.ok) {
+      setCodigoEnviado(true);
+      setCodeOrigin(data.code);
+    } else {
+      console.error("Error del servidor:", data.message || data);
     }
-  };
+  }
 
   useEffect(() => {
     getProducts().then((listProduct) => {
@@ -324,6 +339,7 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
+        Login,
         enviarCodigo,
         CreateOrder,
         CreatePreferences,
@@ -338,7 +354,11 @@ export const AuthProvider = ({ children }) => {
         Aumentar,
         Home,
         VerificarPayment,
+        messageCode,
+        codigoEnviado,
+        codeOrigin,
         userSave,
+        loading,
         priceDelivery,
         productAll,
         categoryAll,
@@ -353,6 +373,9 @@ export const AuthProvider = ({ children }) => {
         productReciente,
         session,
         autentication,
+        emailLogin,
+        setEmailLogin,
+        setMessageCode,
         setPriceDelivery,
         setSearch,
         setOpenAddCart,

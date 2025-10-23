@@ -9,12 +9,9 @@ import Seach2 from "../assets/seach_white.svg";
 import Shop from "../assets/Shop.svg";
 import Shop2 from "../assets/shop_white.svg";
 import { useState } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
 import { useAuth } from "../context/authSingleton";
 
 function CustomLink({ to, label, ...props }) {
-  AOS.init();
   const location = useLocation();
   const isHovered = location.pathname === to;
   const isActive = location.pathname === to;

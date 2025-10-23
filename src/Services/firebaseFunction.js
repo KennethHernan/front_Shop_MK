@@ -1,5 +1,9 @@
 import { getDatabase, ref, get, push, set, child } from "firebase/database";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
 import { app, auth } from "../firebase";
 import { v4 as uuidv4 } from "uuid";
 const db = getDatabase(app);
@@ -15,6 +19,7 @@ export const crearUser = async (email, password) => {
     );
     const user = userCredential.user;
     console.log("Cuenta creada:", user);
+    return user;
   } catch (error) {
     console.error("Error al crear la cuenta:", error.code, error.message);
   }

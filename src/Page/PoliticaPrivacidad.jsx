@@ -7,7 +7,6 @@ import Footer from "../Layout/Footer";
 import Search from "../Components/Search";
 import { useEffect, useState, useRef } from "react";
 import { useAuth } from "../context/authSingleton";
-import "aos/dist/aos.css";
 
 function PoliticaPrivacidad() {
   const { Disminuir, Aumentar, abrirModalCart, añadirAlCarrito, setNavbar } =

@@ -1,5 +1,4 @@
 import { useAuth } from "../context/authSingleton";
-import "aos/dist/aos.css";
 import departamentos from "../../public/departamentos.json";
 import { useNavigate } from "react-router-dom";
 import icon_visa from "../assets/visa.svg";

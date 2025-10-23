@@ -1,8 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/authSingleton";
 import { useState } from "react";
-import { time } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import icon_Progress from "../assets/progress.svg";
 
 function Login() {
   const {
@@ -11,47 +10,18 @@ function Login() {
     setValue,
     formState: { errors },
   } = useForm();
-  const { setAutentication } = useAuth();
+  const { setEmailLogin, enviarCodigo, codigoEnviado, messageCode, setMessageCode } = useAuth();
   const [cargando, setCargando] = useState(false);
-  const [validarCode, setValidarCode] = useState(false);
-  const [codeOrigin, setCodeOrigin] = useState(false);
-  const [messageCode, setMessageCode] = useState("");
-  const [emailUser, setEmailUser] = useState("");
-  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     setMessageCode("");
     setCargando(true);
     enviarCodigo(data.email);
-    setEmailUser(data.email);
+    setEmailLogin(data.email);
   };
 
-  async function enviarCodigo(email) {
-    const resp = await fetch("https://checkoutmk.vercel.app/api/enviar-code", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
-      mode: "cors",
-    });
-
-    const data = await resp.json();
-    if (data.ok) {
-      setValidarCode(true);
-      setCodeOrigin(data.code);
-    } else {
-      console.error("Error del servidor:", data.message || data);
-    }
-  }
-
   const onSubmitValidarCode = async (data) => {
-    setCargando(true);
-    enviarCodigo(data.code);
-    if (data.code === codeOrigin) {
-      setAutentication(true)
-      navigate("/");
-    } else {
-      setMessageCode("");
-    }
+    Login(data);
   };
 
   return (
@@ -60,7 +30,7 @@ function Login() {
         <p className="w-full text-center text-[25px] my-7 font-light">
           MAYIKH SYTYLE
         </p>
-        {validarCode ? (
+        {!codigoEnviado ? (
           <form onSubmit={handleSubmit(onSubmit)} className="w-full h-full">
             <div className="flex justify-between w-full mb-1 text-lg">
               <p className="font-medium">Iniciar sesión</p>
@@ -108,11 +78,19 @@ function Login() {
               type="submit"
               disabled={cargando}
               className={`
-                  w-full text-[15px] my-5 font-medium text-white rounded-lg py-3 bg-blue-700 bg-opacity-80 hover:bg-blue-800 transition-colors duration-300
-                  ${cargando && "animate-pulse"}
+                  w-full text-[15px] my-5 flex justify-center items-center font-medium text-white rounded-lg py-3 bg-blue-700 bg-opacity-80 transition-colors duration-300
+                  ${!cargando && "hover:bg-blue-800"}
                   `}
             >
-              {!cargando ? "Continuar" : "Validando..."}
+              {!cargando ? (
+                "Continuar"
+              ) : (
+                <img
+                  src={icon_Progress}
+                  alt="Icono cargando"
+                  className="animate-spin"
+                />
+              )}
             </button>
           </form>
         ) : (
@@ -160,6 +138,9 @@ function Login() {
                 <p className="text-[14px] text-red-500 my-2">
                   {errors.code.message}
                 </p>
+              )}
+              {messageCode.length > 0 && (
+                <p className="text-[14px] text-red-500 my-2">{messageCode}</p>
               )}
             </div>
 
