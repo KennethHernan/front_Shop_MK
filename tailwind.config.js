@@ -10,10 +10,10 @@ export default {
       container : {
         center : true
       },
-      colors : {
-        
-      }
-      
+      fontFamily: {
+        roboto: ['Roboto', 'sans-serif'],
+        dancing: ['Dancing Script', 'cursive'],
+      },
     },
   },
   plugins: [],

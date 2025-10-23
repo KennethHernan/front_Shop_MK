@@ -1,5 +1,5 @@
 import { useAuth } from "../context/authSingleton";
-import departamentos from "../../public/departamentos.json";
+import departamentos from "../departamentos.json";
 import { useNavigate } from "react-router-dom";
 import icon_visa from "../assets/visa.svg";
 import icon_mercadopago from "../assets/mercadopago.svg";

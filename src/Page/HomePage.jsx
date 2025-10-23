@@ -125,8 +125,8 @@ function HomePage() {
         </div>
 
         {/* Titulo */}
-        <p className="mt-20 mb-5 text-[30px] md:text-[35px] font-light px-5 md:px-10 font-sans overflow-hidden">
-          NOVEDADES
+        <p className="mt-20 mb-5 text-[30px] md:text-[45px] font-dancing px-5 md:px-10  overflow-hidden">
+          Novedades
         </p>
 
         {/* Lista de Productos 1 */}
@@ -238,7 +238,7 @@ function HomePage() {
 
         {/* Frase */}
         <div className="w-auto text-[20px] lg:text-[30px] font-light px-10 my-20 text-center italic overflow-hidden">
-          <p className="" data-aos="fade-up" data-aos-duration="1000">
+          <p>
             "Cada pieza fue creada para recordarte que eres única, valiosa y
             capaz de conquistar el mundo. No solo uses joyas, exprésate con
             ellas"
@@ -246,8 +246,8 @@ function HomePage() {
         </div>
 
         {/* Titulo 2 */}
-        <p className="my-5 text-[30px] md:text-[35px] font-light px-5 md:px-10 font-sans overflow-hidden">
-          CATEGORÍAS
+        <p className="my-5 text-[30px] md:text-[45px] font-dancing px-5 md:px-10 overflow-hidden">
+          Categorías
         </p>
 
         {/* Lista de Categorias */}
@@ -305,11 +305,9 @@ function HomePage() {
 
         {/* Titulo 2 */}
         <p
-          className="pb-5 text-[30px] md:text-[35px] font-light px-5 font-sans"
-          data-aos="fade-up"
-          data-aos-duration="1000"
+          className="pb-5 text-[30px] md:text-[45px] font-dancing px-5"
         >
-          EN TENDENCIA
+          En tendencia
         </p>
 
         {/* Seccion de producto 2 */}
@@ -354,7 +352,7 @@ function HomePage() {
                 data-aos-duration="1000"
               >
                 Descubre lo nuevo en nuestra tienda virtual, nos encontramos en
-                <a href="#" className="font-medium hover:underline">
+                <a href="https://www.instagram.com/mayikh.pe/" target="_blank" className="font-medium hover:underline">
                   @mayikh.pe
                 </a>
               </p>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Dancing+Script:wght@400..700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -20,4 +20,11 @@ html {
 
 .drop-shadow-custom {
   filter: drop-shadow(0px 10px 5px rgba(0, 0, 0, 0.105));
+}
+
+.dancing-script-title {
+  font-family: "Dancing Script", cursive;
+  font-optical-sizing: auto;
+  font-weight: 600; /* entre 400 y 700 */
+  font-style: normal;
 }
