@@ -12,6 +12,7 @@ import { useEffect, useState, useRef } from "react";
 import { useAuth } from "../context/authSingleton";
 import Fondo from "../assets/fondo_portada-1.webp";
 import Fondo2 from "../assets/fondo_portada2.webp";
+import Fondo3 from "../assets/Frame 38.jpg"
 import AOS from "aos";
 import "aos/dist/aos.css";
 import ProductCard from "../Components/ProductCard";
@@ -121,7 +122,7 @@ function HomePage() {
         {/* Portada 1 */}
         <div className="w-full h-[60vh] overflow-hidden -mt-[60px] bg-[#c5c5c5] flex justify-center items-center">
           <img
-            src={Fondo}
+            src={Fondo3}
             alt="Fondo"
             width="full"
             height="60vh"
