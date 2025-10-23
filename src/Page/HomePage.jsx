@@ -12,7 +12,7 @@ import { useEffect, useState, useRef } from "react";
 import { useAuth } from "../context/authSingleton";
 import Fondo from "../assets/fondo_portada-1.webp";
 import Fondo2 from "../assets/fondo_portada2.webp";
-import Fondo3 from "../assets/Frame 38.jpg"
+import Fondo3 from "../assets/Frame-38.webp"
 import ProductCard from "../Components/ProductCard";
 import CategoryCard from "../Components/CategoryCard";
 
@@ -34,11 +34,6 @@ function HomePage() {
   const imgRef = useRef(null);
 
   useEffect(() => {
-    AOS.init({
-      duration: 3000,
-      once: true,
-    });
-
     const handleScroll = () => {
       if (window.scrollY === 0) {
         setNavbar(true);
