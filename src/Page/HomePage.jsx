@@ -10,6 +10,7 @@ import Search from "../Components/Search";
 import ArrowLeft from "../assets/ArrowLeft.svg";
 import { useEffect, useState, useRef } from "react";
 import { useAuth } from "../context/authSingleton";
+import Fondo_movile from "../assets/fondo_pordata1_movile.webp";
 import Fondo from "../assets/fondo_portada-1.webp";
 import Fondo2 from "../assets/fondo_portada2.webp";
 import Fondo3 from "../assets/Frame-38.webp"
@@ -113,19 +114,28 @@ function HomePage() {
         <Header />
 
         {/* Portada 1 */}
-        <div className="w-full h-[60vh] overflow-hidden -mt-[60px] bg-[#c5c5c5] flex justify-center items-center">
+        <div className="w-full h-auto overflow-hidden -mt-[60px] bg-[#c5c5c5] flex justify-center items-center">
           <img
             src={Fondo3}
             alt="Fondo"
             width="full"
             height="60vh"
             loading="eager"
-            className="object-cover w-full h-full"
+            className="object-contain w-full h-full hidden sm:block"
+          />
+          
+          <img
+            src={Fondo_movile}
+            alt="Fondo"
+            width="full"
+            height="60vh"
+            loading="eager"
+            className="object-cover w-full h-full block sm:hidden"
           />
         </div>
 
         {/* Titulo */}
-        <p className="mt-20 mb-5 text-[30px] md:text-[45px] font-dancing px-5 md:px-10  overflow-hidden">
+        <p className="mt-20 mb-5 text-[30px] md:text-[45px] font- px-5 md:px-10  overflow-hidden">
           Novedades
         </p>
 
@@ -237,11 +247,11 @@ function HomePage() {
         </section>
 
         {/* Frase */}
-        <div className="w-auto text-[20px] lg:text-[30px] font-light px-10 my-20 text-center italic overflow-hidden">
-          <p>
-            "Cada pieza fue creada para recordarte que eres única, valiosa y
+        <div className="w-auto text-[20px] lg:text-[30px] px-10 my-20 text-center overflow-hidden">
+          <p className="font-dancing">
+            Cada pieza fue creada para recordarte que eres única, valiosa y
             capaz de conquistar el mundo. No solo uses joyas, exprésate con
-            ellas"
+            ellas.
           </p>
         </div>
 

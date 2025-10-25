@@ -7,12 +7,13 @@ export default {
   ],
   theme: {
     extend: {
-      container : {
-        center : true
+      container: {
+        center: true
       },
       fontFamily: {
         roboto: ['Roboto', 'sans-serif'],
         dancing: ['Dancing Script', 'cursive'],
+        cinzel: ['Cinzel', 'serif'],
       },
     },
   },
