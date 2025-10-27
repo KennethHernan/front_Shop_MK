@@ -1,6 +1,4 @@
 import React from "react";
-import Add from "../assets/icon-shop.svg";
-import Check from "../assets/Check.svg";
 
 function ProductCard({ product, abrirModalCart }) {
   return (
@@ -23,20 +21,6 @@ function ProductCard({ product, abrirModalCart }) {
               <button className="bg-[#000000] absolute bottom-1 px-3 py-2 m-2 rounded-[5px] text-[#fff] text-xs disabled">
                 Agotado
               </button>
-            )}
-            {/* Boton Agregar Carrito - Desktop */}
-            {product.stock > 0 && (
-              <div className="absolute bottom-1 right-1">
-                <button
-                  onClick={() => abrirModalCart(product)}
-                  className="shadow-md hidden group-hover:flex group/sub relative h-[30px] overflow-hidden items-center bg-[#ffffff] p-2 m-2 rounded-[200px] text-[#000] font-normal text-[10px]"
-                >
-                  <img src={Add} className="w-[13px] h-[13px]" />
-                  <p className="w-0 text-white transition-all duration-300 group-hover/sub:w-10 group-hover/sub:ml-2 group-hover/sub:text-black">
-                    AÑADIR
-                  </p>
-                </button>
-              </div>
             )}
           </div>
           {/* Producto Nombre */}

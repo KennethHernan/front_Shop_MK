@@ -22,6 +22,7 @@ function Header_Movile() {
     navbar,
     setOpenCart,
     itemCarrito,
+    categoryAll,
     cartIconRef,
     Home,
   } = useAuth();
@@ -52,8 +53,8 @@ function Header_Movile() {
   }, [Home]);
 
   const Perfil = () => {
-    navigate("/log-in")
-  }
+    navigate("/log-in");
+  };
   return (
     <>
       <div className="font-sans select-none">
@@ -75,16 +76,16 @@ function Header_Movile() {
                         src={isHover && !search && active ? Close : Menu2}
                         alt="Icono Menu"
                         className={` transition-transform duration-300
-                  ${active ? "rotate-90" : " rotate-0"}
-                  `}
+                          ${active ? "rotate-90" : " rotate-0"}
+                          `}
                       />
                     ) : (
                       <img
                         src={Menu2}
                         alt="Icono Menu"
                         className={` transition-all duration-300
-                  ${active ? "rotate-90" : " rotate-0"}
-                  `}
+                          ${active ? "rotate-90" : " rotate-0"}
+                          `}
                       />
                     )}
                   </span>
@@ -114,7 +115,7 @@ function Header_Movile() {
                       className="w-full text-start text-[11px] pb-3 font-medium border-b flex justify-between items-center"
                       onClick={() => setActiveItem1((prev) => !prev)}
                     >
-                      <p>JOYERIA</p>
+                      <p>NUESTROS PRODUCTOS</p>
                       <span className="pointer-events-none">
                         <img
                           src={Close}
@@ -132,114 +133,23 @@ function Header_Movile() {
                     `}
                     >
                       <div className="container flex flex-col gap-3 py-6 mx-auto text-xs">
-                        {/* Columna 1: ANILLOS */}
+                        {/* Columna 1: JOYERIA */}
                         <div className="flex-1 h-auto p-0">
                           <div className="flex items-start pb-2 text-gray-400">
-                            <p>ANILLOS</p>
+                            <p>JOYERIA</p>
                           </div>
 
                           <div className="w-full">
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Anillos de Compromiso
-                            </a>
-
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Anillos de Matrimonio
-                            </a>
-
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Anillos de Oro
-                            </a>
-
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Anillos de Plata
-                            </a>
-                          </div>
-                        </div>
-
-                        {/* Columna 2: COLLARES */}
-                        <div className="flex-1 h-auto p-0">
-                          <div className="flex items-start pb-2 text-gray-400">
-                            <p>COLLARES</p>
-                          </div>
-
-                          <div className="W-full">
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Collares de Oro
-                            </a>
-
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Collares de Plata
-                            </a>
-
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Cadenas
-                            </a>
-
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Dijes
-                            </a>
-                          </div>
-                        </div>
-
-                        {/* Columna 3: PULSERAS */}
-                        <div className="flex-1 h-auto p-0">
-                          <div className="flex items-start pb-2 text-gray-400">
-                            <p>PULSERAS</p>
-                          </div>
-
-                          <div className="w-full">
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Pulseras de Oro
-                            </a>
-
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Pulseras de Plata
-                            </a>
-
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Brazaletes
-                            </a>
-
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Pulseras con Dijes
-                            </a>
+                            {categoryAll.length > 0
+                              ? categoryAll.map((category, index) => (
+                                  <a
+                                    href="#"
+                                    className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
+                                  >
+                                    {category.category}
+                                  </a>
+                                ))
+                              : null}
                           </div>
                         </div>
                       </div>
@@ -350,7 +260,7 @@ function Header_Movile() {
                       className="w-full text-start text-[11px] pb-3 font-medium border-b flex justify-between items-center"
                       onClick={() => setActiveItem3((prev) => !prev)}
                     >
-                      <p>LO NUEVO</p>
+                      <p>INICIAR SESIÓN</p>
                       <span className="pointer-events-none">
                         <img
                           src={Close}
@@ -499,18 +409,12 @@ function Header_Movile() {
           >
             <button onClick={() => setSearch(true)} className="w-1/6">
               <span className="pointer-events-none">
-                <img
-                  src={Seach}
-                  alt="Boton Buscar"
-                />
+                <img src={Seach} alt="Boton Buscar" />
               </span>
             </button>
             <button onClick={Perfil} className="w-1/6 mx-5 overflow-hidden">
               <span className="pointer-events-none">
-                <img
-                  src={Profile}
-                  alt="Boton Perfil"
-                />
+                <img src={Profile} alt="Boton Perfil" />
               </span>
             </button>
             <button
@@ -518,11 +422,7 @@ function Header_Movile() {
               className="relative w-1/6"
             >
               <span className="pointer-events-none">
-                <img
-                  src={Shop}
-                  alt="Boton carrito"
-                  ref={cartIconRef}
-                />
+                <img src={Shop} alt="Boton carrito" ref={cartIconRef} />
               </span>
               {itemCarrito.length > 0 && (
                 <div className="rounded-[100px] text-[10px] w-[15px] h-[15px] absolute right-0 -mt-[10px] bg-[#000000] text-white">

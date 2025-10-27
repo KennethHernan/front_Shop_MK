@@ -195,13 +195,15 @@ function HomePage() {
         </div>
 
         {/* Titulo */}
-        <p className="mt-20 mb-10 md:mb-5  text-[30px] md:text-[30px] text-center font-cinzel px-5 md:px-10">
+        <p className="mt-20 mb-5  text-[30px] md:text-[30px] text-center font-cinzel px-5 md:px-10">
           Novedades para tí
         </p>
-        <section className="w-full h-[60vh] sm:h-[100vh] flex mb-10">
+
+        {/* Seccion Producto 1 */}
+        <section className="w-full h-[50vh] sm:h-[100vh] flex mb-0 md:mb-10">
           {/* Productos */}
           <div className="w-full flex justify-center items-center">
-            <div className="w-[40vh] h-auto">
+            <div className="w-[30vh] md:w-[40vh] h-auto">
               <Swiper
                 loop={true}
                 modules={[Pagination, Autoplay]}
@@ -215,11 +217,11 @@ function HomePage() {
                         onClick={() => abrirModalCart(product)}
                         key={index}
                       >
-                        <div className="h-[50vh] group relative">
+                        <div className="h-[30vh] md:h-[50vh] group relative">
                           <img
                             src={product.urlP}
                             alt="producto"
-                            className="absolute top-0 object-cover w-full h-full"
+                            className="w-full h-full absolute top-0 object-cover"
                           />
                           {product.stock <= 0 && (
                             <button className="bg-[#000000] absolute bottom-1 px-3 py-2 m-2 rounded-[5px] text-[#fff] text-[14px] disabled">
@@ -449,14 +451,15 @@ function HomePage() {
         </section>
 
         {/* Portada 3 */}
-        <div className="bg-[#F2D0BD] w-[100wh] h-[50vh] md:h-[100vh] my-20 flex flex-col md:flex-row overflow-hidden">
+        <div className="bg-[#F2D0BD] w-[100wh] h-[50vh] md:h-[100vh] mt-20 flex flex-col md:flex-row overflow-hidden">
           <section className="relative flex flex-col justify-between w-auto h-full p-10 font-light md:p-32">
             <div className="z-20">
               <p className="text-[28px] md:text-[50px] italic mb-8 md:mb-10">
                 Cada joya tiene una historia… ¿ya elegiste la tuya?
               </p>
               <a
-                href="#"
+                href="https://www.instagram.com/mayikh.pe/"
+                target="_blank"
                 className="px-5 py-3 my-5 text-sm font-normal text-white transition-colors duration-500 bg-black rounded-sm md:px-8 md:text-md hover:bg-white hover:text-black"
               >
                 Visitanos
