@@ -80,11 +80,7 @@ function Header_Movile() {
                       />
                     ) : (
                       <img
-                        src={
-                          navbar && !search && !isHover && !active
-                            ? Menu
-                            : Menu2
-                        }
+                        src={Menu2}
                         alt="Icono Menu"
                         className={` transition-all duration-300
                   ${active ? "rotate-90" : " rotate-0"}
@@ -97,11 +93,7 @@ function Header_Movile() {
                 <div onClick={() => Home()}>
                   <span className="pointer-events-none">
                     <img
-                      src={
-                        navbar && !search && !isHover && !active
-                          ? ImagenLogo2
-                          : ImagenLogo
-                      }
+                      src={ImagenLogo}
                       alt="Logo"
                       className="w-[30px] mt-1"
                     />
@@ -508,7 +500,7 @@ function Header_Movile() {
             <button onClick={() => setSearch(true)} className="w-1/6">
               <span className="pointer-events-none">
                 <img
-                  src={navbar && !isHover && !active ? Seach2 : Seach}
+                  src={Seach}
                   alt="Boton Buscar"
                 />
               </span>
@@ -516,11 +508,7 @@ function Header_Movile() {
             <button onClick={Perfil} className="w-1/6 mx-5 overflow-hidden">
               <span className="pointer-events-none">
                 <img
-                  src={
-                    navbar && !isHover && !search && !active
-                      ? Profile2
-                      : Profile
-                  }
+                  src={Profile}
                   alt="Boton Perfil"
                 />
               </span>
@@ -531,22 +519,13 @@ function Header_Movile() {
             >
               <span className="pointer-events-none">
                 <img
-                  src={navbar && !isHover && !search && !active ? Shop2 : Shop}
+                  src={Shop}
                   alt="Boton carrito"
                   ref={cartIconRef}
                 />
               </span>
               {itemCarrito.length > 0 && (
-                <div
-                  className={`
-                    rounded-[100px] text-[10px] w-[15px] h-[15px] absolute right-0 -mt-[10px]
-                  ${
-                    navbar && !isHover && !search && !active
-                      ? "bg-[#fff] text-black"
-                      : "bg-[#000000] text-white"
-                  } 
-                  `}
-                >
+                <div className="rounded-[100px] text-[10px] w-[15px] h-[15px] absolute right-0 -mt-[10px] bg-[#000000] text-white">
                   {itemCarrito.length}
                 </div>
               )}

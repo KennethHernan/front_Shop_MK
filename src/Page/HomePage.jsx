@@ -14,7 +14,6 @@ import Fondo_movile from "../assets/fondo_pordata1_movile.webp";
 import Fondo from "../assets/fondo_portada-1.webp";
 import Fondo2 from "../assets/fondo_portada2.webp";
 import Fondo3 from "../assets/Frame-38.webp";
-import ProductCard from "../Components/ProductCard";
 import CategoryCard from "../Components/CategoryCard";
 
 import React from "react";
@@ -169,6 +168,16 @@ function HomePage() {
                 className="object-cover w-full h-full"
               />
             </SwiperSlide>
+            <SwiperSlide>
+              <img
+                src={Fondo_movile}
+                alt="Fondo"
+                width="full"
+                height="60vh"
+                loading="eager"
+                className="object-cover w-full h-full"
+              />
+            </SwiperSlide>
           </Swiper>
 
           <style jsx>{`
@@ -186,10 +195,10 @@ function HomePage() {
         </div>
 
         {/* Titulo */}
-        <p className="mt-20 mb-5 text-[30px] md:text-[30px] text-center font-cinzel px-5 md:px-10">
+        <p className="mt-20 mb-10 md:mb-5  text-[30px] md:text-[30px] text-center font-cinzel px-5 md:px-10">
           Novedades para tí
         </p>
-        <section className="w-full h-[100vh] flex mb-10">
+        <section className="w-full h-[60vh] sm:h-[100vh] flex mb-10">
           {/* Productos */}
           <div className="w-full flex justify-center items-center">
             <div className="w-[40vh] h-auto">
@@ -271,7 +280,7 @@ function HomePage() {
             </div>
           </div>
           {/* Imagen referencia */}
-          <div className="w-full border-y border-l">
+          <div className="w-full border-y border-l hidden sm:block">
             <img
               src={Fondo}
               alt="Fondo"
@@ -296,7 +305,8 @@ function HomePage() {
 
         {/* Lista de Categorias */}
         <section className="border-t border-l" style={{ width: "100%" }}>
-          <ul className="w-full h-auto flex md:hidden mx-5 flex-col space-y-4 justify-center font-light text-[16px]">
+          {/* Movile */}
+          <ul className="w-full h-auto flex md:hidden flex-col space-y-4 justify-center font-light text-[16px]">
             {categoryAll.length > 0
               ? categoryAll.map((category, index) => (
                   <CategoryCard key={index} category={category} />
