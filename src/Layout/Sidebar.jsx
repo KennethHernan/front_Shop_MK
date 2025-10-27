@@ -57,16 +57,16 @@ function Sidebar() {
   };
 
   const Perfil = () => {
-    navigate("/log-in")
-  }
+    navigate("/log-in");
+  };
   return (
     <>
       <div className="font-sans select-none">
         <div
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => InactiveNavbar(true)}
-          className={`h-[60px] flex justify-between relative items-center px-5 md:px-10 transition-colors duration-300
-            ${navbar ? "bg-[#ffffff00] text-[#fff]" : "bg-[#ffffff] text-black"}
+          className={`h-[60px] flex justify-between relative items-center bg-[#ffffff] px-5 md:px-10 transition-colors duration-300
+            ${navbar ? "bg-opacity-0 text-[#000]" : "bg-opacity-100 text-black"}
             ${isHover ? "md:bg-white md:text-black" : ""} 
             ${active ? "bg-white text-black" : ""}
           `}
@@ -344,52 +344,33 @@ function Sidebar() {
           </section>
           <img
             onClick={() => Home()}
-            src={
-              navbar && !search && !isHover && !active
-                ? ImagenLogo2
-                : ImagenLogo
-            }
+            src={ImagenLogo}
             className="w-[45px] block transition-opacity absolute top-4 left-[50%] duration-300"
           />
 
           <div className="flex justify-end">
             <button
               onClick={() => setSearch(true)}
-              className="w-1/6 hover:w-[28px]"
+              className="w-1/6"
             >
+              {/* src={navbar && !isHover && !active ? Seach2 : Seach} */}
               <span className="pointer-events-none">
-                <img
-                  src={navbar && !isHover && !active ? Seach2 : Seach}
-                  alt="Boton Buscar"
-                />
+                <img src={Seach} alt="Boton Buscar" />
               </span>
             </button>
 
             <button onClick={Perfil} className="w-1/6 mx-5">
-              <img
-                src={navbar && !isHover && !active ? Profile2 : Profile}
-                alt="Boton Perfil"
-              />
+              <img src={Profile} alt="Boton Perfil" />
             </button>
+
             <button
               onClick={() => setOpenCart(true)}
-              className="relative w-1/6 hover:w-[28px]"
+              className="relative w-1/6"
             >
-              <img
-                src={navbar && !isHover && !active ? Shop2 : Shop}
-                alt="Boton carrito"
-                ref={cartIconRef}
-              />
+              <img src={Shop} alt="Boton carrito" ref={cartIconRef} />
               {itemCarrito.length > 0 && (
                 <div
-                  className={`
-                    rounded-[100px] text-[10px] w-[15px] h-[15px] absolute right-0 -mt-[10px]
-                  ${
-                    navbar && !isHover && !active
-                      ? "bg-[#fff] text-black"
-                      : "bg-[#000000] text-white"
-                  } 
-                  `}
+                  className={`rounded-[100px] text-[10px] w-[15px] h-[15px] absolute right-0 -mt-[10px] bg-[#000000] text-white`}
                 >
                   {itemCarrito.length}
                 </div>
