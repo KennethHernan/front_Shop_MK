@@ -189,7 +189,10 @@ function Sidebar() {
                     </div>
 
                     <div className="space-y-5">
-                      <a href="#" className="block hover:font-medium">
+                      <a
+                        onClick={() => navigate("/sobre-nosotros")}
+                        className="block hover:font-medium"
+                      >
                         Nosotros
                       </a>
                     </div>
@@ -202,7 +205,10 @@ function Sidebar() {
                     </div>
 
                     <div className="space-y-5">
-                      <a href="#" className="block hover:font-medium">
+                      <a
+                        onClick={() => navigate("/politica-y-privacidad")}
+                         className="block hover:font-medium"
+                      >
                         Política de privacidad
                       </a>
                     </div>
@@ -215,20 +221,13 @@ function Sidebar() {
                     </div>
 
                     <div className="space-y-5">
-                      <a href="#" className="block hover:font-medium">
-                        Facebook
-                      </a>
 
-                      <a href="#" className="block hover:font-medium">
+                      <a href="https://www.instagram.com/mayikh.pe/" target="_blank" className="block hover:font-medium">
                         Instagram
                       </a>
 
-                      <a href="#" className="block hover:font-medium">
+                      <a href="https://wa.link/hd9hwl" target="_blank" className="block hover:font-medium">
                         WhatsApp
-                      </a>
-
-                      <a href="#" className="block hover:font-medium">
-                        Tiktok
                       </a>
                     </div>
                   </div>
@@ -349,10 +348,7 @@ function Sidebar() {
           />
 
           <div className="flex justify-end">
-            <button
-              onClick={() => setSearch(true)}
-              className="w-1/6"
-            >
+            <button onClick={() => setSearch(true)} className="w-1/6">
               {/* src={navbar && !isHover && !active ? Seach2 : Seach} */}
               <span className="pointer-events-none">
                 <img src={Seach} alt="Boton Buscar" />

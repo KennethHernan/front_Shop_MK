@@ -28,7 +28,7 @@ function Header_Movile() {
     Home,
   } = useAuth();
   const [active, setActive] = useState(false);
-  const [activeItem1, setActiveItem1] = useState(false);
+  const [activeItem1, setActiveItem1] = useState(true);
   const [activeItem2, setActiveItem2] = useState(false);
   const [activeItem3, setActiveItem3] = useState(false);
   const [isHover, setIsHover] = useState(false);
@@ -109,11 +109,11 @@ function Header_Movile() {
                 ${active ? "h-[100vh]" : "h-0"}
                 `}
               >
-                <div className="container flex flex-col h-full px-8 py-6 mx-auto overflow-scroll text-xs">
+                <div className="container flex flex-col h-full px-8 pt-6 pb-20 gap-3 mx-auto overflow-scroll text-xs">
                   {/* Header - NUESTROS PRODUCTOS */}
-                  <div className="h-auto px-3 py-2">
+                  <div className="h-auto">
                     <button
-                      className="w-full text-start text-[11px] pb-3 font-medium border-b flex justify-between items-center"
+                      className="w-full px-3 py-3 hover:bg-[#ebebeb] rounded-md text-start text-[11px] pb-3 font-medium flex justify-between items-center"
                       onClick={() => setActiveItem1((prev) => !prev)}
                     >
                       <p>NUESTROS PRODUCTOS</p>
@@ -129,7 +129,7 @@ function Header_Movile() {
                     </button>
                     <section
                       className={`
-                      w-full flex flex-row transition-all duration-500 overflow-hidden
+                      w-full flex flex-row transition-all duration-500 overflow-hidden px-3
                       ${activeItem1 ? "h-auto" : "h-[0vh]"}
                     `}
                     >
@@ -158,9 +158,9 @@ function Header_Movile() {
                   </div>
 
                   {/* Header - SOBRE MK */}
-                  <div className="h-auto px-3 py-2">
+                  <div className="h-auto">
                     <button
-                      className="w-full text-start text-[11px] pb-3 font-medium border-b flex justify-between items-center"
+                      className="w-full px-3 py-3 hover:bg-[#ebebeb] rounded-md text-start text-[11px] pb-3 font-medium flex justify-between items-center"
                       onClick={() => setActiveItem2((prev) => !prev)}
                     >
                       <p>SOBRE MK</p>
@@ -169,14 +169,14 @@ function Header_Movile() {
                           src={Arrow}
                           alt="Disminuir"
                           className={` transition-transform duration-300 w-[6px] ${
-                            activeItem1 ? " rotate-90" : ""
+                            activeItem2 ? " rotate-90" : ""
                           }`}
                         />
                       </span>
                     </button>
                     <section
                       className={`
-                      w-full flex flex-row transition-all duration-500 overflow-hidden
+                      w-full flex flex-row transition-all duration-500 overflow-hidden px-3
                       ${activeItem2 ? "h-auto" : "h-[0vh]"}
                     `}
                     >
@@ -221,14 +221,14 @@ function Header_Movile() {
 
                           <div>
                             <a
-                              href="#"
+                              href="https://www.instagram.com/mayikh.pe/" target="_blank"
                               className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                             >
                               Instagram
                             </a>
 
                             <a
-                              href="#"
+                              href="https://wa.link/hd9hwl" target="_blank"
                               className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                             >
                               WhatsApp
@@ -255,13 +255,20 @@ function Header_Movile() {
                     </section>
                   </div>
 
-                  {/* Header - LO NUEVO */}
-                  <div className="h-auto px-3 py-2 mt-5 hover:bg-[#ebebeb] rounded-md">
+                  {/* Header - INICIAR SESIÓN */}
+                  <div className="h-auto">
                     <button
-                      className="w-full text-start text-[11px] py-2 font-medium flex justify-between items-center"
-                      onClick={() => setActiveItem3((prev) => !prev)}
+                      className="w-full px-3 py-3 hover:bg-[#ebebeb] rounded-md text-start text-[11px] pb-3 font-medium flex justify-between items-center"
+                      onClick={() => Perfil()}
                     >
                       <p>INICIAR SESIÓN</p>
+                      <span className="pointer-events-none">
+                        <img
+                          src={Arrow}
+                          alt="Disminuir"
+                          className="transition-transform duration-300 w-[6px]"
+                        />
+                      </span>
                     </button>
                   </div>
                 </div>
