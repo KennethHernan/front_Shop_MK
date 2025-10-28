@@ -11,6 +11,7 @@ import { useState } from "react";
 import Menu from "../assets/icon_menu.svg";
 import Menu2 from "../assets/icon_menu_black.svg";
 import Close from "../assets/close_new.svg";
+import Arrow from "../assets/ArrowLeft.svg";
 import { useAuth } from "../context/authSingleton";
 import { useEffect } from "react";
 
@@ -108,8 +109,8 @@ function Header_Movile() {
                 ${active ? "h-[100vh]" : "h-0"}
                 `}
               >
-                <div className="container flex flex-col h-full gap-5 px-8 py-6 mx-auto overflow-scroll text-xs">
-                  {/* Header - JOYERIA */}
+                <div className="container flex flex-col h-full px-8 py-6 mx-auto overflow-scroll text-xs">
+                  {/* Header - NUESTROS PRODUCTOS */}
                   <div className="h-auto px-3 py-2">
                     <button
                       className="w-full text-start text-[11px] pb-3 font-medium border-b flex justify-between items-center"
@@ -118,21 +119,21 @@ function Header_Movile() {
                       <p>NUESTROS PRODUCTOS</p>
                       <span className="pointer-events-none">
                         <img
-                          src={Close}
+                          src={Arrow}
                           alt="Disminuir"
-                          className={` transition-transform duration-300 w-[20px] ${
-                            activeItem1 ? " rotate-90" : "rotate-45"
+                          className={` transition-transform duration-300 w-[6px] ${
+                            activeItem1 ? " rotate-90" : ""
                           }`}
                         />
                       </span>
                     </button>
                     <section
                       className={`
-                      w-full flex flex-row bg-white transition-all duration-500 overflow-hidden
+                      w-full flex flex-row transition-all duration-500 overflow-hidden
                       ${activeItem1 ? "h-auto" : "h-[0vh]"}
                     `}
                     >
-                      <div className="container flex flex-col gap-3 py-6 mx-auto text-xs">
+                      <div className="container flex flex-col gap-3 pt-6 mx-auto text-xs">
                         {/* Columna 1: JOYERIA */}
                         <div className="flex-1 h-auto p-0">
                           <div className="flex items-start pb-2 text-gray-400">
@@ -165,10 +166,10 @@ function Header_Movile() {
                       <p>SOBRE MK</p>
                       <span className="pointer-events-none">
                         <img
-                          src={Close}
+                          src={Arrow}
                           alt="Disminuir"
-                          className={` transition-transform duration-300 w-[20px] ${
-                            activeItem2 ? " rotate-90" : "rotate-45"
+                          className={` transition-transform duration-300 w-[6px] ${
+                            activeItem1 ? " rotate-90" : ""
                           }`}
                         />
                       </span>
@@ -255,147 +256,13 @@ function Header_Movile() {
                   </div>
 
                   {/* Header - LO NUEVO */}
-                  <div className="h-auto px-3 py-2">
+                  <div className="h-auto px-3 py-2 mt-5 hover:bg-[#ebebeb] rounded-md">
                     <button
-                      className="w-full text-start text-[11px] pb-3 font-medium border-b flex justify-between items-center"
+                      className="w-full text-start text-[11px] py-2 font-medium flex justify-between items-center"
                       onClick={() => setActiveItem3((prev) => !prev)}
                     >
                       <p>INICIAR SESIÓN</p>
-                      <span className="pointer-events-none">
-                        <img
-                          src={Close}
-                          alt="Disminuir"
-                          className={` transition-transform duration-300 w-[20px] ${
-                            activeItem3 ? " rotate-90" : "rotate-45"
-                          }`}
-                        />
-                      </span>
                     </button>
-                    <section
-                      className={`
-                      w-full flex flex-row bg-white transition-all mb-5 duration-500 overflow-hidden
-                      ${activeItem3 ? "h-auto" : "h-[0vh]"}
-                    `}
-                    >
-                      <div className="container flex flex-col gap-3 py-6 mx-auto text-xs">
-                        {/* Columna 1: COLECCIONES 2025 */}
-                        <div className="flex-1 h-auto p-0">
-                          <div className="flex items-start pb-2 text-gray-400">
-                            <p>COLECCIONES 2025</p>
-                          </div>
-
-                          <div>
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Primavera-Verano 2025
-                            </a>
-
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Colección San Valentín
-                            </a>
-
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Edición Día de la Madre
-                            </a>
-
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Línea Elegancia
-                            </a>
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Colección Minimalista
-                            </a>
-                          </div>
-                        </div>
-
-                        {/* Columna 2: TENDENCIAS */}
-                        <div className="flex-1 h-auto p-0">
-                          <div className="flex items-start pb-2 text-gray-400">
-                            <p>TENDENCIAS</p>
-                          </div>
-
-                          <div>
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Joyas Vintage Revival
-                            </a>
-
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Estilo Boho Chic
-                            </a>
-
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Diseños Geométricos
-                            </a>
-
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Acabados Mate
-                            </a>
-                          </div>
-                        </div>
-
-                        {/* Columna 3: INNOVACIONES */}
-                        <div className="flex-1 h-auto p-0">
-                          <div className="flex items-start pb-2 text-gray-400">
-                            <p>INNOVACIONES</p>
-                          </div>
-
-                          <div>
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Nuevos Materiales
-                            </a>
-
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Piedras Sintéticas
-                            </a>
-
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Acabados Especiales
-                            </a>
-
-                            <a
-                              href="#"
-                              className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
-                            >
-                              Diseño Sostenible
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    </section>
                   </div>
                 </div>
               </section>

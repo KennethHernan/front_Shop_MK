@@ -259,7 +259,7 @@ function HomePage() {
                         key={i}
                         className=" flex flex-col justify-center animate-pulse"
                       >
-                        <div className="bg-[#e7e7e7] h-[50vh]"></div>
+                                                <div className="h-[30vh] md:h-[50vh] bg-[#e7e7e7]"></div>
                         <p className="pt-1 bg-[#e7e7e7] rounded-[5px] w-auto mx-10 h-[23px] mt-3 mb-1"></p>
                         <div className="flex gap-3 justify-center">
                           <p className="bg-[#e7e7e7] rounded-[5px] w-[60px] h-[23px]"></p>
