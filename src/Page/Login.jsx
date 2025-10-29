@@ -10,7 +10,7 @@ function Login() {
     setValue,
     formState: { errors },
   } = useForm();
-  const { setEmailLogin, enviarCodigo, codigoEnviado, messageCode, setMessageCode } = useAuth();
+  const { setEmailLogin, emailUser, enviarCodigo, codigoEnviado, messageCode, setMessageCode } = useAuth();
   const [cargando, setCargando] = useState(false);
 
   const onSubmit = async (data) => {
