@@ -1,202 +1,257 @@
-import React, { use, useEffect, useState } from "react";
-import close from "../assets/close_new.svg";
-import search_Icon from "../assets/Seach.svg";
+import Header from "../Components/Header";
+import Navbar from "../Layout/Navbar";
+import Cart from "../Layout/Cart";
+import icon_logo from "../assets/icon_logotexto_white.svg";
+import AddCart from "../Layout/addCart";
+import Footer from "../Layout/Footer";
+import Search from "../Components/Search";
+import ArrowLeft from "../assets/ArrowLeft.svg";
+import { useEffect, useState, useRef } from "react";
 import { useAuth } from "../context/authSingleton";
-import Add from "../assets/icon-shop.svg";
-import Check from "../assets/Check.svg";
+import Fondo_movile from "../assets/fondo_pordata1_movile.webp";
+import Fondo from "../assets/fondo_portada-1.webp";
+import Fondo2 from "../assets/fondo_portada2.webp";
+import Fondo3 from "../assets/Frame-38.webp";
+import CategoryCard from "../Components/CategoryCard";
 
-function HomeProduct({ onModalCart, onAñadirCart }) {
-  const { search, setSearch, itemSearch, setItemSearch, productAll } =
-    useAuth();
-  const [resultado, setResultado] = useState([]);
-  const [añadirCart, setAñadirCart] = useState(false);
+import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Pagination, Autoplay } from "swiper/modules";
+import ProductCard from "../Components/ProductCard";
+import icon_Progress from "../assets/progress.svg";
+import {
+  getProductsByCategory,
+  getCategoryNameById,
+} from "../Services/firebaseFunction";
+import { useParams } from "react-router-dom";
 
-  const BorrarItemSearch = () => {
-    setItemSearch("");
-    setTimeout(() => {
-      setResultado([]);
-    }, 1500);
-  };
+function HomeProduct() {
+  const {
+    Disminuir,
+    Aumentar,
+    productAll,
+    abrirModalCart,
+    añadirAlCarrito,
+    categoryAll,
+    setNavbar,
+  } = useAuth();
+
+  const [MostrarBotonDerecho, setMostrarBotonDerecho] = useState(false);
+  const [MostrarBotonIzquierdo, setMostrarBotonIzquierdo] = useState(false);
+  const [categoriasConProductos, setCategoriasConProductos] = useState([]);
+  const [nameCategory, setNameCategory] = useState("");
+  const ulRef = useRef(null);
+  const imgRef = useRef(null);
+
+  const params = useParams();
+  const idCategoria = params?.idCategoria;
 
   useEffect(() => {
-    if (itemSearch.length === 0) {
-      setTimeout(() => {
-        setResultado([]);
-      }, 300);
+    if (!idCategoria) {
       return;
     }
+    async function checkCategory() {
+      try {
+        const response = await getProductsByCategory(idCategoria);
+        const nameCategory = await getCategoryNameById(idCategoria);
+        setNameCategory(nameCategory);
+        setCategoriasConProductos(response);
+      } catch (error) {
+        console.error("Error al obtener productos:", error);
+      }
+    }
+    checkCategory();
+  }, [idCategoria]);
 
-    setTimeout(() => {
-      const productosFiltrados = productAll.filter(
-        (p) =>
-          p.nameP.toLowerCase().includes(itemSearch.toLowerCase()) ||
-          p.description.toLowerCase().includes(itemSearch.toLowerCase())
-      );
-      setResultado(productosFiltrados);
-    }, 300);
-  }, [itemSearch]);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY === 0) {
+        setNavbar(true);
+      }
+      if (window.scrollY > 0) {
+        setNavbar(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [setNavbar]);
+
+  // Boton desplazamiento lista de Productos 1
+  useEffect(() => {
+    const ul = ulRef.current;
+    if (!ul) return;
+
+    const checkOverflow = () => {
+      const hasOverflow = ul.scrollWidth > ul.clientWidth + 1;
+      setMostrarBotonDerecho(hasOverflow);
+      setMostrarBotonIzquierdo(false);
+    };
+
+    const handleScroll = () => {
+      const scrollLeft = ul.scrollLeft;
+      const scrollRight = ul.scrollLeft + ul.clientWidth;
+      const scrollWidth = ul.scrollWidth;
+
+      const alInicio = scrollLeft <= 5;
+      const alFinal = scrollRight >= scrollWidth - 5;
+
+      setMostrarBotonIzquierdo(!alInicio);
+      setMostrarBotonDerecho(!alFinal);
+    };
+
+    // Revisar al montar
+    checkOverflow();
+    ul.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", checkOverflow);
+
+    return () => {
+      ul.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", checkOverflow);
+    };
+  }, [productAll]);
+
+  const scrollDerecha = () => {
+    ulRef.current.scrollBy({ left: 1000, behavior: "smooth" });
+  };
+  const scrollIzquierda = () => {
+    ulRef.current.scrollBy({ left: -1000, behavior: "smooth" });
+  };
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
-    <div
-      className={`
-        fixed w-full h-[0vh] top-0 left-0 bg-[#ffffff] z-40 transition-all duration-200 ease-linear overflow-hidden
-        ${search && "h-[100vh] py-2"}
-        `}
-    >
-      <section className="w-full h-[60px] py-2 flex px-5 items-center justify-between overflow-hidden border-b">
-        {/* Icono lupa */}
-        <span className="px-2 pointer-events-none">
-          <img src={search_Icon} className="w-[30px]" alt="Buscar Producto" />
-        </span>
-
-        {/* Input de busqueda */}
-        <input
-          type="text"
-          placeholder="Buscar productos"
-          value={itemSearch}
-          onChange={(e) => setItemSearch(e.target.value)}
-          className="bg-[#fff] w-full mr-10 outline-none text-sm px-2 py-1"
-        />
-
-        {/* Boton borrar texto */}
-        {itemSearch.length > 0 && (
-          <button
-            onClick={() => BorrarItemSearch()}
-            className="text-xs font-medium mr-2"
-          >
-            <span>Borrar</span>
-          </button>
-        )}
-
-        {/* Boton cerrar busqueda */}
-        <div
-          className={`
-        h-full flex items-center justify-end
-        ${itemSearch.length > 0 && "border-l pl-2 ml-2"}
-          `}
-        >
-          <button
-            onClick={() => (
-              setSearch(false), setItemSearch(""), setResultado([])
-            )}
-            className="w-[30px] h-[23px] hover:rotate-45 transition-transform duration-300 ease-linear"
-          >
-            <span className="pointer-events-none">
-              <img
-                src={close}
-                className="w-full h-full"
-                alt="Boton Cerrar Busqueda"
-              />
-            </span>
-          </button>
+    <div className="font-sans select-none">
+      <Cart
+        onAumentar={(id) => Aumentar(id)}
+        onDisminuir={(id) => Disminuir(id)}
+      />
+      <AddCart onAgregar={(p) => añadirAlCarrito(p)} imgRef={imgRef} />
+      <Search onModalCart={(p) => abrirModalCart(p)} />
+      {/* Body */}
+      <div id="Home" className="w-[100wh] z-0">
+        {/* Anuncion informativo */}
+        <div className="bg-transparent">
+          <Navbar />
         </div>
-      </section>
 
-      {/* Contenido resultado busqueda */}
-      <section
-        className={`
-        w-full h-auto absolute px-5 mt-2 overflow-y-auto
-        ${itemSearch.length > 0 ? "h-auto py-3" : "h-0"}`}
-      >
-        <section className="w-full h-screen relative">
-          {/* Titulo 2 */}
-          {resultado.length > 0 && (
-            <p className="text-sm md:text-[30px] mb-3">
-              PRODUCTOS: <b className="font-medium">"{itemSearch}"</b>
+        {/* Header */}
+        <Header />
+
+        {/* Titulo */}
+        <div className="flex flex-col items-center">
+          <p className="mt-5 text-[30px] sm:text-[30px] text-center font-dancing px-5 sm:px-10">
+            Categoria
+          </p>
+          {nameCategory ? (
+            <p className="mb-5 -mt-5 text-[30px] sm:text-[30px] text-center font-cinzel px-5 sm:px-10">
+              {nameCategory}
             </p>
+          ) : (
+            <div className=" w-[200px] h-8 bg-[#e7e7e770] animate-pulse mb-5 -mt-3 rounded-md"></div>
           )}
+        </div>
 
-          {/* Mensaje de no resultados */}
-          {resultado.length === 0 && itemSearch.length > 0 && (
-            <div className="w-full">
-              <p className="text-xs text-center text-black">
-                No se encontraron resultados de
-                <b className="font-medium"> "{itemSearch}".</b>
-              </p>
-            </div>
-          )}
-
-          {/* Lista de productos */}
-          <ul className="w-full h-auto grid grid-cols-2 md:grid-cols-3 gap-2 font-light">
-            {resultado
-              ? resultado.map((product, index) => (
-                  <li
-                    className="w-auto mb-3 text-sm md:text-md last:mb-36"
-                    onClick={() => onModalCart(product)}
+        {!categoriasConProductos.length > 0 && (
+          <div className="w-full h-[100vh] bg-[#ffffff] flex justify-center items-center">
+            <img
+              src={icon_Progress}
+              alt="icono cargando"
+              className="animate-spin"
+            />
+          </div>
+        )}
+        {/* Lista de todos los productos - MOVILE */}
+        <ul className="w-full px-5 h-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+          {categoriasConProductos.length > 0
+            ? categoriasConProductos
+                .reverse()
+                .map((product, index) => (
+                  <ProductCard
                     key={index}
-                  >
-                    <div className="h-[25vh] group relative">
-                      {/* Imagen de Producto  */}
+                    product={product}
+                    abrirModalCart={abrirModalCart}
+                  />
+                ))
+            : null}
+        </ul>
+
+        {/* Titulo 2 */}
+        <p className="mb-5 mt-20 text-[30px] text-center sm:text-[30px] font-cinzel px-5 sm:px-10">
+          Nuestras Categorias
+        </p>
+
+        {/* Lista deCategorias */}
+        <section
+          className="relative flex items-center group/button"
+          style={{ width: "100%" }}
+        >
+          {MostrarBotonIzquierdo && (
+            <button
+              className="bg-[#ffffff] border border-black z-20 absolute left-[20px] w-[35px] h-[35px] rounded-[50px] justify-center items-center shadow-md hover:scale-105 transition-transform duration-300 flex"
+              onClick={scrollIzquierda}
+            >
+              <img src={ArrowLeft} className="w-[6px] rotate-180" />
+            </button>
+          )}
+          <ul
+            ref={ulRef}
+            className="flex justify-start space-x-1 overflow-x-auto select-none no-scrollbar mx-5"
+            style={{
+              maxWidth: "100%",
+              width: "100%",
+              display: "flex",
+            }}
+          >
+            {categoryAll.length > 0
+              ? categoryAll.map((category, index) => (
+                  <li className="min-w-[250px]" key={index}>
+                    <a
+                      className="w-full h-[40vh] overflow-hidden border-r border-b flex flex-col justify-center items-center text-sm group"
+                      href={`/categoria-producto/${category.id}`}
+                    >
                       <img
-                        src={product.urlP}
-                        alt="producto"
-                        className="absolute top-0 w-full h-full"
-                        loading="lazy"
+                        src={category.url}
+                        alt="Imagen de Categoria"
+                        className="h-[25vh] object-cover object-top"
                       />
-                      {/* Boton Agotado  */}
-                      {product.stock <= 0 && (
-                        <button className="bg-[#000000] absolute bottom-1 px-3 py-2 m-2 rounded-[5px] text-[#fff] text-xs disabled">
-                          Agotado
-                        </button>
-                      )}
-
-                      {/* Boton Añadir al carrito  */}
-                      {product.stock > 0 && (
-                        <div className="absolute bottom-1 right-1">
-                          <button
-                            onClick={() => onModalCart(product)}
-                            className="shadow-md hidden group-hover:flex group/sub relative h-[30px] overflow-hidden items-center bg-[#ffffff] p-2 m-2 rounded-[200px] text-[#000] font-normal text-[10px]"
-                          >
-                            {añadirCart ? (
-                              <>
-                                <img
-                                  src={Check}
-                                  className="w-[13px] h-[13px]"
-                                />
-                                <p className="ml-2 hidden w-0 group-hover/sub:w-5 transition-transform duration-300">
-                                  AÑADIDO
-                                </p>
-                              </>
-                            ) : (
-                              <>
-                                <img src={Add} className="w-[13px] h-[13px]" />
-                                <p className="w-0 text-white group-hover/sub:w-10 group-hover/sub:ml-2 group-hover/sub:text-black transition-all duration-300">
-                                  AÑADIR
-                                </p>
-                              </>
-                            )}
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                    {/* Nombre de Producto */}
-                    <p className="pt-1">{product.nameP}</p>
-
-                    {/* Precio de Producto */}
-                    <div className="flex gap-1">
-                      {product.discount <= 1 ? (
-                        <p>S/ {product.price.toFixed(2)}</p>
-                      ) : (
-                        <>
-                          <p>
-                            S/{" "}
-                            {(
-                              product.price -
-                              (product.discount / 100) * product.price
-                            ).toFixed(2)}
-                          </p>
-                          <p className="line-through text-[#ababab]">
-                            S/ {product.price.toFixed(2)}
-                          </p>
-                        </>
-                      )}
-                    </div>
+                      <div className="text-[#6e6e6e] text-center font-sans uppercase group-hover:border-b pb-2 mt-5 transition-all duration-300">
+                        {category.category}
+                      </div>
+                    </a>
                   </li>
                 ))
-              : null}
+              : Array.from({ length: 5 }).map((_, i) => (
+                  <li
+                    className="w-[250px] min-w-[250px] text-md animate-pulse flex flex-col items-center"
+                    key={i}
+                  >
+                    <div className="bg-[#e7e7e770] w-[250px] h-[40vh] group relative group/foto"></div>
+                    <p className="pt-1 bg-[#e7e7e770] rounded-[5px] w-[160px] h-[23px] my-[2px]"></p>
+                    <div className="flex gap-3">
+                      <p className="bg-[#e7e7e770] rounded-[5px] w-[60px] h-[23px]"></p>
+                    </div>
+                  </li>
+                ))}
           </ul>
+          {MostrarBotonDerecho && productAll.length > 0 && (
+            <button
+              className="bg-[#ffffff] border border-black z-20 absolute right-[20px] w-[35px] h-[35px] rounded-[50px] justify-center items-center shadow-md hover:scale-105 transition-transform duration-300 flex"
+              onClick={scrollDerecha}
+            >
+              <img src={ArrowLeft} className="w-[6px]" />
+            </button>
+          )}
         </section>
-      </section>
+
+        <Footer />
+      </div>
     </div>
   );
 }

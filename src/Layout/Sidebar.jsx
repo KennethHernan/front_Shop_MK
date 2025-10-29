@@ -10,6 +10,8 @@ import Shop from "../assets/Shop.svg";
 import Shop2 from "../assets/shop_white.svg";
 import { useState } from "react";
 import { useAuth } from "../context/authSingleton";
+import { useEffect } from "react";
+import { getCategoriesWithProducts } from "../Services/firebaseFunction";
 
 function CustomLink({ to, label, ...props }) {
   const location = useLocation();
@@ -35,15 +37,16 @@ function Sidebar() {
   const {
     navbar,
     setOpenCart,
-    search,
     setSearch,
     itemCarrito,
     cartIconRef,
     Home,
+    abrirModalCart,
   } = useAuth();
   const navigate = useNavigate();
   const [isHover, setIsHovered] = useState(false);
   const [active, setActive] = useState(false);
+  const [allCategories, setAllCategories] = useState([]);
 
   const InactiveNavbar = () => {
     if (!active) {
@@ -59,16 +62,27 @@ function Sidebar() {
   const Perfil = () => {
     navigate("/log-in");
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const categoriasConProductos = await getCategoriesWithProducts();
+      setAllCategories(categoriasConProductos);
+    };
+    fetchData();
+  }, []);
+
   return (
     <>
       <div className="font-sans select-none">
         <div
           onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => InactiveNavbar(true)}
-          className={`h-[60px] flex justify-between relative items-center bg-[#ffffff] px-5 md:px-10 transition-colors duration-300
+          onMouseLeave={() => {
+            InactiveNavbar();
+          }}
+          className={`h-[60px] flex justify-between relative items-center bg-white px-5 md:px-10 transition-all duration-300
             ${navbar ? "bg-opacity-0 text-[#000]" : "bg-opacity-100 text-black"}
-            ${isHover ? "md:bg-white md:text-black" : ""} 
-            ${active ? "bg-white text-black" : ""}
+            ${isHover ? "md:bg-opacity-100 md:text-black" : "bg-opacity-0"} 
+            ${active ? "bg-opacity-100 text-black" : "bg-opacity-0"}
           `}
         >
           <section className="flex gap-4">
@@ -87,85 +101,45 @@ function Sidebar() {
                 label="JOYERIA"
                 onMouseEnter={() => {
                   setIsHovered(true);
-                  setActive(true);
                 }}
               />
               <section className="absolute w-screen flex flex-row gap-0 h-0 group-hover:h-[350px] overflow-hidden left-[0px] top-full transition-all duration-500 bg-gradient-to-br from-gray-50 to-white shadow-2xl z-50">
                 <div className="container flex h-full gap-8 px-8 py-6 mx-auto text-xs">
-                  {/* Columna 1: ANILLOS */}
-                  <div className="flex-1 p-0 rounded-lg">
-                    <div className="flex items-center pb-3 mb-4 text-gray-400 border-b border-gray-200">
-                      <p>ANILLOS</p>
-                    </div>
+                  {allCategories.length > 0
+                    ? allCategories.map((category, indexC) => (
+                        <div key={indexC} className="flex-1 p-0 rounded-lg">
+                          <div className="flex items-center pb-3 mb-4 text-gray-400">
+                            <a
+                              href={`/categoria-producto/${category.id}`}
+                              className="hover:text-gray-500"
+                            >
+                              {category.category}
+                            </a>
+                          </div>
 
-                    <div className="space-y-5">
-                      <a href="#" className="block hover:font-medium">
-                        Anillos de Compromiso
-                      </a>
+                          <div className="space-y-5">
+                            {category.products.length > 0
+                              ? category.products
+                                  .slice(-4)
+                                  .map((product, indexP) => (
+                                    <a
+                                      key={indexP}
+                                      onClick={() => abrirModalCart(product)}
+                                      className="block hover:font-medium"
+                                    >
+                                      {product.nameP}
+                                    </a>
+                                  ))
+                              : null}
+                            <a href={`/categoria-producto/${category.id}`}>
+                              . . .
+                            </a>
+                          </div>
+                        </div>
+                      ))
+                    : null}
 
-                      <a href="#" className="block hover:font-medium">
-                        Anillos de Matrimonio
-                      </a>
-
-                      <a href="#" className="block hover:font-medium">
-                        Anillos de Oro
-                      </a>
-
-                      <a href="#" className="block hover:font-medium">
-                        Anillos de Plata
-                      </a>
-                    </div>
-                  </div>
-
-                  {/* Columna 2: COLLARES */}
-                  <div className="flex-1 p-0 rounded-lg">
-                    <div className="flex items-center pb-3 mb-4 text-gray-400 border-b border-gray-200">
-                      <p>COLLARES</p>
-                    </div>
-
-                    <div className="space-y-5">
-                      <a href="#" className="block hover:font-medium">
-                        Collares de Oro
-                      </a>
-
-                      <a href="#" className="block hover:font-medium">
-                        Collares de Plata
-                      </a>
-
-                      <a href="#" className="block hover:font-medium">
-                        Cadenas
-                      </a>
-
-                      <a href="#" className="block hover:font-medium">
-                        Dijes
-                      </a>
-                    </div>
-                  </div>
-
-                  {/* Columna 3: PULSERAS */}
-                  <div className="flex-1 p-0 rounded-lg">
-                    <div className="flex items-center pb-3 mb-4 text-gray-400 border-b border-gray-200">
-                      <p>PULSERAS</p>
-                    </div>
-
-                    <div className="space-y-5">
-                      <a href="#" className="block hover:font-medium">
-                        Pulseras de Oro
-                      </a>
-
-                      <a href="#" className="block hover:font-medium">
-                        Pulseras de Plata
-                      </a>
-
-                      <a href="#" className="block hover:font-medium">
-                        Brazaletes
-                      </a>
-
-                      <a href="#" className="block hover:font-medium">
-                        Pulseras con Dijes
-                      </a>
-                    </div>
-                  </div>
+                  {/* // note */}
                 </div>
               </section>
             </div>
@@ -207,7 +181,7 @@ function Sidebar() {
                     <div className="space-y-5">
                       <a
                         onClick={() => navigate("/politica-y-privacidad")}
-                         className="block hover:font-medium"
+                        className="block hover:font-medium"
                       >
                         Política de privacidad
                       </a>
@@ -221,12 +195,19 @@ function Sidebar() {
                     </div>
 
                     <div className="space-y-5">
-
-                      <a href="https://www.instagram.com/mayikh.pe/" target="_blank" className="block hover:font-medium">
+                      <a
+                        href="https://www.instagram.com/mayikh.pe/"
+                        target="_blank"
+                        className="block hover:font-medium"
+                      >
                         Instagram
                       </a>
 
-                      <a href="https://wa.link/hd9hwl" target="_blank" className="block hover:font-medium">
+                      <a
+                        href="https://wa.link/hd9hwl"
+                        target="_blank"
+                        className="block hover:font-medium"
+                      >
                         WhatsApp
                       </a>
                     </div>
@@ -250,7 +231,8 @@ function Sidebar() {
 
             {/* Header - LO NUEVO */}
             <div
-              className="hidden h-auto px-3 py-2 rounded-md md:flex group"
+              // flex
+              className="hidden h-auto px-3 py-2 rounded-md group"
               onMouseEnter={() => (setIsHovered(true), setActive(true))}
             >
               <CustomLink

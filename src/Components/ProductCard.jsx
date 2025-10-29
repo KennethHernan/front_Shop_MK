@@ -8,7 +8,7 @@ function ProductCard({ product, abrirModalCart }) {
           className="w-auto mb-3 hover:-mt-1"
           onClick={() => abrirModalCart(product)}
         >
-          <div className="h-[25vh] md:h-[30vh] group relative">
+          <div className="h-[25vh] md:h-[30vh] lg:h-[40vh] group relative">
             {/* Producto Imagen */}
             <img
               src={product.urlP}

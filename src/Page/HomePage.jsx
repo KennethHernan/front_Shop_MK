@@ -19,6 +19,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination, Autoplay } from "swiper/modules";
+import ProductCard from "../Components/ProductCard";
 
 function HomePage() {
   const {
@@ -132,7 +133,7 @@ function HomePage() {
                 alt="Fondo"
                 width="full"
                 height="60vh"
-                loading="eager"
+                loading="lazy"
                 className="object-contain w-full h-full"
               />
             </SwiperSlide>
@@ -142,7 +143,7 @@ function HomePage() {
                 alt="Fondo"
                 width="full"
                 height="60vh"
-                loading="eager"
+                loading="lazy"
                 className="object-contain w-full h-full"
               />
             </SwiperSlide>
@@ -178,7 +179,7 @@ function HomePage() {
             </SwiperSlide>
           </Swiper>
 
-          <style jsx>{`
+          <style>{`
             .swiper-pagination-bullet {
               width: 4px;
               height: 4px;
@@ -193,12 +194,12 @@ function HomePage() {
         </div>
 
         {/* Titulo */}
-        <p className="mt-20 mb-5  text-[30px] md:text-[30px] text-center font-cinzel px-5 md:px-10">
+        <p className="mt-20 mb-5  text-[30px] sm:text-[30px] text-center font-cinzel px-5 sm:px-10">
           Novedades para tí
         </p>
 
         {/* Seccion Producto 1 */}
-        <section className="w-full h-[50vh] sm:h-[100vh] flex mb-0 md:mb-10">
+        <section className="w-full h-[50vh] sm:h-[100vh] flex mb-0 sm:mb-10">
           {/* Productos */}
           <div className="w-full flex justify-center items-center">
             <div className="w-[30vh] md:w-[40vh] h-auto">
@@ -215,10 +216,11 @@ function HomePage() {
                         onClick={() => abrirModalCart(product)}
                         key={index}
                       >
-                        <div className="h-[30vh] md:h-[50vh] group relative">
+                        <div className="h-[30vh] md:h-[40vh] group relative">
                           <img
                             src={product.urlP}
                             alt="producto"
+                            loading="lazy"
                             className="w-full h-full absolute top-0 object-cover"
                           />
                           {product.stock <= 0 && (
@@ -257,7 +259,7 @@ function HomePage() {
                         key={i}
                         className=" flex flex-col justify-center animate-pulse"
                       >
-                        <div className="h-[30vh] md:h-[50vh] bg-[#e7e7e7]"></div>
+                        <div className="h-[30vh] sm:h-[50vh] bg-[#e7e7e7]"></div>
                         <p className="pt-1 bg-[#e7e7e7] rounded-[5px] w-auto mx-10 h-[23px] mt-3 mb-1"></p>
                         <div className="flex gap-3 justify-center">
                           <p className="bg-[#e7e7e7] rounded-[5px] w-[60px] h-[23px]"></p>
@@ -265,7 +267,7 @@ function HomePage() {
                       </SwiperSlide>
                     ))}
               </Swiper>
-              <style jsx>{`
+              <style>{`
                 .swiper-pagination-bullet {
                   width: 6px;
                   height: 6px;
@@ -299,14 +301,14 @@ function HomePage() {
         </div>
 
         {/* Titulo 2 */}
-        <p className="my-5 text-[30px] text-center md:text-[30px] font-cinzel px-5 md:px-10">
+        <p className="my-5 text-[30px] text-center sm:text-[30px] font-cinzel px-5 sm:px-10">
           Nuestras categorías
         </p>
 
         {/* Lista de Categorias */}
         <section className="border-t border-l" style={{ width: "100%" }}>
           {/* Movile */}
-          <ul className="w-full h-auto flex md:hidden flex-col space-y-4 justify-center font-light text-[16px]">
+          <ul className="w-full h-auto flex sm:hidden flex-col space-y-4 justify-center font-light text-[16px]">
             {categoryAll.length > 0
               ? categoryAll.map((category, index) => (
                   <CategoryCard key={index} category={category} />
@@ -317,7 +319,7 @@ function HomePage() {
           </ul>
 
           {/* Desktop */}
-          <ul className="w-full h-auto hidden md:grid md:grid-cols-2 lg:grid-cols-3 place-items-center font-light">
+          <ul className="w-full h-auto hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 place-items-center font-light">
             {categoryAll.length > 0
               ? categoryAll.map((category, index) => (
                   <CategoryCard key={index} index={index} category={category} />
@@ -340,7 +342,7 @@ function HomePage() {
         ></div>
 
         {/* Baner 3 mensajes */}
-        <section className="md:px-10 my-[10vh] text-[12px] flex gap-2 justify-between font-light mx-5 md:mx-10 text-center">
+        <section className="sm:px-10 my-[10vh] text-[12px] flex gap-2 justify-between font-light mx-5 sm:mx-10 text-center">
           <div className="overflow-hidden">
             <p className="font-medium">Calidad que brilla</p>
             <p>Acero inoxidable duradero y con estilo.</p>
@@ -356,13 +358,13 @@ function HomePage() {
         </section>
 
         {/* Titulo 2 */}
-        <p className="pb-5 text-[30px] md:text-[30px] text-center font-cinzel px-5">
+        <p className="pb-5 text-[30px] sm:text-[30px] text-center font-cinzel px-5">
           Nuestras tendencia
         </p>
 
         {/* Lista de Productos 2 - DESKTOP */}
         <section
-          className="relative hidden sm:flex items-center group/button"
+          className="relative hidden md:flex items-center group/button"
           style={{ width: "100%" }}
         >
           {MostrarBotonIzquierdo && (
@@ -385,11 +387,11 @@ function HomePage() {
             {productAll.length > 0
               ? productAll.slice(-20).map((product, index) => (
                   <li
-                    className="min-w-[250px] md:w-[300px] md:min-w-[350px]"
+                    className="min-w-[250px] sm:w-[300px] sm:min-w-[350px]"
                     onClick={() => abrirModalCart(product)}
                     key={index}
                   >
-                    <div className="h-[35vh] md:h-[50vh] group relative">
+                    <div className="h-[35vh] sm:h-[50vh] group relative">
                       {/* Juego de imagenes - Max 2 img */}
                       <img
                         src={product.urlP}
@@ -452,58 +454,23 @@ function HomePage() {
         </section>
 
         {/* Lista de productos 2 - MOVILE */}
-        <ul className="w-full px-5 h-auto grid sm:hidden grid-cols-2 md:grid-cols-3 gap-2">
+        <ul className="w-full px-5 h-auto grid md:hidden grid-cols-2 sm:grid-cols-3 gap-2">
           {productAll.length > 0
-            ? productAll.slice(-4).map((product, index) => (
-                <li
-                  className="w-auto h-full mb-3 text-sm"
-                  onClick={() => abrirModalCart(product)}
-                  key={index}
-                >
-                  <div className="h-[30vh] bg-black group relative">
-                    {/* Imagen de Producto  */}
-                    <img
-                      src={product.urlP}
-                      alt="producto"
-                      className="absolute h-[30vh] top-0 w-full object-cover"
-                      loading="lazy"
-                    />
-                    {/* Boton Agotado  */}
-                    {product.stock <= 0 && (
-                      <button className="bg-[#000000] absolute bottom-1 px-2 py-1 m-2 rounded-[5px] text-[#fff] text-xs disabled">
-                        Agotado
-                      </button>
-                    )}
-                  </div>
-                  {/* Nombre de Producto */}
-                  <p className="text-center text-md mt-3">{product.nameP}</p>
-
-                  {/* Precio de Producto */}
-                  <div className="flex gap-1 justify-center text-sm text-[#6e6e6e]">
-                    {product.discount <= 1 ? (
-                      <p>S/ {product.price.toFixed(2)}</p>
-                    ) : (
-                      <>
-                        <p>
-                          S/{" "}
-                          {(
-                            product.price -
-                            (product.discount / 100) * product.price
-                          ).toFixed(2)}
-                        </p>
-                        <p className="line-through text-[#ababab]">
-                          S/ {product.price.toFixed(2)}
-                        </p>
-                      </>
-                    )}
-                  </div>
-                </li>
-              ))
+            ? productAll
+                .slice(-6)
+                .reverse()
+                .map((product, index) => (
+                  <ProductCard
+                    key={index}
+                    product={product}
+                    abrirModalCart={abrirModalCart}
+                  />
+                ))
             : null}
         </ul>
 
         {/* Portada 3 */}
-        <div className="bg-[#F2D0BD] w-[100wh] h-[50vh] md:h-[100vh] mt-20 flex flex-col md:flex-row overflow-hidden">
+        <div className="bg-[#F2D0BD] w-[100wh] h-[50vh] md:h-[100vh] mt-20 flex flex-col sm:flex-row overflow-hidden">
           <section className="relative flex flex-col justify-between w-auto h-full p-10 font-light md:p-32">
             <div className="z-20">
               <p className="text-[28px] md:text-[50px] font-dancing mb-8 md:mb-10">
@@ -519,7 +486,7 @@ function HomePage() {
             </div>
             <div className="z-20">
               <p
-                className="text-[16px] md:text-[28px]"
+                className="text-[16px] md:text-[23px]"
                 data-aos="fade-up"
                 data-aos-duration="1000"
               >
@@ -529,7 +496,7 @@ function HomePage() {
                   target="_blank"
                   className="font-medium hover:underline"
                 >
-                  @mayikh.pe
+                  {" "}@mayikh.pe
                 </a>
               </p>
             </div>

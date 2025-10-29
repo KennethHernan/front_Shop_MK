@@ -144,7 +144,8 @@ function Header_Movile() {
                             {categoryAll.length > 0
                               ? categoryAll.map((category, index) => (
                                   <a
-                                    href="#"
+                                    key={index}
+                                    href={`/categoria-producto/${category.id}`}
                                     className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                                   >
                                     {category.category}
@@ -221,14 +222,16 @@ function Header_Movile() {
 
                           <div>
                             <a
-                              href="https://www.instagram.com/mayikh.pe/" target="_blank"
+                              href="https://www.instagram.com/mayikh.pe/"
+                              target="_blank"
                               className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                             >
                               Instagram
                             </a>
 
                             <a
-                              href="https://wa.link/hd9hwl" target="_blank"
+                              href="https://wa.link/hd9hwl"
+                              target="_blank"
                               className="w-full p-3 block hover:bg-[#0000000b] rounded-md"
                             >
                               WhatsApp

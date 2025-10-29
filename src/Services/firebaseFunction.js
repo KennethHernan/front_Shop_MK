@@ -129,3 +129,47 @@ export const getProducts = async () => {
   }
   return [];
 };
+
+// Categorias con sus productos
+export const getCategoriesWithProducts = async () => {
+  try {
+    const [categories, products] = await Promise.all([
+      getCategorys(),
+      getProducts00(),
+    ]);
+
+    const grouped = categories.map((cat) => ({
+      id: cat.id,
+      category: cat.category,
+      products: products.filter((prod) => prod.idCategory === cat.id),
+    }));
+
+    return grouped;
+  } catch (error) {
+    console.error("Error al obtener categorías con productos:", error);
+    return [];
+  }
+};
+
+// Productos filtrados por categoría
+export const getProductsByCategory = async (categoryId) => {
+  try {
+    const allProducts = await getProducts();
+
+    // Filtrar productos que pertenezcan a esa categoría
+    const filtered = allProducts.filter(
+      (prod) => prod.idCategory === categoryId
+    );
+
+    return filtered;
+  } catch (error) {
+    console.error("Error al filtrar productos por categoría:", error);
+    return [];
+  }
+};
+
+// Obtener nombre de categoría por ID
+export const getCategoryNameById = async (idCategoria) => {
+  const categories = await getCategories();
+  return categories[idCategoria] || null;
+};

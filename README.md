@@ -32,6 +32,7 @@ categoryMK {
     "idCategoryMK" : "1eb9cff7-449b-4918-9e77-025e903d1688",
     "nameC" : "Joyas Chunkys",
     "url" : ""https://res.cloudinary.com/dr2c4aovp/image/upload/",
+    "descriptionC" : "Cada pieza fue creada para recordarte que eres única, valiosa y capaz de conquistar el mundo. No solo uses    joyas, exprésate con ellas."
 }
 
 OffersMK {
