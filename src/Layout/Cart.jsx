@@ -54,13 +54,13 @@ const Cart = ({ onAumentar, onDisminuir }) => {
       <section className="w-full flex">
         {/* Cerrar carrito */}
         <div
-          className="hidden md:block w-full md:w-full h-[100vh] bg-[#00000000]"
+          className="hidden sm:block w-full sm:w-full h-[100vh] bg-[#00000000]"
           onClick={() => setOpenCart(false)}
         ></div>
 
         {/* Contenido carrito */}
         <div
-          className="w-[200vh] md:w-[70vh] h-[100vh] flex flex-col justify-between relative pb-16 overflow-hidden bg-white"
+          className="w-[200vh] sm:w-[90vh] md:w-[70vh] h-[100vh] flex flex-col justify-between relative pb-16 overflow-hidden bg-white"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Contenido carrito vacio */}
@@ -87,7 +87,7 @@ const Cart = ({ onAumentar, onDisminuir }) => {
             <>
               <section className="px-[20px] my-[7px] py-[7px] w-auto h-auto border-b border-[#cecece]  flex justify-between font-extralight">
                 <div className="flex items-center">
-                  <p className="text-[25px] md:text-[30px] font-medium">
+                  <p className="text-[25px] sm:text-[30px] font-medium">
                     Carrito
                   </p>
                   <p className="text-[12px] ml-2 text-center font-medium">
@@ -99,7 +99,7 @@ const Cart = ({ onAumentar, onDisminuir }) => {
                 <img
                   onClick={() => setOpenCart(false)}
                   src={Close}
-                  className="w-[25px] hover:rotate-45 transition-transform duration-300 md:hover:scale-110"
+                  className="w-[25px] hover:rotate-45 transition-transform duration-300 sm:hover:scale-110"
                 />
               </section>
               <section className="bg-black h-full relative flex flex-col text-[25px] font-light overflow-scroll">

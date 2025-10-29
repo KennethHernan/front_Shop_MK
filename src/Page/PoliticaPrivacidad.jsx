@@ -50,7 +50,7 @@ function PoliticaPrivacidad() {
         </div>
         {/* Frase */}
         <div className="w-auto text-[15px] font-light px-10 my-10 text-center italic overflow-hidden">
-          <p>
+          <p id="politica">
             <span className="font-medium">"</span>En{" "}
             <span className="font-medium">mayikh.pe</span> valoramos y
             respetamos la privacidad de nuestros usuarios y clientes. Esta
@@ -71,7 +71,7 @@ function PoliticaPrivacidad() {
         <div className="mx-5">
           <p className="text-lg font-sans my-5">Información que recopilamos</p>
           <section className="px-5">
-            <li>
+            <li id="cokkies">
               Datos personales que proporciones voluntariamente (
               <span className="font-medium">
                 Correo electrónico, teléfono, dirección de envío, etc.
@@ -85,27 +85,12 @@ function PoliticaPrivacidad() {
           </section>
         </div>
 
-        {/* Titulo 3 */}
-        <div className="mx-5">
-          <p className="text-lg font-sans my-5">Uso de la información</p>
-          <p className="pb-2">La información recopilada será utilizada para:</p>
-          <section className="px-5">
-            <li>Procesar y gestionar tus pedidos.</li>
-            <li>Mejorar la experiencia de usuario en la plataforma.</li>
-            <li>
-              Notificarte sobre promociones, novedades o actualizaciones (si
-              aceptaste recibirlas).
-            </li>
-            <li>Cumplir con requisitos legales y de seguridad.</li>
-          </section>
-        </div>
-
         {/* Titulo 4 */}
         <div className="mx-5">
           <p className="text-lg font-sans my-5">
             Cookies y tecnologías similares
           </p>
-          <p>
+          <p id="procesamiento">
             Nuestro sitio utiliza cookies para recordar tus preferencias,
             mejorar la navegación y analizar el uso de la plataforma. Puedes
             gestionarlas o eliminarlas desde la configuración de tu navegador.
@@ -120,6 +105,21 @@ function PoliticaPrivacidad() {
             información frente a accesos no autorizados, pérdidas o
             alteraciones.
           </p>
+        </div>
+        
+        {/* Titulo 3 */}
+        <div className="mx-5">
+          <p className="text-lg font-sans my-5">Uso de la información</p>
+          <p className="pb-2">La información recopilada será utilizada para:</p>
+          <section className="px-5">
+            <li>Procesar y gestionar tus pedidos.</li>
+            <li>Mejorar la experiencia de usuario en la plataforma.</li>
+            <li>
+              Notificarte sobre promociones, novedades o actualizaciones (si
+              aceptaste recibirlas).
+            </li>
+            <li>Cumplir con requisitos legales y de seguridad.</li>
+          </section>
         </div>
 
         {/* Titulo 6 */}

@@ -4,10 +4,10 @@ import Header_Movile from "../Layout/Header_Movile";
 function Header() {
   return (
     <div className="sticky top-0 left-0 z-30 w-full">
-      <div className="hidden md:block">
+      <div className="hidden sm:block">
         <Sidebar />
       </div>
-      <div className="block md:hidden">
+      <div className="block sm:hidden">
         <Header_Movile />
       </div>
     </div>

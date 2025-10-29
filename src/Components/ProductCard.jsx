@@ -5,10 +5,10 @@ function ProductCard({ product, abrirModalCart }) {
     <>
       {product ? (
         <li
-          className="w-auto mb-3 text-sm md:text-md hover:-mt-1"
+          className="w-auto mb-3 hover:-mt-1"
           onClick={() => abrirModalCart(product)}
         >
-          <div className="h-[25vh] md:h-[50vh] group relative">
+          <div className="h-[25vh] md:h-[30vh] group relative">
             {/* Producto Imagen */}
             <img
               src={product.urlP}
@@ -18,19 +18,17 @@ function ProductCard({ product, abrirModalCart }) {
             />
             {/* Anuncio Stock */}
             {product.stock <= 0 && (
-              <button className="bg-[#000000] absolute bottom-1 px-3 py-2 m-2 rounded-[5px] text-[#fff] text-xs disabled">
+              <button className="bg-[#000000] absolute bottom-1 px-2 py-1 m-2 rounded-[5px] text-[#fff] text-xs disabled">
                 Agotado
               </button>
             )}
           </div>
           {/* Producto Nombre */}
-          <p className="pt-1">{product.nameP}</p>
+          <p className="text-center text-xs md:text-sm mt-3">{product.nameP}</p>
           {/* Producto Precios y Descuento */}
-          <div className="flex gap-1">
+          <div className="flex gap-1 justify-center text-sm text-[#6e6e6e]">
             {product.discount <= 1 ? (
-              <p>
-                S/ {product.price.toFixed(2)}
-              </p>
+              <p>S/ {product.price.toFixed(2)}</p>
             ) : (
               <>
                 <p>
@@ -41,8 +39,7 @@ function ProductCard({ product, abrirModalCart }) {
                   ).toFixed(2)}
                 </p>
                 <p className="line-through text-[#ababab]">
-               S/ {Number(product.price || 0).toFixed(2)}
-
+                  S/ {Number(product.price || 0).toFixed(2)}
                 </p>
               </>
             )}

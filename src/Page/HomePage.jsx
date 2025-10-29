@@ -4,8 +4,6 @@ import Cart from "../Layout/Cart";
 import icon_logo from "../assets/icon_logotexto_white.svg";
 import AddCart from "../Layout/addCart";
 import Footer from "../Layout/Footer";
-import Add from "../assets/icon-shop.svg";
-import Check from "../assets/Check.svg";
 import Search from "../Components/Search";
 import ArrowLeft from "../assets/ArrowLeft.svg";
 import { useEffect, useState, useRef } from "react";
@@ -208,7 +206,7 @@ function HomePage() {
                 loop={true}
                 modules={[Pagination, Autoplay]}
                 pagination={{ clickable: true }}
-                autoplay={{ delay: 8000 }}
+                autoplay={{ delay: 4000 }}
                 className="pb-14"
               >
                 {productAll.length > 0
@@ -224,14 +222,14 @@ function HomePage() {
                             className="w-full h-full absolute top-0 object-cover"
                           />
                           {product.stock <= 0 && (
-                            <button className="bg-[#000000] absolute bottom-1 px-3 py-2 m-2 rounded-[5px] text-[#fff] text-[14px] disabled">
+                            <button className="bg-[#000000] absolute bottom-1 px-2 py-1 m-2 rounded-[5px] text-[#fff] text-xs disabled">
                               Agotado
                             </button>
                           )}
                         </div>
 
                         {/* Nombre Producto */}
-                        <p className="text-center text-md mt-3">
+                        <p className="text-center text-sm mt-3">
                           {product.nameP}
                         </p>
                         <div className="flex gap-1 justify-center text-sm text-[#6e6e6e]">
@@ -259,7 +257,7 @@ function HomePage() {
                         key={i}
                         className=" flex flex-col justify-center animate-pulse"
                       >
-                                                <div className="h-[30vh] md:h-[50vh] bg-[#e7e7e7]"></div>
+                        <div className="h-[30vh] md:h-[50vh] bg-[#e7e7e7]"></div>
                         <p className="pt-1 bg-[#e7e7e7] rounded-[5px] w-auto mx-10 h-[23px] mt-3 mb-1"></p>
                         <div className="flex gap-3 justify-center">
                           <p className="bg-[#e7e7e7] rounded-[5px] w-[60px] h-[23px]"></p>
@@ -362,9 +360,9 @@ function HomePage() {
           Nuestras tendencia
         </p>
 
-        {/* Lista de Productos 1 */}
+        {/* Lista de Productos 2 - DESKTOP */}
         <section
-          className="relative flex items-center group/button"
+          className="relative hidden sm:flex items-center group/button"
           style={{ width: "100%" }}
         >
           {MostrarBotonIzquierdo && (
@@ -377,7 +375,7 @@ function HomePage() {
           )}
           <ul
             ref={ulRef}
-            className="flex justify-start space-x-1 overflow-x-auto font-light select-none no-scrollbar mx-10"
+            className="flex justify-start space-x-1 overflow-x-auto select-none no-scrollbar mx-5"
             style={{
               maxWidth: "100%",
               width: "100%",
@@ -385,29 +383,32 @@ function HomePage() {
             }}
           >
             {productAll.length > 0
-              ? productAll.slice(-10).map((product, index) => (
+              ? productAll.slice(-20).map((product, index) => (
                   <li
-                    className="w-[300px] min-w-[350px] text-md"
+                    className="min-w-[250px] md:w-[300px] md:min-w-[350px]"
                     onClick={() => abrirModalCart(product)}
                     key={index}
                   >
-                    <div className="h-[50vh] group relative">
+                    <div className="h-[35vh] md:h-[50vh] group relative">
                       {/* Juego de imagenes - Max 2 img */}
                       <img
                         src={product.urlP}
                         alt="producto"
+                        loading="lazy"
                         className="absolute top-0 object-cover w-full h-full"
                       />
                       {product.stock <= 0 && (
-                        <button className="bg-[#000000] absolute bottom-1 px-3 py-2 m-2 rounded-[5px] text-[#fff] text-[14px] disabled">
+                        <button className="bg-[#000000] absolute bottom-1 px-2 py-1 m-2 rounded-[5px] text-[#fff] text-xs disabled">
                           Agotado
                         </button>
                       )}
                     </div>
 
                     {/* Nombre Producto */}
-                    <p className="pt-1">{product.nameP}</p>
-                    <div className="flex gap-1">
+                    <p className="text-center text-sm mt-3">{product.nameP}</p>
+
+                    {/* Precio de Producto */}
+                    <div className="flex gap-1 justify-center text-sm text-[#6e6e6e]">
                       {product.discount <= 1 ? (
                         <p>S/ {product.price.toFixed(2)}</p>
                       ) : (
@@ -450,11 +451,62 @@ function HomePage() {
           )}
         </section>
 
+        {/* Lista de productos 2 - MOVILE */}
+        <ul className="w-full px-5 h-auto grid sm:hidden grid-cols-2 md:grid-cols-3 gap-2">
+          {productAll.length > 0
+            ? productAll.slice(-4).map((product, index) => (
+                <li
+                  className="w-auto h-full mb-3 text-sm"
+                  onClick={() => abrirModalCart(product)}
+                  key={index}
+                >
+                  <div className="h-[30vh] bg-black group relative">
+                    {/* Imagen de Producto  */}
+                    <img
+                      src={product.urlP}
+                      alt="producto"
+                      className="absolute h-[30vh] top-0 w-full object-cover"
+                      loading="lazy"
+                    />
+                    {/* Boton Agotado  */}
+                    {product.stock <= 0 && (
+                      <button className="bg-[#000000] absolute bottom-1 px-2 py-1 m-2 rounded-[5px] text-[#fff] text-xs disabled">
+                        Agotado
+                      </button>
+                    )}
+                  </div>
+                  {/* Nombre de Producto */}
+                  <p className="text-center text-md mt-3">{product.nameP}</p>
+
+                  {/* Precio de Producto */}
+                  <div className="flex gap-1 justify-center text-sm text-[#6e6e6e]">
+                    {product.discount <= 1 ? (
+                      <p>S/ {product.price.toFixed(2)}</p>
+                    ) : (
+                      <>
+                        <p>
+                          S/{" "}
+                          {(
+                            product.price -
+                            (product.discount / 100) * product.price
+                          ).toFixed(2)}
+                        </p>
+                        <p className="line-through text-[#ababab]">
+                          S/ {product.price.toFixed(2)}
+                        </p>
+                      </>
+                    )}
+                  </div>
+                </li>
+              ))
+            : null}
+        </ul>
+
         {/* Portada 3 */}
         <div className="bg-[#F2D0BD] w-[100wh] h-[50vh] md:h-[100vh] mt-20 flex flex-col md:flex-row overflow-hidden">
           <section className="relative flex flex-col justify-between w-auto h-full p-10 font-light md:p-32">
             <div className="z-20">
-              <p className="text-[28px] md:text-[50px] italic mb-8 md:mb-10">
+              <p className="text-[28px] md:text-[50px] font-dancing mb-8 md:mb-10">
                 Cada joya tiene una historia… ¿ya elegiste la tuya?
               </p>
               <a

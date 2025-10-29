@@ -54,11 +54,11 @@ function Search() {
   return (
     <div
       className={`
-        fixed w-full top-0 left-0 md:flex justify-center items-center z-40 bg-[#ffffff] md:bg-[#00000091] md:transition-transform md:duration-200 md:ease-linear overflow-hidden
+        fixed w-full top-0 left-0 sm:flex justify-center items-center z-40 bg-[#ffffff] sm:bg-[#00000091] sm:transition-transform sm:duration-200 sm:ease-linear overflow-hidden
         ${mounted && search ? "h-[100vh] py-2" : "h-[0vh]"}
         `}
     >
-      <section className="md:w-[100vh] md:h-[80vh] md:overflow-hidden md:m-5 bg-white md:relative">
+      <section className="sm:w-[100vh] sm:h-[80vh] sm:overflow-hidden sm:m-5 bg-white sm:relative">
         <section className="w-full h-[60px] py-2 flex px-5 items-center justify-between overflow-hidden border-b">
           {/* Icono lupa */}
           <span className="px-2 pointer-events-none">
@@ -131,7 +131,7 @@ function Search() {
 
                 {/* Lista de productos vistos Reciente */}
                 {/* Movile */}
-                <ul className="grid w-full h-auto grid-cols-2 gap-2 font-light md:hidden md:grid-cols-3">
+                <ul className="grid w-full h-auto grid-cols-2 gap-2 font-light sm:hidden sm:grid-cols-3">
                   {productReciente
                     ? productReciente
                       .slice(-4)
@@ -146,7 +146,7 @@ function Search() {
                     : null}
                 </ul>
                 {/* Desktop */}
-                <ul className="hidden w-full h-auto grid-cols-2 gap-2 font-light md:grid md:grid-cols-3">
+                <ul className="hidden w-full h-auto grid-cols-2 gap-2 font-light sm:grid sm:grid-cols-3">
                   {productReciente
                     ? productReciente
                       .slice(-3)
@@ -175,7 +175,7 @@ function Search() {
 
                 {/* Lista de productos populares */}
                 {/* Movile */}
-                <ul className="grid w-full h-auto grid-cols-2 gap-2 pb-24 font-light md:hidden">
+                <ul className="grid w-full h-auto grid-cols-2 gap-2 pb-24 font-light sm:hidden">
                   {productAll
                     ? productAll
                       .slice(-4)
@@ -190,7 +190,7 @@ function Search() {
                     : null}
                 </ul>
                 {/* Descktop */}
-                <ul className="hidden w-full h-auto grid-cols-3 gap-2 font-light md:grid pb-52">
+                <ul className="hidden w-full h-auto grid-cols-3 gap-2 font-light sm:grid pb-52">
                   {productAll
                     ? productAll
                       .slice(-6)
@@ -218,7 +218,7 @@ function Search() {
           <section className="relative w-full h-screen">
             {/* Titulo 1 */}
             {resultado.length > 0 && (
-              <p className="text-sm md:text-[20px] mb-3 md:mb-7 md:my-3">
+              <p className="text-sm sm:text-[20px] mb-3 sm:mb-7 sm:my-3">
                 PRODUCTOS: <b className="font-medium">"{itemSearch}"</b>
               </p>
             )}
@@ -235,7 +235,7 @@ function Search() {
             )}
 
             {/* Lista de productos */}
-            <ul className="grid w-full h-auto grid-cols-2 gap-2 pb-24 font-light md:pb-64 md:grid-cols-3">
+            <ul className="grid w-full h-auto grid-cols-2 gap-2 pb-24 font-light sm:pb-64 sm:grid-cols-3">
               {resultado
                 ? resultado.map((product, index) => (
                   <ProductCard

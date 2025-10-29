@@ -12,30 +12,62 @@ const Footer = () => {
         <section className="flex flex-col md:flex-row gap-7 md:gap-10 lg:gap-20">
           <div>
             <p className="text-[#fff] font-normal mb-3">Conocenos</p>
-            <button className="hover:underline"
-              onClick={() => navigate("/sobre-nosotros")}>Nosotros</button>
+            <button
+              className="hover:underline"
+              onClick={() => navigate("/sobre-nosotros")}
+            >
+              Nosotros
+            </button>
           </div>
 
           <div className="flex flex-col gap-3">
             <p className="text-[#fff] font-normal mb-3">Legal</p>
             <button
               className="hover:underline text-start"
-              onClick={() => navigate("/politica-y-privacidad")}
+              onClick={() => {
+                navigate("/politica-y-privacidad");
+                setTimeout(() => {
+                  const section = document.getElementById("politica");
+                  section?.scrollIntoView({ behavior: "smooth" });
+                }, 100);
+              }}
             >
               Terminos de Servicios
             </button>
             <button
               className="hover:underline text-start"
-              onClick={() => navigate("/politica-y-privacidad")}
+              onClick={() => {
+                navigate("/politica-y-privacidad");
+                setTimeout(() => {
+                  const section = document.getElementById("politica");
+                  section?.scrollIntoView({ behavior: "smooth" });
+                }, 100);
+              }}
             >
               Política de privacidad
             </button>
-            <button className="hover:underline text-start"
-              onClick={() => navigate("/politica-y-privacidad")}>
+            <button
+              className="hover:underline text-start"
+              onClick={() => {
+                navigate("/politica-y-privacidad");
+                setTimeout(() => {
+                  const section = document.getElementById("cokkies");
+                  section?.scrollIntoView({ behavior: "smooth" });
+                }, 100);
+              }}
+            >
               Política de Cokkies
             </button>
-            <button className="hover:underline text-start"
-              onClick={() => navigate("/politica-y-privacidad")}>
+            <button
+              className="hover:underline text-start"
+              onClick={() => {
+                navigate("/politica-y-privacidad");
+                setTimeout(() => {
+                  const section = document.getElementById("procesamiento");
+                  section?.scrollIntoView({ behavior: "smooth" });
+                }, 100);
+              }}
+            >
               Procesamiento de Datos
             </button>
             <button className="hover:underline text-start">
@@ -58,11 +90,19 @@ const Footer = () => {
               <img src={icon_fb} className="w-[30px]" />
             </button> */}
 
-            <a href="https://www.instagram.com/mayikh.pe/" target="_blank" className="flex items-center justify-start w-auto">
+            <a
+              href="https://www.instagram.com/mayikh.pe/"
+              target="_blank"
+              className="flex items-center justify-start w-auto"
+            >
               <img src={icon_ig} className="w-[30px]" />
             </a>
 
-            <a href="https://wa.link/hd9hwl" target="_blank" className="flex items-center justify-start w-auto">
+            <a
+              href="https://wa.link/hd9hwl"
+              target="_blank"
+              className="flex items-center justify-start w-auto"
+            >
               <img src={icon_wsp} className="w-[30px]" />
             </a>
 
