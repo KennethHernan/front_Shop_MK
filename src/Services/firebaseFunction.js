@@ -4,9 +4,8 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { app, auth } from "../firebase";
+import { app, auth, db } from "../firebase";
 import { v4 as uuidv4 } from "uuid";
-const db = getDatabase(app);
 
 //======================= SINGIN / LOGIN / LOGOUT ===========================
 
@@ -173,3 +172,14 @@ export const getCategoryNameById = async (idCategoria) => {
   const categories = await getCategories();
   return categories[idCategoria] || null;
 };
+
+
+(async () => {
+  try {
+    const snap = await get(ref(db, "product"));
+    console.log("¿Existe product?", snap.exists());
+    if (snap.exists()) console.log("Primer producto:", Object.values(snap.val())[0]);
+  } catch (err) {
+    console.error("🔥 Error leyendo product:", err);
+  }
+})();
